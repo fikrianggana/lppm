@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pengabdian_masyarakats', function (Blueprint $table) {
             $table->string('pkm_id');
             $table->string('pkm_namakegiatan');
+            $table->string('pkm_jenis');
             $table->date('pkm_waktupelaksanaan');
             $table->string('pkm_personilterlibat');
             $table->string('pkm_jumlahpenerimamanfaat');

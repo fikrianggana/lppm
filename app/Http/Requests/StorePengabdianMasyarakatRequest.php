@@ -11,10 +11,10 @@ class StorePengabdianMasyarakatRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return false;
-    }
+    // public function authorize()
+    // {
+    //     return false;
+    // }
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +24,13 @@ class StorePengabdianMasyarakatRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'pkm_namakegiatan' => ['required'],
+            'pkm_jenis' => ['required'],
+            'pkm_waktupelaksanaan' => ['required'],
+            'pkm_personilterlibat' => ['required'],
+            'pkm_jumlahpenerimamanfaat' => ['required', 'numeric', 'min:1'],
+            'pkm_buktipendukung' => ['mimes:doc,docx,pdf,xls,xlsx,pdf,ppt,pptx'],
+            
         ];
     }
 }

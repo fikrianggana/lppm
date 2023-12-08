@@ -51,23 +51,23 @@
 
             <a href='{{ route ('karyawan.publikasi.index') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;' data-toggle="collapse" data-target="#submenuPublikasi">
-                <i class="fa fa-folder-open"></i> Publikasi
-                <i class="fa fa-caret-down"></i>
+                <i class="fa fa-chevron-down fa-sm fa-pull-left"></i> Publikasi
+                <!-- <i class="fa fa-caret-down "></i> -->
             </a>
 
             <!-- Submenu items for Publikasi -->
             <div class="collapse submenu" id="submenuPublikasi">
             <a href='{{ route ('karyawan.publikasi.buku.index') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
-                <i class="fa fa-book"></i> Buku
+                <i class="fa fa-book fa-pull-left"></i> Buku
             </a>
             <a href='{{ route ('karyawan.publikasi.jurnal.index') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
-                <i class="fa fa-file"></i> Jurnal
+                <i class="fa fa-file fa-pull-left"></i> Jurnal
             </a>
             <a href='{{ route ('karyawan.publikasi.seminar.index') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
-                <i class="fa fa-microphone"></i> Seminar
+                <i class="fa fa-microphone fa-pull-left"></i> Seminar
             </a>
             <a href='{{ route ('karyawan.publikasi.hakcipta.index') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>

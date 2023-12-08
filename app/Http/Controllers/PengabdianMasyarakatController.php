@@ -27,7 +27,13 @@ class PengabdianMasyarakatController extends Controller
      */
     public function create()
     {
-        //
+        // $latestId = PengabdianMasyarakat::max('pkm_id');
+        // $nextId = $latestId ? $latestId + 1 : 1;
+        // $kd_pkm = 'PKM' . sprintf("%03s", $nextId);
+
+        // return view('karyawan.pengabdian.create', compact('kd_pkm'));
+        
+        return view('karyawan.pengabdian.create');
     }
 
     /**
@@ -38,7 +44,30 @@ class PengabdianMasyarakatController extends Controller
      */
     public function store(StorePengabdianMasyarakatRequest $request)
     {
-        //
+        // $pkm_buktipendukung = $request -> file('pkm_buktipendukung');
+        // $nama_buktipendukung = 'BPDK'.date('Ymdhis').'.'.$request -> file('pkm_buktipendukung') -> getClientOriginalExtension();
+        // $pkm_buktipendukung -> move('files/', $nama_buktipendukung);
+
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('pkm_buktipendukung')) {
+            $pkm_buktipendukung = $request->file('pkm_buktipendukung');
+            $nama_buktipendukung = $pkm_buktipendukung->getClientOriginalName(); // Gunakan nama asli file
+    
+            $pkm_buktipendukung->move('files/', $nama_buktipendukung);
+            $validatedData['pkm_buktipendukung'] = 'files/' . $nama_buktipendukung; // Simpan path file dalam database
+        }
+
+        if ($pengabdian = PengabdianMasyarakat::create($validatedData)){
+            return redirect()->route('karyawan.pengabdian.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        }
+
+        // $pengabdian = PengabdianMasyrakat::create($request->all());
+        // if($request->has('pkm_buktipendukung')){
+        //     $request->pkm_buktipendukung('pkm_buktipendukung')->move('files/', $request->file('pkm_buktipendukung'));
+        //     $pengabdian->pkm_buktipendukung = $request->file('pkm_buktipendukung');
+        //    return redirect()->route('karyawan.pengabdian.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        // }
     }
 
     /**
@@ -81,13 +110,20 @@ class PengabdianMasyarakatController extends Controller
      * @param  \App\Models\PengabdianMasyarakat  $pengabdianMasyarakat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PengabdianMasyarakat $pengabdianMasyarakat)
+    public function destroy($pkm_id)
     {
-        // $pkm = PengabdianMasyarakat::findOrFail($pengabdianMasyarakat);
+        try {
+            $pengabdian = PengabdianMasyarakat::findOrFail($pkm_id);
 
-        // if($pkm->delete())
-        // {
-        //     return redirect(route('karyawan.pengabdian.index'))->with('success', 'Pengabdian berhasil dihapus!');
-        // }
+            if ($pengabdian->delete()) {
+                return redirect(route('karyawan.pengabdian.index'))->with('success', 'Pengabdian berhasil dihapus!');
+            } else {
+                return redirect(route('karyawan.pengabdian.index'))->with('error', 'Gagal menghapus pengabdian.');
+            }
+        } catch (ModelNotFoundException $e) {
+            return redirect(route('karyawan.pengabdian.index'))->with('error', 'Pengabdian tidak ditemukan.');
+        } catch (\Exception $e) {
+            return redirect(route('karyawan.pengabdian.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }
