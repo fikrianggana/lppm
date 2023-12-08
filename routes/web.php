@@ -39,8 +39,24 @@ Route::get('dashboardAdmin',[DashboardAdminController::class,'index'])->name('ad
 
 Route::get('dashboardKaryawan',[DashboardKaryawanController::class,'index'])->name('karyawan.dashboard.index');
 
-Route::get('pengabdian',[PengabdianMasyarakatController::class,'index'])->name('karyawan.pengabdian.index');
-Route::get('pengajuan',[PengajuanSuratTugasController::class,'index'])->name('karyawan.pengajuan.index');
+//Pengabdian CRUD
+
+Route::controller(App\Http\Controllers\PengabdianMasyarakatController::class)->group(function() {
+    Route::get('pengabdian','index')->name('karyawan.pengabdian.index');
+    Route::get('pengabdian/create','create')->name('karyawan.pengabdian.create');
+    Route::post('pengabdian', 'store')->name('karyawan.pengabdian.store');
+    Route::get('pengabdian/{pkm_id}/edit', 'edit')->name('karyawan.pengabdian.edit');
+    Route::put('pengabdian/{pkm_id}', 'update')->name('karyawan.pengabdian.update');
+    Route::delete('pengabdian/{pkm_id}', 'destroy')->name('karyawan.pengabdian.destroy');
+    
+});
+
+Route::controller(App\Http\Controllers\PengajuanSuratTugasController::class)->group(function() {
+    Route::get('pengajuan','index')->name('karyawan.pengajuan.index');
+
+});
+
+
 Route::get('publikasi',[PublikasiController::class,'index'])->name('karyawan.publikasi.index');
 Route::get('buku',[BukuController::class,'index'])->name('karyawan.publikasi.buku.index');
 Route::get('jurnal',[JurnalController::class,'index'])->name('karyawan.publikasi.jurnal.index');
