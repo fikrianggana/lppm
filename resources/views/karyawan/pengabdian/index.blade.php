@@ -3,7 +3,6 @@
 <body>
    @section('konten')
 
-
    <main id="main" class="main">
       <section class="section">
           <div class="row">
@@ -22,7 +21,7 @@
                           @endif
 
                           <p>
-                          <a class="btn btn-primary" href="{{ route('karyawan.pengabdian.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengabdian Masyakarat</a>
+                          <a class="btn btn-primary" href="{{ route ('karyawan.pengabdian.create')}}">+ Tambah Pengabdian Masyakarat</a>
                           </p>
 
                           <!-- <div class="row">
@@ -52,53 +51,69 @@
                             <br>
 
                           <!-- Table with stripped rows -->
-                            <table class="table table-hover table-bordered table-condensed table-striped grid">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Nama Kegiatan</th>
-                                        <th class="text-center">Jenis Pengabdian</th>
-                                        <th class="text-center">Waktu Pelaksanaan</th>
-                                        <th class="text-center">Orang Yang Terlibat</th>
-                                        <th class="text-center">Jumlah Penerima Manfaat</th>
-                                        <th class="text-center">Bukti Pendukung</th>
-                                        <th class="text-center">Aksi</th>
-                                    </tr>
-                                </thead>
+                          <table class="table table-striped">
+                              <thead>
+                                  <tr>
+                                        <th>ID Kegiatan</th>
+                                        <th>Nama Kegiatan</th>
+                                        <th>Jenis Pengabdian</th>
+                                        <th>Waktu Pelaksanaan</th>
+                                        <th>Orang Yang Terlibat</th>
+                                        <th>Jumlah Penerima Manfaat</th>
+                                        <th>Bukti Pendukung</th>
+                                        <th>Aksi</th>
+                                  </tr>
+                              </thead>
 
-                                <tbody>
-                                @forelse ($pengabdian as $index => $pkm)
-                                <tr>
-                                    <td class="text-center">{{ $index + 1 }}</td>
-                                    <td class="text-center">{{ $pkm->pkm_namakegiatan }}</td>
-                                    <td class="text-center">{{ $pkm->pkm_jenis }}</td>
-                                    <td class="text-center">{{ \Carbon\Carbon::parse($pkm->pkm_waktupelaksanaan)->format('d-F-Y') }}</td>
-                                    <td class="text-center">{{ $pkm->pkm_personilterlibat }}</td>
-                                    <td class="text-center">{{ $pkm->pkm_jumlahpenerimamanfaat }}</td>
-                                    <td class="text-center"><a href="{{ $pkm->pkm_buktipendukung }}" class="fa fa-solid fa-download" type="button"></a></td>
-                                    
-                                    <td class="text-center">
-                                        <a href="" id="detail-{{ $pkm->pkm_id }}" class="btn btn-default detail-button" 
-                                            data-toggle="modal" data-target="#modal-detail" 
-                                            data-nama="{{ $pkm->pkm_namakegiatan }}" 
-                                            data-jenis="{{ $pkm->pkm_jenis }}" 
-                                            data-waktupelaksanaan="{{ \Carbon\Carbon::parse($pkm->pkm_waktupelaksanaan)->format('d-F-Y') }}" 
-                                            data-personilterlibat="{{ $pkm->pkm_personilterlibat }}" 
-                                            data-jumlahpenerimamanfaat="{{ $pkm->pkm_jumlahpenerimamanfaat }}" 
-                                            data-buktipendukung="{{ $pkm->pkm_buktipendukung }}">
-                                            <i class="fa fa-list" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6">
-                                            No Record found!
-                                        </td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
+                              <tbody>
+
+                                 @forelse ($pengabdian as $pkm)
+                                     <tr>
+                                        <td>{{$pkm->pkm_id}}</td>
+                                        <td>{{$pkm->pkm_namakegiatan}}</td>
+                                        <td>{{$pkm->pkm_jenis}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($pkm->pkm_waktupelaksanaan)->format('d-F-Y') }}</td>
+                                        {{-- <td>{{ implode(',', $product->categories->pluck('name')->toArray()) }}</td> --}}
+                                        <td>{{$pkm->pkm_personilterlibat}}</td>
+                                        <td>{{$pkm->pkm_jumlahpenerimamanfaat}}</td>
+                                        <td>{{$pkm->pkm_buktipendukung}}</td>
+
+                                         {{-- <td>
+                                         @if ($product->image)
+                                             <img src="{{ asset('storage/' . $product->image) }}"  style="max-width: 100px; max-height: 100px;">
+                                         @else
+                                             No Image
+                                         @endif
+
+                                         </td> --}}
+
+                                         <td>
+                                            <a href="{{ route('karyawan.pengabdian.edit', ['pkm_id' => $pkm -> pkm_id] ) }}" class="btn btn-secondary btn-sm btn-warning fa fa-edit"></a>
+                                            <a href="#" class="btn btn-sm btn-danger fa fa-trash" onclick="confirmDelete('{{ $pkm->pkm_id }}')"></a>
+                                            <form id="delete-row-{{ $pkm->pkm_id }}" action="{{ route('karyawan.pengabdian.destroy', ['pkm_id'=>$pkm->pkm_id]) }}" method="POST" style="display: none;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                @csrf
+                                            </form>
+
+                                            <script>
+                                                function confirmDelete(pkm_id) {
+                                                    if (confirm('Do you want to remove this?')) {
+                                                        document.getElementById('delete-row-' + pkm_id).submit();
+                                                    }
+                                                }
+                                            </script>
+
+                                         </td>
+                                     </tr>
+                                 @empty
+                                     <tr>
+                                         <td colspan="6">
+                                             No Record found!
+                                         </td>
+                                     </tr>
+                                 @endforelse
+                             </tbody>
+                           </table>
 
                         </div>
                     </div>
@@ -121,7 +136,7 @@
                     <div class="modal-body table-responsive">
                         <table class="table table-bordered no-margin">
                             <tbody>
-                                
+
                                 <tr>
                                     <th>Nama Kegiatan</th>
                                     <td><span id="name"></span></td>
@@ -149,16 +164,16 @@
                                         <i class="fa fa-download"></i> Download Bukti Pendukung
                                         </a>
                                     </td>
-                                </tr>                            
-                                
+                                </tr>
+
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
     </main><!-- End #main -->
-    
+
 </body>
 
     <!-- script untuk mengambil data dan memunculkan kedalam modal detail -->
