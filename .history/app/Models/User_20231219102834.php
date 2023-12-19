@@ -2,34 +2,24 @@
 
 namespace App\Models;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
-class Pengguna extends Model
+class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    protected $guarded = [];
-
-    protected $primaryKey = 'pgn_id'; // Tetapkan primary key
+    protected $primaryKey = 'usr_id'; // Tetapkan primary key
     public $incrementing = false; // Set agar tidak dianggap auto-increment
 
-    // public function setPasswordAttribute($value)
-    // {
-    //     $this->attributes['pgn_password'] = Hash::make($value);
-    // }
-
-    // public function scopeIsActive($query)
-    // {
-    //     return $query->where('is_active',1);
-    // }
     protected static function booted()
     {
         static::creating(function ($model) {
-            if (!$model->pgn_id) {
-                $latestId = static::max('pgn_id');
+            if (!$model->usr_id) {
+                $latestId = static::max('usr_id');
                 $nextId = $latestId ? (int)substr($latestId, 3) + 1 : 1;
                 $model->pgn_id = 'PGN' . sprintf("%03s", $nextId);
             }
@@ -37,14 +27,33 @@ class Pengguna extends Model
     }
 
     protected $fillable = [
-        'pgn_id',
-        'pgn_nama',
+        'usr_id',
+        'usr_nama',
         'prodi_id',
-        'pgn_username',
-        'pgn_password',
-        'pgn_role',
-        'pgn_email',
-        'pgn_notelpon',
+        'usr_username',
+        'usr_password',
+        'usr_role',
+        'usr_email',
+        'usr_notelpon',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'usr_password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 
     public function prodi()
@@ -54,7 +63,7 @@ class Pengguna extends Model
 
     public function buku()
     {
-        return $this -> hasMany(Buku::class, 'pgn_id', 'pgn_id');
+        return $this -> hasMany(Buku::class, 'usr_id', 'usr_id');
     }
 
     public function hakCipta()
