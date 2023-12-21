@@ -1,4 +1,4 @@
-@extends('karyawan.layouts.layout')
+@extends('admin.layouts.layout')
 
 <body>
    @section('konten')

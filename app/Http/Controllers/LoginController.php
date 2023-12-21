@@ -2,33 +2,40 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showLoginForm()
+    public function index()
     {
         return view('login.form_login');
     }
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'g-recaptcha-response' => 'required|captcha',
-            // Your other validation rules...
+        $request->validate([
+            'username'=>'required',
+            'password'=>'required'
         ]);
 
-        if ($validator->fails()) {
-            return redirect('/login')->withErrors($validator)->withInput();
+        $infologin = [
+            'username' => $request->username,
+            'password' => $request->password
+        ];
+
+        if(Auth::attempt($infologin)){
+            if(Auth::user()->usr_role == 'admin'){
+                return redirect('/dashboardAdmin');
+            } elseif(Auth::user()->usr_role == 'karyawan'){
+                return redirect('/dashboardKaryawan');
+            }
+        }else{
+            return redirect('')->withErrors('Username n password tidak sesuai')->withInput();
         }
+    }
 
-        $credentials = $request->only('username', 'password');
-
-        if (Auth::attempt($credentials)) {
-            // Authentication passed
-            return redirect()->intended('dashboard');
-        }
-
-        // Authentication failed
-        return back()->withInput()->withErrors(['username' => 'Invalid username or password']);
+    function logout(){
+        Auth::logout();
+        return redirect('');
     }
 }
