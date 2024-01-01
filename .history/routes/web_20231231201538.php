@@ -85,7 +85,7 @@ Route::get('buku',[BukuController::class,'index'])->name('admin.publikasi.buku.i
 Route::get('buku/create', [BukuController::class, 'create'])->name('admin.publikasi.buku.create');
 Route::post('buku', [BukuController::class, 'store'])->name('admin.publikasi.buku.store');
 Route::get('buku/{bku_id}/edit', [BukuController::class, 'edit'])->name('admin.publikasi.buku.edit');
-Route::get('buku/{bku_id}', [BukuController::class, 'update'])->name('admin.publikasi.buku.update');
+Route::post('buku/{bku_id}', [BukuController::class, 'update'])->name('admin.publikasi.buku.update');
 Route::delete('buku/{bku_id}', [BukuController::class, 'destroy'])->name('admin.publikasi.buku.destroy');
 
 

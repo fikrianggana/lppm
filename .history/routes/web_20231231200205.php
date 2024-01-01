@@ -68,7 +68,7 @@ Route::get('pengabdian',[PengabdianMasyarakatController::class,'index'])->name('
 Route::get('pengabdian/create', [PengabdianMasyarakatController::class, 'create'])->name('admin.pengabdian.create');
 Route::post('pengabdian', [PengabdianMasyarakatController::class, 'store'])->name('admin.pengabdian.store');
 Route::get('pengabdian/{pkm_id}/edit', [PengabdianMasyarakatController::class, 'edit'])->name('admin.pengabdian.edit');
-Route::get('pengabdian/{pkm_id}', [PengabdianMasyarakatController::class, 'update'])->name('admin.pengabdian.update');
+Route::put('pengabdian/{pkm_id}', [PengabdianMasyarakatController::class, 'update'])->name('admin.pengabdian.update');
 Route::delete('pengabdian/{pkm_id}', [PengabdianMasyarakatController::class, 'destroy'])->name('admin.pengabdian.destroy');
 
 //Pengajuan
@@ -85,7 +85,7 @@ Route::get('buku',[BukuController::class,'index'])->name('admin.publikasi.buku.i
 Route::get('buku/create', [BukuController::class, 'create'])->name('admin.publikasi.buku.create');
 Route::post('buku', [BukuController::class, 'store'])->name('admin.publikasi.buku.store');
 Route::get('buku/{bku_id}/edit', [BukuController::class, 'edit'])->name('admin.publikasi.buku.edit');
-Route::get('buku/{bku_id}', [BukuController::class, 'update'])->name('admin.publikasi.buku.update');
+Route::head('buku/{bku_id}', [BukuController::class, 'update'])->name('admin.publikasi.buku.update');
 Route::delete('buku/{bku_id}', [BukuController::class, 'destroy'])->name('admin.publikasi.buku.destroy');
 
 

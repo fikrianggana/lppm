@@ -53,33 +53,21 @@
                                             <td class="text-center">{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}</td>
 
                                             <td class="text-center">
+                                                <!-- Update Button -->
                                                 <a href="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" class="btn btn-warning">
-                                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
                                                 </a>
 
-                                                {{--  <form id="update-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('POST')
-                                                    <input type="hidden" name="_method" value="PUT">
-                                                    <!-- Your form fields go here -->
-                                                </form>
-
-                                                <a href="#" onclick="event.preventDefault(); document.getElementById('update-form-{{ $bk->bku_id }}').submit();" class="btn btn-warning">
-                                                    <i class="fa fa-edit" aria-hidden="true"></i> Update
-                                                </a>  --}}
-
                                                 <!-- Delete Button -->
-                                                <a href="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}"
-                                                    class="btn btn-danger"
-                                                    onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $bk->bku_id }}').submit(); }">
-                                                     <i class="fa fa-trash" aria-hidden="true"></i>
-                                                 </a>
+                                                <a href="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" class="btn btn-danger" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $bk->bku_id }}').submit(); }">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </a>
 
-                                                 <form id="delete-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
-                                                     @csrf
-                                                     @method('DELETE')
-                                                 </form>
-
+                                                <!-- Update Form -->
+                                                <form id="update-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.update', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('POST') <!-- You can change this to PUT or PATCH based on your update route configuration -->
+                                                </form>
 
                                                 <a href="" id="detail-{{ $bk->bku_id }}" class="btn btn-primary detail-button"
                                                     data-toggle="modal" data-target="#modal-detail"

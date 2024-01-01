@@ -53,10 +53,6 @@
                                             <td class="text-center">{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}</td>
 
                                             <td class="text-center">
-                                                <a href="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" class="btn btn-warning">
-                                                    <i class="fa fa-edit" aria-hidden="true"></i>
-                                                </a>
-
                                                 {{--  <form id="update-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('POST')
@@ -67,6 +63,9 @@
                                                 <a href="#" onclick="event.preventDefault(); document.getElementById('update-form-{{ $bk->bku_id }}').submit();" class="btn btn-warning">
                                                     <i class="fa fa-edit" aria-hidden="true"></i> Update
                                                 </a>  --}}
+
+
+
 
                                                 <!-- Delete Button -->
                                                 <a href="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}"

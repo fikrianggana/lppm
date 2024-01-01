@@ -24,12 +24,12 @@ class UpdateBukuRequest extends FormRequest
      */
     public function rules()
     {
-        $bku_id = $this->route('buku'); // Assuming the route parameter is named 'buku'
+        $bku_id = $this->input('bku_id'); // Assuming you have 'bku_id' in your form data
 
         return [
             'bku_judul' => [
                 'required',
-                Rule::unique('bukus')->ignore($bku_id, 'bku_id'),
+                Rule::unique('bukus')->ignore($this->bku_judul),
             ],
             'bku_penulis' => ['required'],
             'bku_editor' => ['required'],
@@ -37,7 +37,7 @@ class UpdateBukuRequest extends FormRequest
             'bku_penerbit' => ['required'],
             'bku_tahun' => ['required', 'numeric', 'digits:4'],
             'usr_id' => ['required'],
+
         ];
     }
-
 }

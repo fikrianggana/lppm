@@ -24,12 +24,12 @@ class UpdateBukuRequest extends FormRequest
      */
     public function rules()
     {
-        $bku_id = $this->route('buku'); // Assuming the route parameter is named 'buku'
+        $bku_id = $this->input('bku_id');
 
-        return [
+        return [a
             'bku_judul' => [
                 'required',
-                Rule::unique('bukus')->ignore($bku_id, 'bku_id'),
+                Rule::unique('bukus')->ignore($bku_id, 'bku_id'), // Assuming 'bku_id' is the primary key column
             ],
             'bku_penulis' => ['required'],
             'bku_editor' => ['required'],
@@ -39,5 +39,4 @@ class UpdateBukuRequest extends FormRequest
             'usr_id' => ['required'],
         ];
     }
-
 }

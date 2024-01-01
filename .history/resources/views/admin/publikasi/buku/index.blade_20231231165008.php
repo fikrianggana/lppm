@@ -53,32 +53,27 @@
                                             <td class="text-center">{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}</td>
 
                                             <td class="text-center">
-                                                <a href="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" class="btn btn-warning">
+                                                <!-- Update Button -->
+                                                <form id="update-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.update', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    <!-- Change the method to POST -->
+                                                    @method('POST')
+                                                </form>
+
+                                                <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('update-form-{{ $bk->bku_id }}').submit();" class="btn btn-warning">
                                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                                 </a>
 
-                                                {{--  <form id="update-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
+                                                <!-- Delete Button -->
+                                                <a href="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" class="btn btn-danger" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $bk->bku_id }}').submit(); }">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </a>
+
+                                                <form id="delete-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
                                                     @csrf
-                                                    @method('POST')
-                                                    <input type="hidden" name="_method" value="PUT">
-                                                    <!-- Your form fields go here -->
+                                                    @method('DELETE')
                                                 </form>
 
-                                                <a href="#" onclick="event.preventDefault(); document.getElementById('update-form-{{ $bk->bku_id }}').submit();" class="btn btn-warning">
-                                                    <i class="fa fa-edit" aria-hidden="true"></i> Update
-                                                </a>  --}}
-
-                                                <!-- Delete Button -->
-                                                <a href="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}"
-                                                    class="btn btn-danger"
-                                                    onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $bk->bku_id }}').submit(); }">
-                                                     <i class="fa fa-trash" aria-hidden="true"></i>
-                                                 </a>
-
-                                                 <form id="delete-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
-                                                     @csrf
-                                                     @method('DELETE')
-                                                 </form>
 
 
                                                 <a href="" id="detail-{{ $bk->bku_id }}" class="btn btn-primary detail-button"

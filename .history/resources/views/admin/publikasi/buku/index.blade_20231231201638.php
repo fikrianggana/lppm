@@ -53,7 +53,7 @@
                                             <td class="text-center">{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}</td>
 
                                             <td class="text-center">
-                                                <a href="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" class="btn btn-warning">
+                                                <a href="{{ route('admin.publikasi.buku.edit', ['bku_id' => $pkm->pkm_id]) }}" class="btn btn-warning">
                                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                                 </a>
 

@@ -83,13 +83,13 @@
                                         </a>
 
                                         <!-- Delete Button -->
-                                        <a href="{{ route('admin.pengabdian.destroy', ['pkm_id' => $pkm->pkm_id]) }}"
+                                        <a href="{{ route('admin.publikasi.pengabdian.destroy', ['bku_id' => $bk->bku_id]) }}"
                                             class="btn btn-danger"
-                                            onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pkm->pkm_id }}').submit(); }">
+                                            onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $bk->bku_id }}').submit(); }">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                         </a>
 
-                                            <form id="delete-form-{{ $pkm->pkm_id }}" action="{{ route('admin.pengabdian.destroy', ['pkm_id' => $pkm->pkm_id]) }}" method="POST" style="display: none;">
+                                            <form id="delete-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
