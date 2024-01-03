@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\PengabdianMasyarakat;
 use App\Models\Prodi;
 use App\Models\User;
@@ -22,8 +23,17 @@ class PengabdianMasyarakatController extends Controller
         $prodis = Prodi::pluck('prd_nama');
         $user = User::pluck('usr_nama');
 
-        // return view ('karyawan.pengabdian.index',  ['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
-        return view ('admin.pengabdian.index',  ['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+        // Berdasarkan peran, tentukan view yang akan digunakan
+        if ($usr_role === 'karyawan') {
+            return view('karyawan.pengabdian.index', ['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
+        } elseif ($usr_role === 'admin') {
+            return view('admin.pengabdian.index', ['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }   
     }
 
     /**
@@ -36,8 +46,17 @@ class PengabdianMasyarakatController extends Controller
         $prodis = Prodi::pluck('prd_nama');
         $user = User::pluck('usr_nama');
 
-        // return view('karyawan.pengabdian.create', ['prodis' => $prodis, 'users' => $user]);
-        return view('admin.pengabdian.create', ['prodis' => $prodis, 'users' => $user]);
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+        // Tentukan view berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return view('karyawan.pengabdian.create', ['prodis' => $prodis, 'users' => $user]);
+        } elseif ($usr_role === 'admin') {
+            return view('admin.pengabdian.create', ['prodis' => $prodis, 'users' => $user]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }  
     }
 
     /**
@@ -68,7 +87,18 @@ class PengabdianMasyarakatController extends Controller
             $pengabdian->prodi()->associate($prodiId);
             $pengabdian->save();
 
-            return redirect(route('admin.pengabdian.index'))->with('success', 'Data Berhasil Disimpan!');
+            $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+            // Tentukan view berdasarkan peran pengguna
+            if ($usr_role === 'karyawan') {
+                return redirect(route('karyawan.pengabdian.index'))->with('success', 'Data Berhasil Disimpan!');
+            } elseif ($usr_role === 'admin') {
+                return redirect(route('admin.pengabdian.index'))->with('success', 'Data Berhasil Disimpan!');
+            } else {
+                // Handle jika peran tidak teridentifikasi
+                return abort(403, 'Unauthorized action.');
+            }  
+           
         }
 
     }

@@ -23,13 +23,18 @@ class LoginController extends Controller
             'password' => $request->password
         ];
 
-        if(Auth::attempt($infologin)){
+        if(Auth::attempt($infologin))
+        {
+            //dd(Auth::user()->usr_role);
+
             if(Auth::user()->usr_role == 'admin'){
                 return redirect('/dashboardAdmin');
             } elseif(Auth::user()->usr_role == 'karyawan'){
                 return redirect('/dashboardKaryawan');
             }
+                  
         }else{
+                   
             return redirect('')->withErrors('Username n password tidak sesuai')->withInput();
         }
     }

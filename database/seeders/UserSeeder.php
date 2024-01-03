@@ -28,13 +28,13 @@ class UserSeeder extends Seeder
             ],
             [
                 'usr_id'=>'USR002',
-                'usr_nama'=>'Elfa Khoirunnisa',
+                'usr_nama'=>'Elfa',
                 'prodi_id'=>'1',
                 'username'=>'elfa',
-                'password'=>bcrypt('elfa'),
+                'password'=>bcrypt('1234'),
                 'usr_role'=>'karyawan',
                 'usr_email'=>'elfa@gmail.com',
-                'usr_notelpon'=>'0812393454',
+                'usr_notelpon'=>'987654323',
             ],
             [
                 'usr_id'=>'USR003',

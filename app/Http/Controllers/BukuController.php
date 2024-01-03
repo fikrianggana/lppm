@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Auth;
 use App\Models\Buku;
 use App\Models\User;
 use App\Http\Requests\StoreBukuRequest;
@@ -17,7 +19,17 @@ class BukuController extends Controller
     {
         $buku = Buku::all();
 
-        return view ('admin.publikasi.buku.index',  ['buku' => $buku]);
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+        // Tentukan view berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return view ('karyawan.publikasi.buku.index',  ['buku' => $buku]);
+        } elseif ($usr_role === 'admin') {
+            return view ('admin.publikasi.buku.index',  ['buku' => $buku]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }  
     }
 
     /**
@@ -30,8 +42,18 @@ class BukuController extends Controller
         // Ambil hanya kolom nama dari model User
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom
 
-        // Kemudian, kirim data User ke view
-        return view('admin.publikasi.buku.create', ['users' => $user]);
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+        // Tentukan view berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return view('karyawan.publikasi.buku.create', ['users' => $user]);
+        } elseif ($usr_role === 'admin') {
+            return view('admin.publikasi.buku.create', ['users' => $user]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }  
+        
     }
 
     /**
@@ -45,7 +67,18 @@ class BukuController extends Controller
         $validatedData = $request->validated();
 
         if (Buku::create($validatedData)){
-            return redirect()->route('admin.publikasi.buku.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+            // Tentukan view berdasarkan peran pengguna
+            if ($usr_role === 'karyawan') {
+                return redirect()->route('karyawan.publikasi.buku.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            } elseif ($usr_role === 'admin') {
+                return redirect()->route('admin.publikasi.buku.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            } else {
+                // Handle jika peran tidak teridentifikasi
+                return abort(403, 'Unauthorized action.');
+            }  
+            
         }
     }
 

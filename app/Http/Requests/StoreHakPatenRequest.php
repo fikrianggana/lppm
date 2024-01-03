@@ -27,6 +27,7 @@ class StoreHakPatenRequest extends FormRequest
             'hpt_namalengkap' => ['required'],
             'hpt_judul' => ['required'],
             'hpt_nopemohonan' => ['required'],
+            'hpt_tglpelaksanaan' => ['required'],
             'hpt_tglpenerimaan' => ['required'],
             'hpt_status' => ['required'],
             'usr_id' => ['required']

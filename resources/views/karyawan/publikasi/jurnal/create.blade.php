@@ -100,7 +100,11 @@
                                 <br>
                                 <div class="col-12">
                                     <label class="form-label">Kategori</label>
-                                    <input type="link" class="form-control" name="jrn_kategori" value="{{ old('jrn_kategori')}}" placeholder="Kategori">
+                                    <select name="jrn_kategori" class="form-control form-control-line">
+                                        <option value="">Pilih Salah Satu</option>
+                                        <option value="Jurnal Nasional" @if(old('jrn_kategori') == 'Jurnal Nasional') selected @endif>Jurnal Nasional</option>
+                                        <option value="Jurnal Internasional" @if(old('jrn_kategori') == 'Jurnal Internasional') selected @endif>Jurnal Internasional</option>
+                                    </select>
                                 </div>
                                 <br>
                                 <div class="col-12">

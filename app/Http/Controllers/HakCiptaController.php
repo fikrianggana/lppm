@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\HakCipta;
 use App\Models\User;
 use App\Http\Requests\StoreHakCiptaRequest;
@@ -17,7 +18,18 @@ class HakCiptaController extends Controller
     public function index()
     {
         $hakCipta = HakCipta::all();
-        return view ('admin.publikasi.hakcipta.index',  ['hakcipta' => $hakCipta]);
+
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+        // Tentukan view berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return view ('karyawan.publikasi.hakcipta.index',  ['hakcipta' => $hakCipta]);
+        } elseif ($usr_role === 'admin') {
+            return view ('admin.publikasi.hakcipta.index',  ['hakcipta' => $hakCipta]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }  
     }
 
     /**
@@ -30,8 +42,17 @@ class HakCiptaController extends Controller
         // Ambil hanya kolom nama dari model User
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom
 
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
-        return view('admin.publikasi.hakcipta.create', ['users' => $user]);
+        // Tentukan view berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return view('karyawan.publikasi.hakcipta.create', ['users' => $user]);
+        } elseif ($usr_role === 'admin') {
+            return view('admin.publikasi.hakcipta.create', ['users' => $user]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }     
     }
 
     /**
@@ -45,7 +66,18 @@ class HakCiptaController extends Controller
         $validatedData = $request->validated();
 
         if (HakCipta::create($validatedData)){
-            return redirect()->route('admin.publikasi.hakcipta.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+            // Tentukan view berdasarkan peran pengguna
+            if ($usr_role === 'karyawan') {
+                return redirect()->route('karyawan.publikasi.hakcipta.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            } elseif ($usr_role === 'admin') {
+                return redirect()->route('admin.publikasi.hakcipta.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            } else {
+                // Handle jika peran tidak teridentifikasi
+                return abort(403, 'Unauthorized action.');
+            }     
+            
         }
     }
 

@@ -41,8 +41,8 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/Scripts/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('assets/Plugins/bootstrap-4.5.3/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- <script src="{{ asset('assets/Scripts/jquery-3.6.0.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/Plugins/bootstrap-4.5.3/dist/js/bootstrap.bundle.min.js') }}"></script> -->
     <script src="{{ asset('assets/Plugins/Highcharts-5.0.14/code/highcharts.js') }}"></script>
     <script src="{{ asset('assets/Plugins/Highcharts-5.0.14/code/highcharts-more.js') }}"></script>
     <script src="{{ asset('assets/Plugins/Highcharts-5.0.14/code/modules/solid-gauge.js') }}"></script>

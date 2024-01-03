@@ -20,7 +20,7 @@
                         @endif
 
                         <p>
-                            <a class="btn btn-primary" href="{{ route('karyawan.publikasi.hakcipta.create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Hak Paten</a>
+                            <a class="btn btn-primary" href="{{ route('karyawan.publikasi.hakcipta.create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Hak Cipta</a>
                         </p>
 
                         <!-- Table with stripped rows -->

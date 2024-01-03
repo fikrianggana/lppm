@@ -44,10 +44,7 @@
                 style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;'>
                 <i class="fa fa-envelope fa-pull-left"></i>Pengajuan Surat Tugas
             </a>
-            {{--  <a href='{{ route ('admin.pengaduan.index') }}' class='list-group-item list-group-item-action'
-                style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;'>
-                <i class="fa fa-envelope fa-pull-left"></i>Pengaduan
-            </a>  --}}
+           
             <a href='' class='list-group-item list-group-item-action'
             style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;'
             data-toggle="collapse" data-target="#submenuPublikasi" id="publikasiToggle">

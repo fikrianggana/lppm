@@ -10,7 +10,7 @@
                         @csrf
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-header">New HakPaten</h5>
+                                <h5 class="card-header">New Hak Paten</h5>
                                 <br>
 
                                 @if ($errors -> any())

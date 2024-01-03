@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\HakPaten;
 use App\Http\Requests\StoreHakPatenRequest;
 use App\Http\Requests\UpdateHakPatenRequest;
@@ -20,7 +21,17 @@ class HakPatenController extends Controller
         $hakPaten = HakPaten::all();
         // $user = User::pluck('pgn_nama'); // Sesuaikan dengan nama kolom di tabel User
 
-        return view ('admin.publikasi.hakpaten.index',  ['hakpaten' => $hakPaten]);
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+        // Tentukan view berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return view ('karyawan.publikasi.hakpaten.index',  ['hakpaten' => $hakPaten]);
+        } elseif ($usr_role === 'admin') {
+            return view ('admin.publikasi.hakpaten.index',  ['hakpaten' => $hakPaten]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }  
     }
 
     /**
@@ -33,8 +44,17 @@ class HakPatenController extends Controller
         // Ambil hanya kolom nama dari model User
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom di tabel User
 
-        // Kemudian, kirim data User ke view
-        return view('admin.publikasi.hakpaten.create', ['users' => $user]);
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+        // Tentukan view berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return view('karyawan.publikasi.hakpaten.create', ['users' => $user]);
+        } elseif ($usr_role === 'admin') {
+            return view('admin.publikasi.hakpaten.create', ['users' => $user]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }  
     }
 
 
@@ -49,7 +69,17 @@ class HakPatenController extends Controller
         $validatedData = $request->validated();
 
         if ($hakPaten = HakPaten::create($validatedData)){
-            return redirect()->route('admin.publikasi.hakpaten.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+            // Tentukan view berdasarkan peran pengguna
+            if ($usr_role === 'karyawan') {
+                return redirect()->route('karyawan.publikasi.hakpaten.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            } elseif ($usr_role === 'admin') {
+                return redirect()->route('admin.publikasi.hakpaten.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            } else {
+                // Handle jika peran tidak teridentifikasi
+                return abort(403, 'Unauthorized action.');
+            }  
         }
     }
 

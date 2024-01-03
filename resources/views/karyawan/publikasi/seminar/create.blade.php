@@ -39,19 +39,18 @@
                                     <input type="text" class="form-control" name="smn_namapenulis" value="{{ old('smn_namapenulis')}}" placeholder="Nama Penulis">
                                 </div>
                                 <br>
-                                <div class="col-12">
+                                <!-- <div class="col-12">
                                     <label class="form-label">Kategori</label>
                                     <input type="text" class="form-control" name="smn_kategori" value="{{ old('smn_kategori')}}" placeholder="Kategori">
-                                </div>
-                                {{--  <div class="col-12">
-                                    <label class="form-label">Jenis Pengabdian</label>
-                                    <!-- <input type="text" class="form-control" name="pkm_jenis" value="{{ old('pkm_jenis')}}" placeholder="Jenis Pengabdian"> -->
-                                    <select name="pkm_jenis" class="form-control form-control-line" required>
+                                </div> -->
+                                <div class="col-12">
+                                    <label class="form-label">Kategori</label>
+                                    <select name="smn_kategori" class="form-control form-control-line">
                                         <option value="">Pilih Salah Satu</option>
-                                        <option value="UMKM" @if(old('pkm_jenis') == 'UMKM') selected @endif>UMKM </option>
-                                        <option value="SMK" @if(old('pkm_jenis') == 'SMK') selected @endif>SMK </option>
+                                        <option value="Seminar Nasional" @if(old('smn_kategori') == 'Seminar Nasional') selected @endif>Seminar Nasional</option>
+                                        <option value="Seminar Internasional" @if(old('smn_kategori') == 'Seminar Internasional') selected @endif>Seminar Internasional</option>
                                     </select>
-                                </div>  --}}
+                                </div>
                                 <br>
                                 <div class="col-12">
                                     <label class="form-label">Penyelenggara</label>
