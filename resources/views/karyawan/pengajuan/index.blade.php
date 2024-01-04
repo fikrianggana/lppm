@@ -22,34 +22,36 @@
                           @endif
 
                           <p>
-                            <a class="btn btn-primary" href="{{ route('karyawan.pengajuan.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengabdian Masyakarat</a>
+                            <a class="btn btn-primary" href="{{ route('karyawan.pengajuan.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengajuan Surat Tugas</a>
                           </p>
 
                           <!-- Table with stripped rows -->
                           <table class="table table-hover table-bordered table-condensed table-striped grid">
                               <thead>
                                   <tr>
-                                      <th>Nama Pengajuan</th>
-                                      <th>Nama Surat Tugas</th>
-                                      <th>Masa Pelaksanaan</th>
-                                      <th>Bukti Pendukung</th>
-                                      <th>Aksi</th>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Nama Pengajuan</th>
+                                        <th class="text-center">Nama Surat Tugas</th>
+                                        <th class="text-center">Masa Pelaksanaan</th>
+                                        <th class="text-center">Bukti Pendukung</th>
+                                        <th class="text-center">Aksi</th>
                                   </tr>
                               </thead>
 
                               <tbody>
 
-                                 @forelse ($pengajuan as $pst)
+                                 @forelse ($pengajuan as $index => $pst)
                                     <tr>
-                                        <td>
+                                        <td class="text-center">{{ $index + 1 }}</td>
+                                        <td class="text-center">
                                             @php
                                                 $user = App\Models\User::find($pst->usr_id);
                                                 echo $user ? $user->usr_nama : 'User Tidak Ditemukan';
                                             @endphp
                                         </td>
-                                        <td>{{$pst->pst_namasurattugas}}</td>
-                                        <td>{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
-                                        <td>{{$pst->pst_buktipendukung}}</td>
+                                        <td class="text-center">{{$pst->pst_namasurattugas}}</td>
+                                        <td class="text-center">{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
+                                        <td class="text-center">{{$pst->pst_buktipendukung}}</td>
                                         <td class="text-center">
                                             <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"

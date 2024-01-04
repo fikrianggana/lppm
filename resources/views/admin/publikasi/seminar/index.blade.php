@@ -20,7 +20,7 @@
                         @endif
 
                         <p>
-                            <a class="btn btn-primary" href="{{ route('admin.publikasi.seminar.create') }}">+ Tambah Seminar</a>
+                            <a class="btn btn-primary" href="{{ route('admin.publikasi.seminar.create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Seminar</a>
                         </p>
 
                         <!-- Table with stripped rows -->

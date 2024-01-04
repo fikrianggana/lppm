@@ -5,7 +5,6 @@
         </a>
     </div>
 
-
     <div class="polman-menu">
         <div style="padding-top: 15px; margin-right: -30px;">
             @auth

@@ -25,32 +25,6 @@
                           <a class="btn btn-primary" href="{{ route('admin.pengabdian.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengabdian Masyakarat</a>
                           </p>
 
-                          <!-- <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="input-group">
-                                        <input name="ctl00$MainContent$txtCari" type="text" id="txtCari" class="form-control" placeholder="Pencarian" />
-                                        <span class="input-group-btn">
-                                            <a id="MainContent_linkCari" class="btn btn-secondary" href="javascript:__doPostBack(&#39;ctl00$MainContent$linkCari&#39;,&#39;&#39;)"><i class="fa fa-search"></i>&nbsp;Cari</a>
-                                        </span>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-filter"></i>&nbsp;Filter</button>
-                                            <div class="dropdown-menu dropdown-menu-right" style="padding: 20px; min-width: 300px !important;">
-                                                <div class="form-group">
-                                                    <label style='font-weight: bold;' for="ddUrut">Urut Berdasarkan</label>
-                                                    <select name="ctl00$MainContent$ddUrut" id="MainContent_ddUrut" class="form-control dropdown" style="min-width: 260px !important;">
-                                                        <option selected="selected" value="lastreply desc">Balasan Terakhir [↓]</option>
-                                                        <option value="lastreply asc">Balasan Terakhir [↑]</option>
-                                                        <option value="pwa_created_date desc">Tanggal Topik Dibuat [↓]</option>
-                                                        <option value="pwa_created_date asc">Tanggal Topik Dibuat [↑]</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <br>
-
                           <!-- Table with stripped rows -->
                             <table class="table table-hover table-bordered table-condensed table-striped grid">
                                 <thead>

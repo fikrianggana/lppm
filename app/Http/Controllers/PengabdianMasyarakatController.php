@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PengabdianMasyarakat;
 use App\Models\Prodi;
@@ -17,7 +18,7 @@ class PengabdianMasyarakatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $pengabdianMasyarakat = PengabdianMasyarakat::all();
         $prodis = Prodi::pluck('prd_nama');
@@ -157,6 +158,30 @@ class PengabdianMasyarakatController extends Controller
             }
         } catch (\Exception $e) {
             return redirect(route('admin.pengabdian.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $usr_role = Auth::user()->usr_role;
+
+        // Check if the user has admin role
+        if ($usr_role === 'admin') {
+            if ($request->has('search')) {
+
+                $searchTerm = $request->search;
+                // Perform the search based on the provided term
+                $pengabdianMasyarakat = PengabdianMasyarakat::where('pkm_namakegiatan', 'LIKE', '%' . $searchTerm . '%')->get();
+            }
+    
+            $prodis = Prodi::pluck('prd_nama');
+            $user = User::pluck('usr_nama');
+    
+            // Return the view with the search results
+            return view('admin.pengabdian.index', ['pengabdian' => $pengabdianMasyarakat ?? [], 'prodis' => $prodis, 'users' => $user]);
+        } else {
+            // Handle unauthorized access for non-admin users
+            return abort(403, 'Unauthorized action.');
         }
     }
 
