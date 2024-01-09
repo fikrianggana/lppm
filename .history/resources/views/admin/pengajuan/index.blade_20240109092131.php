@@ -26,7 +26,7 @@
                           </p>
 
                           <!-- Table with stripped rows -->
-                          <table class="table table-hover table-bordered table-condensed table-striped grid">
+                          <table class="table table-striped">
                               <thead>
                                   <tr>
                                       <th>Nama Pengajuan</th>
@@ -50,24 +50,26 @@
 
                                          <td>{{$pst->pst_namasurattugas}}</td>
                                          <td>{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
+                                         {{-- <td>{{ implode(',', $product->categories->pluck('name')->toArray()) }}</td> --}}
                                          <td>{{$pst->pst_buktipendukung}}</td>
 
                                          <td class="text-center">
-                                            <a href="{{ route('admin.pengajuan.edit', ['pst_id' => $pst->pst_id]) }}" class="btn btn-warning">
+                                            <a href="{{ route('admin.pengabdian.edit', ['pkm_id' => $pkm->pkm_id]) }}" class="btn btn-warning">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
 
                                             <!-- Delete Button -->
-                                            <a href="{{ route('admin.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}"
+                                            <a href="{{ route('admin.pengabdian.destroy', ['pkm_id' => $pkm->pkm_id]) }}"
                                                 class="btn btn-danger"
-                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pst->pst_id }}').submit(); }">
+                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pkm->pkm_id }}').submit(); }">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
 
-                                            <form id="delete-form-{{ $pst->pst_id }}" action="{{ route('admin.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}" method="POST" style="display: none;">
+                                            <form id="delete-form-{{ $pkm->pkm_id }}" action="{{ route('admin.pengabdian.destroy', ['pkm_id' => $pkm->pkm_id]) }}" method="POST" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
+
 
                                             <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-primary detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
@@ -77,9 +79,10 @@
                                                 data-buktipendukung="{{ $pst->pst_buktipendukung }}">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>
-                                        </td>
-                                     </tr>
 
+                                        </td>
+
+                                     </tr>
                                  @empty
                                      <tr>
                                          <td colspan="6">
@@ -89,84 +92,15 @@
                                  @endforelse
                              </tbody>
                            </table>
+
                         </div>
                     </div>
             </div>
         </section>
     </main><!-- End #main -->
 
-    <!-- Untuk memunculkan form modal detail -->
-    <div class="modal fade" id="modal-detail">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h5 class="modal-title">Detail Pengabdian Masyarakat</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <!-- Modal Body -->
-                <div class="modal-body table-responsive">
-                    <table class="table table-bordered no-margin">
-                        <tbody>
-
-                            <tr>
-                                <th>Nama Pengaju</th>
-                                <td><span id="name"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Nama Surat Tugas</th>
-                                <td><span id="jns"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Masa Pelaksanaan</th>
-                                <td><span id="waktu"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Bukti Pendukung</th>
-                                <td>
-                                    <a id="bukti-download" href="" class="btn btn-primary btn-download" download>
-                                    <i class="fa fa-download"></i> &nbsp;Download Bukti Pendukung
-                                    </a>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</main><!-- End #main -->
 
 </body>
-
-    <!-- script untuk mengambil data dan memunculkan kedalam modal detail -->
-    <script>
-        $(document).ready(function() {
-            $('.detail-button').on('click', function() {
-                var nama = $(this).data('nama');
-                var namasurat = $(this).data('namasurat');
-                var waktupelaksanaan = $(this).data('waktupelaksanaan');
-                var buktipendukung = $(this).data('buktipendukung');
-
-                // Menampilkan data dalam modal
-                $('#modal-detail').find('#name').text(nama);
-                $('#modal-detail').find('#jns').text(namasurat);
-                $('#modal-detail').find('#waktu').text(waktupelaksanaan);
-                $('#modal-detail').find('#mahasiswa').text(mhs);
-                // $('#modal-detail').find('#bukti').text(buktipendukung);
-
-                // Memperbarui tautan download dengan URL bukti pendukung
-                var buktiDownloadLink = $('#modal-detail').find('#bukti-download');
-                buktiDownloadLink.attr('href', buktipendukung);
-
-                $('#modal-detail').modal('show');
-            });
-        });
-    </script>
 </html>
 
 @endsection

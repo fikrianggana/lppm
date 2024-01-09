@@ -37,14 +37,7 @@
 
                                 <div class="col-12">
                                     <label class="form-label">Nama Pengaju</label>
-                                    <select name="usr_id" class="form-control" >
-                                        <opton value="">-- Nama Pengaju --</opton>
-                                        @foreach ($users as $usr => $usr_nama)
-                                            <option value="{{ $usr }}" @selected(old('usr_id') == $usr)>
-                                                {{ $usr_nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <input type="hidden" name="usr_id" value="{{ Auth::user()->usr_id }}">
                                 </div>
                                 <br>
                                 <div class="col-12">

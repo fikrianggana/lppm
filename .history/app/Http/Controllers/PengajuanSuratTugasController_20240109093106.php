@@ -142,7 +142,7 @@ class PengajuanSuratTugasController extends Controller
                 return redirect(route('admin.pengajuan.index'))->with('error', 'Pengajuan tidak ditemukan.');
             }
         } catch (\Exception $e) {
-            return redirect(route('admin.pengajuan.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect(route('admin.pengabdian.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

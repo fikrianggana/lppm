@@ -7,7 +7,7 @@
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="post" action="{{ route ('admin.pengajuan.store')}}" enctype="multipart/form-data">
+                    <form method="post" action="{{ route ('karyawan.pengajuan.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="card">
                             <div class="card-body">
@@ -36,15 +36,7 @@
                                 @endif
 
                                 <div class="col-12">
-                                    <label class="form-label">Nama Pengaju</label>
-                                    <select name="usr_id" class="form-control" >
-                                        <opton value="">-- Nama Pengaju --</opton>
-                                        @foreach ($users as $usr => $usr_nama)
-                                            <option value="{{ $usr }}" @selected(old('usr_id') == $usr)>
-                                                {{ $usr_nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <input type="hidden" name="usr_id" value="{{ Auth::user()->usr_id }}">
                                 </div>
                                 <br>
                                 <div class="col-12">

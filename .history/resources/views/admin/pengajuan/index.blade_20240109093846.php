@@ -1,4 +1,4 @@
-@extends('karyawan.layouts.layout')
+@extends('admin.layouts.layout')
 
 <body>
    @section('konten')
@@ -22,44 +22,53 @@
                           @endif
 
                           <p>
-                            <a class="btn btn-primary" href="{{ route('karyawan.pengajuan.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengajuan Surat Tugas</a>
+                          <a class="btn btn-primary" href="{{ route('admin.pengajuan.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengabdian Masyakarat</a>
                           </p>
 
                           <!-- Table with stripped rows -->
                           <table class="table table-hover table-bordered table-condensed table-striped grid">
                               <thead>
                                   <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Nama Pengajuan</th>
-                                        <th class="text-center">Nama Surat Tugas</th>
-                                        <th class="text-center">Masa Pelaksanaan</th>
-                                        <th class="text-center">Bukti Pendukung</th>
-                                        <th class="text-center">Aksi</th>
+                                      <th>Nama Pengajuan</th>
+                                      <th>Nama Surat Tugas</th>
+                                      <th>Masa Pelaksanaan</th>
+                                      <th>Bukti Pendukung</th>
+                                      <th>Aksi</th>
                                   </tr>
                               </thead>
 
                               <tbody>
 
-                                 @forelse ($pengajuan as $index => $pst)
-                                    <tr>
-                                        <td class="text-center">{{ $index + 1 }}</td>
-                                        <td class="text-center">
+                                 @forelse ($pengajuan as $pst)
+                                     <tr>
+                                        <td>
                                             @php
                                                 $user = App\Models\User::find($pst->usr_id);
                                                 echo $user ? $user->usr_nama : 'User Tidak Ditemukan';
                                             @endphp
                                         </td>
-<<<<<<< HEAD
-                                        <td class="text-center">{{$pst->pst_namasurattugas}}</td>
-                                        <td class="text-center">{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
-                                        <td class="text-center">{{$pst->pst_buktipendukung}}</td>
-=======
-                                        <td>{{$pst->pst_namasurattugas}}</td>
-                                        <td>{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
-                                        <td>{{$pst->pst_buktipendukung}}</td>
 
->>>>>>> c474561 (nambahin pengajuan dimaster dan karyawan)
-                                        <td class="text-center">
+                                         <td>{{$pst->pst_namasurattugas}}</td>
+                                         <td>{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
+                                         <td>{{$pst->pst_buktipendukung}}</td>
+
+                                         <td class="text-center">
+                                            <a href="{{ route('admin.pengajuan.edit', ['pst_id' => $pst->pst_id]) }}" class="btn btn-warning">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>
+                                            </a>
+
+                                            <!-- Delete Button -->
+                                            <a href="{{ route('admin.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}"
+                                                class="btn btn-danger"
+                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pst->pst_id }}').submit(); }">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+
+                                            <form id="delete-form-{{ $pst->pst_id }}" action="{{ route('admin.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+
                                             <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-primary detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-nama="{{ $pst->usr_id }}"
@@ -69,7 +78,7 @@
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>
                                         </td>
-                                    </tr>
+                                     </tr>
 
                                  @empty
                                      <tr>
@@ -80,7 +89,6 @@
                                  @endforelse
                              </tbody>
                            </table>
-
                         </div>
                     </div>
             </div>
@@ -162,3 +170,4 @@
 </html>
 
 @endsection
+    

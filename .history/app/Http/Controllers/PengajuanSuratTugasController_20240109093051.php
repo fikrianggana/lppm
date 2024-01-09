@@ -135,14 +135,14 @@ class PengajuanSuratTugasController extends Controller
         try {
             $pst = PengajuanSuratTugas::findOrFail($pst_id);
 
-            if ($pst) {
-                $pst->delete();
-                return redirect(route('admin.pengajuan.index'))->with('success', 'Pengajuan berhasil dihapus!');
+            if (pst) {
+                $pkm->delete();
+                return redirect(route('admin.pengajuan.index'))->with('success', 'Pengabdian berhasil dihapus!');
             } else {
-                return redirect(route('admin.pengajuan.index'))->with('error', 'Pengajuan tidak ditemukan.');
+                return redirect(route('admin.pengajuan.index'))->with('error', 'Pengabdian tidak ditemukan.');
             }
         } catch (\Exception $e) {
-            return redirect(route('admin.pengajuan.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect(route('admin.pengabdian.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

@@ -130,19 +130,19 @@ class PengajuanSuratTugasController extends Controller
      * @param  \App\Models\PengajuanSuratTugas  $pengajuanSuratTugas
      * @return \Illuminate\Http\Response
      */
-    public function destroy($pst_id)
+    public function destroy(PengajuanSuratTugas $pengajuanSuratTugas)
     {
         try {
-            $pst = PengajuanSuratTugas::findOrFail($pst_id);
+            $pst = PengabdianMasyarakat::findOrFail($pst_id);
 
-            if ($pst) {
-                $pst->delete();
-                return redirect(route('admin.pengajuan.index'))->with('success', 'Pengajuan berhasil dihapus!');
+            if ($pkm) {
+                $pkm->delete();
+                return redirect(route('admin.pengabdian.index'))->with('success', 'Pengabdian berhasil dihapus!');
             } else {
-                return redirect(route('admin.pengajuan.index'))->with('error', 'Pengajuan tidak ditemukan.');
+                return redirect(route('admin.pengabdian.index'))->with('error', 'Pengabdian tidak ditemukan.');
             }
         } catch (\Exception $e) {
-            return redirect(route('admin.pengajuan.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect(route('admin.pengabdian.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }
