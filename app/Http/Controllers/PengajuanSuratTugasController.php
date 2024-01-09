@@ -61,7 +61,13 @@ class PengajuanSuratTugasController extends Controller
      */
     public function store(StorePengajuanSuratTugasRequest $request)
     {
+       
         $validatedData = $request->validated();
+        
+        // Set status 0 saat pertama kali data disimpan
+        $validatedData['status'] = 0;
+        $validatedData['inputby'] = Auth::user()->usr_id;
+
 
         if ($request->hasFile('pst_buktipendukung')) {
             $pst_buktipendukung = $request->file('pst_buktipendukung');
@@ -121,7 +127,8 @@ class PengajuanSuratTugasController extends Controller
      */
     public function update(UpdatePengajuanSuratTugasRequest $request, PengajuanSuratTugas $pengajuanSuratTugas)
     {
-        //
+         // Ubah status menjadi 1 saat data dikirimkan kembali
+        // $validatedData['status'] = 1;
     }
 
     /**
@@ -132,17 +139,30 @@ class PengajuanSuratTugasController extends Controller
      */
     public function destroy($pst_id)
     {
-        try {
-            $pst = PengajuanSuratTugas::findOrFail($pst_id);
+        $pengajuan = PengajuanSuratTugas::find($pst_id);
+        $pengajuan->delete();
+        
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
-            if ($pst) {
-                $pst->delete();
-                return redirect(route('admin.pengajuan.index'))->with('success', 'Pengajuan berhasil dihapus!');
-            } else {
-                return redirect(route('admin.pengajuan.index'))->with('error', 'Pengajuan tidak ditemukan.');
-            }
-        } catch (\Exception $e) {
-            return redirect(route('admin.pengajuan.index'))->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        // Tentukan view berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return redirect(route('karyawan.pengajuan.index'))->with('success', 'Data Berhasil Dihapus!');
+        } elseif ($usr_role === 'admin') {
+            return redirect(route('admin.pengajuan.index'))->with('success', 'Data Berhasil Dihapus!');
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
         }
+    
+        //return redirect()->back()->with('success', 'Pengajuan berhasil dihapus.');
     }
+
+    public function kirim($pst_id)
+{
+    $pengajuan = PengajuanSuratTugas::find($pst_id);
+    $pengajuan->status = 1; // Mengubah status menjadi 1 (Dikirim)
+    $pengajuan->save();
+
+    return redirect()->back()->with('success', 'Status pengajuan berhasil diubah menjadi terkirim.');
+}
 }

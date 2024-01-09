@@ -161,28 +161,28 @@ class PengabdianMasyarakatController extends Controller
         }
     }
 
-    public function search(Request $request)
-    {
-        $usr_role = Auth::user()->usr_role;
+    // public function search(Request $request)
+    // {
+    //     $usr_role = Auth::user()->usr_role;
 
-        // Check if the user has admin role
-        if ($usr_role === 'admin') {
-            if ($request->has('search')) {
+    //     // Check if the user has admin role
+    //     if ($usr_role === 'admin') {
+    //         if ($request->has('search')) {
 
-                $searchTerm = $request->search;
-                // Perform the search based on the provided term
-                $pengabdianMasyarakat = PengabdianMasyarakat::where('pkm_namakegiatan', 'LIKE', '%' . $searchTerm . '%')->get();
-            }
+    //             $searchTerm = $request->search;
+    //             // Perform the search based on the provided term
+    //             $pengabdianMasyarakat = PengabdianMasyarakat::where('pkm_namakegiatan', 'LIKE', '%' . $searchTerm . '%')->get();
+    //         }
     
-            $prodis = Prodi::pluck('prd_nama');
-            $user = User::pluck('usr_nama');
+    //         $prodis = Prodi::pluck('prd_nama');
+    //         $user = User::pluck('usr_nama');
     
-            // Return the view with the search results
-            return view('admin.pengabdian.index', ['pengabdian' => $pengabdianMasyarakat ?? [], 'prodis' => $prodis, 'users' => $user]);
-        } else {
-            // Handle unauthorized access for non-admin users
-            return abort(403, 'Unauthorized action.');
-        }
-    }
+    //         // Return the view with the search results
+    //         return view('admin.pengabdian.index', ['pengabdian' => $pengabdianMasyarakat ?? [], 'prodis' => $prodis, 'users' => $user]);
+    //     } else {
+    //         // Handle unauthorized access for non-admin users
+    //         return abort(403, 'Unauthorized action.');
+    //     }
+    // }
 
 }

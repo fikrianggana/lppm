@@ -30,10 +30,9 @@
                               <thead>
                                   <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Nama Pengajuan</th>
+                                        <th class="text-center">Nama Pengaju</th>
                                         <th class="text-center">Nama Surat Tugas</th>
                                         <th class="text-center">Masa Pelaksanaan</th>
-                                        <th class="text-center">Bukti Pendukung</th>
                                         <th class="text-center">Aksi</th>
                                   </tr>
                               </thead>
@@ -51,9 +50,21 @@
                                         </td>
                                         <td class="text-center">{{$pst->pst_namasurattugas}}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
-                                        <td class="text-center">{{$pst->pst_buktipendukung}}</td>
                                         <td class="text-center">
-                                            <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-primary detail-button"
+                                            <!-- <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-default detail-button"
+                                                data-toggle="modal" data-target="#modal-detail"
+                                                data-nama="{{ $pst->usr_id }}"
+                                                data-namasurat="{{ $pst->pst_namasurattugas }}"
+                                                data-waktupelaksanaan="{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}"
+                                                data-buktipendukung="{{ $pst->pst_buktipendukung }}">
+                                                <i class="fa fa-list" aria-hidden="true"></i>
+                                            </a> -->
+                                            @if ($pst->status === 0)
+                                                <a href="{{ route('karyawan.pengajuan.kirim', $pst->pst_id) }}" class="btn btn-default detail-button">  <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                </a>
+                                            @endif
+
+                                            <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-nama="{{ $pst->usr_id }}"
                                                 data-namasurat="{{ $pst->pst_namasurattugas }}"
@@ -61,6 +72,18 @@
                                                 data-buktipendukung="{{ $pst->pst_buktipendukung }}">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>
+
+                                            <!-- Delete Button -->
+                                            <a href="{{ route('karyawan.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}"
+                                                class="btn btn-default detail-button"
+                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pst->pst_id }}').submit(); }">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+
+                                            <form id="delete-form-{{ $pst->pst_id }}" action="{{ route('karyawan.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
                                         </td>
                                     </tr>
 

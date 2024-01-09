@@ -37,7 +37,6 @@
 
                                 <div class="col-12">
                                     <!-- MENGAMBL NAMA USER BERDASARKAN YANG LOGIN -->
-                                    <!-- <label  class="form-label">Nama Pengaju</label> -->
                                     <input type="hidden" name="usr_id" value="{{ Auth::user()->usr_id }}">
                                 </div>
                                 
@@ -55,16 +54,7 @@
                                     <label class="form-label">Bukti Pendukung</label>
                                     <input type="file" class="form-control" name="pst_buktipendukung" value="{{ old('pst_buktipendukung')}}">
                                 </div>
-                                {{--  <br>
-                                <div class="col-12">
-                                    <label for="Detail" class="control-label">Detail</label>
-                                    <textarea id="Detail" name="Detail" class="form-control">{{ old('Detail') }}</textarea>
-                                </div>
-                                <div class="col-12">
-                                    <!-- Span for validation error -->
-                                    <input name="MahasiswaProdiNim" id="MahasiswaProdiNim" class="form-control" type="hidden" :value="old('MahasiswaProdiNim')" />
-                                    <span id="MahasiswaProdiNimError" class="text-danger">@error('MahasiswaProdiNim') {{ $message }} @enderror</span>
-                                </div>  --}}
+                               
                             </div>
                             <br>
                             </div>
@@ -81,60 +71,5 @@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 </body>
-
-{{--  <script>
-    // Handling form submission
-    document.querySelector('form').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        var mahasiswaValue = document.querySelector('input[name="pkm_mahasiswa"]').value;
-        var nimValue = document.querySelector('input[name="pkm_nim"]').value;
-        var prodiValue = document.querySelector('[name="prodi_id"]').value;
-        var detail = document.getElementById('Detail').value;
-
-        var mahasiswaProdiNimValue = detail;
-
-        document.getElementById('MahasiswaProdiNim').value = mahasiswaProdiNimValue;
-
-        this.submit();
-    });
-
-    // Handling Mahasiswa button click
-    document.getElementById('Mhs').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        var mahasiswaValue = document.querySelector('input[name="pkm_mahasiswa"]').value;
-        var currentDetailValue = document.getElementById('Detail').value;
-
-        var separator = currentDetailValue ? '|' : '';
-        var newDetailValue = mahasiswaValue + separator + (currentDetailValue ? currentDetailValue : '');
-
-        document.getElementById('Detail').value = newDetailValue;
-    });
-
-    // Handling Nim button click
-    document.getElementById('nm').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        var nimValue = document.querySelector('input[name="pkm_nim"]').value;
-        var currentDetailValue = document.getElementById('Detail').value;
-
-        var separator = currentDetailValue ? '|' : '';
-        var newDetailValue = nimValue + separator + (currentDetailValue ? currentDetailValue : '');
-
-        document.getElementById('Detail').value = newDetailValue;
-    });
-
-    // Handling Prodi dropdown change
-    document.querySelector('[name="prodi_id"]').addEventListener('change', function (e) {
-        var prodiValue = this.options[this.selectedIndex].text;
-        var currentDetailValue = document.getElementById('Detail').value;
-
-        var separator = currentDetailValue ? '|' : '';
-        var newDetailValue = prodiValue + separator + (currentDetailValue ? currentDetailValue : '');
-
-        document.getElementById('Detail').value = newDetailValue;
-    });
-</script>  --}}
 
 @endsection

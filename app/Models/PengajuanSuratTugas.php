@@ -30,6 +30,14 @@ class PengajuanSuratTugas extends Model
         'pst_namasurattugas',
         'pst_masapelaksanaan',
         'pst_buktipendukung',
+        'status',
+        'inputby',
+        'editby',
+        'surattugas',
+        'namafile',
+        'namafilesurat',
+        'keterangan',
+        'tanggalselesai'
     ];
 
     public function user()

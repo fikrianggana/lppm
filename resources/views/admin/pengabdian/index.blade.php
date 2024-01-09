@@ -68,7 +68,6 @@
                                                 @method('DELETE')
                                             </form>
 
-
                                         <a href="" id="detail-{{ $pkm->pkm_id }}" class="btn btn-primary detail-button"
                                             data-toggle="modal" data-target="#modal-detail"
                                             data-nama="{{ $pkm->pkm_namakegiatan }}"
