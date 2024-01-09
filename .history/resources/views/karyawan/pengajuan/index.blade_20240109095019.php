@@ -49,9 +49,16 @@
                                                 echo $user ? $user->usr_nama : 'User Tidak Ditemukan';
                                             @endphp
                                         </td>
+<<<<<<< HEAD
                                         <td class="text-center">{{$pst->pst_namasurattugas}}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
                                         <td class="text-center">{{$pst->pst_buktipendukung}}</td>
+=======
+                                        <td>{{$pst->pst_namasurattugas}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
+                                        <td>{{$pst->pst_buktipendukung}}</td>
+
+>>>>>>> c474561 (nambahin pengajuan dimaster dan karyawan)
                                         <td class="text-center">
                                             <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-primary detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
