@@ -61,6 +61,7 @@
                                             </a>
 
                                             <!-- Detail Button -->
+                                            @if($pst->status == 3)
                                             <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-primary detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-nama="{{ $pst->usr_id }}"
@@ -69,6 +70,7 @@
                                                 data-buktipendukung="{{ $pst->pst_buktipendukung }}">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endif
