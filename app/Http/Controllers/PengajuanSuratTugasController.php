@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Models\PengajuanSuratTugas;
 use App\Http\Requests\StorePengajuanSuratTugasRequest;
 use App\Http\Requests\UpdatePengajuanSuratTugasRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
@@ -143,42 +145,40 @@ class PengajuanSuratTugasController extends Controller
      * @param  \App\Models\PengajuanSuratTugas  $pengajuanSuratTugas
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePengajuanSuratTugasRequest $request, PengajuanSuratTugas $pengajuanSuratTugas)
+    public function update(UpdatePengajuanSuratTugasRequest $request, PengajuanSuratTugas $pengajuanSuratTugas, $pst_id)
     {
         $validatedData = $request->validated();
-    
-        // Jika ada file yang diunggah, proses file
+
+        $validatedData['status'] = 0;
+
         if ($request->hasFile('pst_buktipendukung')) {
             $pst_buktipendukung = $request->file('pst_buktipendukung');
             $nama_buktipendukung = $pst_buktipendukung->getClientOriginalName(); // Gunakan nama asli file
-    
+
             $pst_buktipendukung->move('files/', $nama_buktipendukung);
-            $validatedData['pst_buktipendukung'] = 'files/' . $nama_buktipendukung; // Simpan path file dalam databas
-            
+            $validatedData['pst_buktipendukung'] = 'files/' . $nama_buktipendukung; // Simpan path file dalam database
+
+            // Hapus file lama jika ada
             if ($pengajuanSuratTugas->pst_buktipendukung && file_exists($pengajuanSuratTugas->pst_buktipendukung)) {
-                // Hapus file lama jika ada
                 unlink($pengajuanSuratTugas->pst_buktipendukung);
             }
         }
-    
-        // Ubah status menjadi 1 saat data dikirimkan kembali
-        $validatedData['status'] = 0;
-    
-        if ($pengajuanSuratTugas->update($validatedData)){
-    
-            $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
-        
-            // Redirect ke halaman yang tepat berdasarkan peran pengguna
-            if ($usr_role === 'karyawan') {
-                return redirect()->route('karyawan.pengajuan.index')->with('success', 'Data Berhasil Diperbarui!');
-            } elseif ($usr_role === 'admin') {
-                return redirect()->route('admin.pengajuan.index')->with('success', 'Data Berhasil Diperbarui!');
-            } else {
-                // Handle jika peran tidak teridentifikasi
-                return abort(403, 'Unauthorized action.');
-            }
+
+        PengajuanSuratTugas::find($pst_id)->update($validatedData);
+
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+
+        // Redirect ke halaman yang tepat berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return redirect()->route('karyawan.pengajuan.index')->with('success', 'Data Berhasil Diperbarui!');
+        } elseif ($usr_role === 'admin') {
+            return redirect()->route('admin.pengajuan.index')->with('success', 'Data Berhasil Diperbarui!');
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -211,5 +211,34 @@ class PengajuanSuratTugasController extends Controller
         $pengajuan->save();
 
         return redirect()->back()->with('success', 'Status pengajuan berhasil diubah menjadi terkirim.');
+    }
+    public function confirm($pst_id)
+    {
+        try {
+            // Find the record by pst_id
+            $pengajuan = PengajuanSuratTugas::find($pst_id);
+    
+            // Update the status
+            $pengajuan->update(['status' => '3']);
+    
+            return redirect()->route('admin.pengajuan.index')->with('success', 'Pengajuan confirmed successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.pengajuan.index')->with('error', 'Error confirming pengajuan: ' . $e->getMessage());
+        }
+    }
+
+    public function reject($pst_id)
+    {
+        try {
+            // Find the record by pst_id
+            $pengajuan = PengajuanSuratTugas::find($pst_id);
+    
+             // Delete the rejected record
+            $pengajuan->delete();
+    
+            return redirect()->route('admin.pengajuan.index')->with('success', 'Pengajuan rejected successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.pengajuan.index')->with('error', 'Error rejecting pengajuan: ' . $e->getMessage());
+        }
     }
 }

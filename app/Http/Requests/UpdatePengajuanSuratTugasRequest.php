@@ -11,10 +11,10 @@ class UpdatePengajuanSuratTugasRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return false;
-    }
+    // public function authorize()
+    // {
+    //     return false;
+    // }
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +24,9 @@ class UpdatePengajuanSuratTugasRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'pst_namasurattugas' => ['required'],
+            'pst_masapelaksanaan' => ['required'],
+            'pst_buktipendukung' => ['mimes:doc,docx,pdf,xls,xlsx,pdf,ppt,pptx'],
         ];
     }
 }

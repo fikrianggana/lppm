@@ -49,6 +49,8 @@ Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
         Route::get('pengajuan/{pst_id}/edit', [PengajuanSuratTugasController::class, 'edit'])->name('admin.pengajuan.edit');
         Route::put('pengajuan/{pst_id}', [PengajuanSuratTugasController::class, 'update'])->name('admin.pengajuan.update');
         Route::delete('pengajuan/{pst_id}', [PengajuanSuratTugasController::class, 'destroy'])->name('admin.pengajuan.destroy');
+        Route::get('pengajuan/{pst_id}/confirm', [PengajuanSuratTugasController::class, 'confirm'])->name('admin.pengajuan.confirm');
+        Route::get('pengajuan/{pst_id}/reject', [PengajuanSuratTugasController::class, 'reject'])->name('admin.pengajuan.reject');
 
         //Buku
         Route::get('buku',[BukuController::class,'index'])->name('admin.publikasi.buku.index');

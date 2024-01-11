@@ -6,9 +6,9 @@
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-                    <form action="{{ route('karyawan.pengajuan.update', ['pst_id' => $pst->pst_id]) }}" method="post">
-                        @csrf
-                        @method('PUT')
+                <form action="{{ route('karyawan.pengajuan.update', ['pst_id' => $pst->pst_id]) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-header">Edit Pengajuan Surat Tugas</h5>
