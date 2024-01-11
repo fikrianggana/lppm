@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Models\PengajuanSuratTugas;
 use App\Http\Requests\StorePengajuanSuratTugasRequest;
 use App\Http\Requests\UpdatePengajuanSuratTugasRequest;
@@ -146,6 +147,9 @@ class PengajuanSuratTugasController extends Controller
     public function update(UpdatePengajuanSuratTugasRequest $request, PengajuanSuratTugas $pengajuanSuratTugas)
     {
         $validatedData = $request->validated();
+
+        // Tambahkan log untuk mengecek nilai validatedData
+        Log::info('Validated Data:', $validatedData);
     
         // Jika ada file yang diunggah, proses file
         if ($request->hasFile('pst_buktipendukung')) {
@@ -164,20 +168,20 @@ class PengajuanSuratTugasController extends Controller
         // Ubah status menjadi 1 saat data dikirimkan kembali
         $validatedData['status'] = 0;
     
-        if ($pengajuanSuratTugas->update($validatedData)){
+        $pengajuanSuratTugas->update($validatedData);
     
-            $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
         
-            // Redirect ke halaman yang tepat berdasarkan peran pengguna
-            if ($usr_role === 'karyawan') {
-                return redirect()->route('karyawan.pengajuan.index')->with('success', 'Data Berhasil Diperbarui!');
-            } elseif ($usr_role === 'admin') {
-                return redirect()->route('admin.pengajuan.index')->with('success', 'Data Berhasil Diperbarui!');
-            } else {
-                // Handle jika peran tidak teridentifikasi
-                return abort(403, 'Unauthorized action.');
-            }
+        // Redirect ke halaman yang tepat berdasarkan peran pengguna
+        if ($usr_role === 'karyawan') {
+            return redirect()->route('karyawan.pengajuan.index')->with('success', 'Data Berhasil Diperbarui!');
+        } elseif ($usr_role === 'admin') {
+            return redirect()->route('admin.pengajuan.index')->with('success', 'Data Berhasil Diperbarui!');
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
         }
+        
     }
 
     /**
