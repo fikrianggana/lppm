@@ -11,7 +11,7 @@
                         @method('PUT')
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-header">New Buku</h5>
+                                <h5 class="card-header">Update Buku</h5>
                                 <br>
 
                                 @if ($errors -> any())

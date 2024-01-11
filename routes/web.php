@@ -13,6 +13,8 @@ use App\Http\Controllers\PengabdianMasyarakatController;
 use App\Http\Controllers\PengajuanSuratTugasController;
 use App\Http\Controllers\BukuController;
 use App\Http\Middleware\UserAccess;
+use App\Models\PengajuanSuratTugas;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +25,7 @@ use App\Http\Middleware\UserAccess;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
@@ -110,9 +113,10 @@ Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
         Route::get('pengajuanKaryawan',[PengajuanSuratTugasController::class,'index'])->name('karyawan.pengajuan.index');
         Route::get('pengajuanKaryawan/create', [PengajuanSuratTugasController::class, 'create'])->name('karyawan.pengajuan.create');
         Route::post('pengajuanKaryawan', [PengajuanSuratTugasController::class, 'store'])->name('karyawan.pengajuan.store');
+        Route::get('pengajuanKaryawan/{pst_id}/edit', [PengajuanSuratTugasController::class, 'edit'])->name('karyawan.pengajuan.edit');
+        Route::put('pengajuanKaryawan/{pst_id}', [PengajuanSuratTugasController::class, 'update'])->name('karyawan.pengajuan.update');
         Route::delete('pengajuanKaryawan/{pst_id}', [PengajuanSuratTugasController::class, 'destroy'])->name('karyawan.pengajuan.destroy');
-        Route::get('pengajuanKaryawan/{pst_id}/kirim', 'PengajuanSuratTugasController@kirim')->name('karyawan.pengajuan.kirim');
-
+        Route::get('pengajuanKaryawan/{pst_id}', [PengajuanSuratTugasController::class, 'kirim'])->name('karyawan.pengajuan.kirim');
 
         //Buku
         Route::get('bukuKaryawan',[BukuController::class,'index'])->name('karyawan.publikasi.buku.index');

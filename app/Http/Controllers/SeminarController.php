@@ -17,6 +17,8 @@ class SeminarController extends Controller
      */
     public function index()
     {
+        $title= 'Seminar';
+
         $seminar = Seminar::all();
         // $user = User::pluck('usr_nama'); // Sesuaikan dengan nama kolom di tabel User
 
@@ -24,9 +26,9 @@ class SeminarController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.seminar.index',  ['seminar' => $seminar]);
+            return view ('karyawan.publikasi.seminar.index', compact('title'), ['seminar' => $seminar]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.seminar.index',  ['seminar' => $seminar]);
+            return view ('admin.publikasi.seminar.index', compact('title'), ['seminar' => $seminar]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -40,15 +42,16 @@ class SeminarController extends Controller
      */
     public function create()
     {
+        $title= 'Seminar';
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom di tabel User
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view('karyawan.publikasi.seminar.create', ['users' => $user]);
+            return view('karyawan.publikasi.seminar.create', compact('title'),['users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.publikasi.seminar.create', ['users' => $user]);
+            return view('admin.publikasi.seminar.create',compact('title'), ['users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

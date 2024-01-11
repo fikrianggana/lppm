@@ -17,15 +17,17 @@ class HakCiptaController extends Controller
      */
     public function index()
     {
+        $title= 'Hak Cipta';
+
         $hakCipta = HakCipta::all();
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.hakcipta.index',  ['hakcipta' => $hakCipta]);
+            return view ('karyawan.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $hakCipta]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.hakcipta.index',  ['hakcipta' => $hakCipta]);
+            return view ('admin.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $hakCipta]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -39,6 +41,8 @@ class HakCiptaController extends Controller
      */
     public function create()
     {
+        $title= 'Hak Cipta';
+
         // Ambil hanya kolom nama dari model User
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom
 
@@ -46,9 +50,9 @@ class HakCiptaController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view('karyawan.publikasi.hakcipta.create', ['users' => $user]);
+            return view('karyawan.publikasi.hakcipta.create',compact('title'), ['users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.publikasi.hakcipta.create', ['users' => $user]);
+            return view('admin.publikasi.hakcipta.create', compact('title'),['users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

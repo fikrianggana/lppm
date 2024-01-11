@@ -13,7 +13,8 @@ class DashboardKaryawanController extends Controller
      */
     public function index()
     {
-        return view ('karyawan.dashboard.index');
+        $title = 'Dashboard';
+        return view ('karyawan.dashboard.index',compact('title'));
     }
 
     /**

@@ -20,6 +20,7 @@ class PengabdianMasyarakatController extends Controller
      */
     public function index(Request $request)
     {
+        $title = 'Pengabdian Masyarakat';
         $pengabdianMasyarakat = PengabdianMasyarakat::all();
         $prodis = Prodi::pluck('prd_nama');
         $user = User::pluck('usr_nama');
@@ -28,9 +29,9 @@ class PengabdianMasyarakatController extends Controller
 
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
-            return view('karyawan.pengabdian.index', ['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
+            return view('karyawan.pengabdian.index', compact('title'),['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.pengabdian.index', ['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
+            return view('admin.pengabdian.index', compact('title'),['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -44,6 +45,7 @@ class PengabdianMasyarakatController extends Controller
      */
     public function create()
     {
+        $title = 'Pengabdian Masyarakat';
         $prodis = Prodi::pluck('prd_nama');
         $user = User::pluck('usr_nama');
 
@@ -51,9 +53,9 @@ class PengabdianMasyarakatController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view('karyawan.pengabdian.create', ['prodis' => $prodis, 'users' => $user]);
+            return view('karyawan.pengabdian.create', compact('title'),['prodis' => $prodis, 'users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.pengabdian.create', ['prodis' => $prodis, 'users' => $user]);
+            return view('admin.pengabdian.create', compact('title'),['prodis' => $prodis, 'users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

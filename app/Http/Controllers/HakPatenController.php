@@ -18,6 +18,8 @@ class HakPatenController extends Controller
      */
     public function index()
     {
+        $title= 'Hak Paten';
+
         $hakPaten = HakPaten::all();
         // $user = User::pluck('pgn_nama'); // Sesuaikan dengan nama kolom di tabel User
 
@@ -25,9 +27,9 @@ class HakPatenController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.hakpaten.index',  ['hakpaten' => $hakPaten]);
+            return view ('karyawan.publikasi.hakpaten.index', compact('title'), ['hakpaten' => $hakPaten]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.hakpaten.index',  ['hakpaten' => $hakPaten]);
+            return view ('admin.publikasi.hakpaten.index', compact('title'), ['hakpaten' => $hakPaten]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -41,6 +43,7 @@ class HakPatenController extends Controller
      */
     public function create()
     {
+        $title='Hak Paten';
         // Ambil hanya kolom nama dari model User
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom di tabel User
 
@@ -48,9 +51,9 @@ class HakPatenController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view('karyawan.publikasi.hakpaten.create', ['users' => $user]);
+            return view('karyawan.publikasi.hakpaten.create', compact('title'),['users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.publikasi.hakpaten.create', ['users' => $user]);
+            return view('admin.publikasi.hakpaten.create', compact('title'),['users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

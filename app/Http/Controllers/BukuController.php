@@ -17,15 +17,16 @@ class BukuController extends Controller
      */
     public function index()
     {
+        $title = 'Buku';
         $buku = Buku::all();
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.buku.index',  ['buku' => $buku]);
+            return view ('karyawan.publikasi.buku.index', compact('title'), ['buku' => $buku]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.buku.index',  ['buku' => $buku]);
+            return view ('admin.publikasi.buku.index', compact('title'), ['buku' => $buku]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -39,6 +40,8 @@ class BukuController extends Controller
      */
     public function create()
     {
+        $title = 'Buku';
+
         // Ambil hanya kolom nama dari model User
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom
 
@@ -46,9 +49,9 @@ class BukuController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view('karyawan.publikasi.buku.create', ['users' => $user]);
+            return view('karyawan.publikasi.buku.create', compact('title'),['users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.publikasi.buku.create', ['users' => $user]);
+            return view('admin.publikasi.buku.create',compact('title'), ['users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -103,10 +106,8 @@ class BukuController extends Controller
     {
         $buku = Buku::findOrFail($bku_id);
         $users = User::pluck('usr_nama', 'usr_id');
-        return view('admin.publikasi.buku.edit', [
-            'bk'=>$buku,
-            'users'=>$users,
-        ]);
+        
+        return view('admin.publikasi.buku.edit', ['bk'=>$buku,'users'=>$users]);
 
     }
 

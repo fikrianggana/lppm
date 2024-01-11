@@ -17,15 +17,16 @@ class ProsidingController extends Controller
      */
     public function index()
     {
+        $title = 'Prosiding';
         $prosiding = Prosiding::all();
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.prosiding.index',  ['prosiding' => $prosiding]);
+            return view ('karyawan.publikasi.prosiding.index', compact('title'), ['prosiding' => $prosiding]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.prosiding.index',  ['prosiding' => $prosiding]);
+            return view ('admin.publikasi.prosiding.index', compact('title'), ['prosiding' => $prosiding]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -39,6 +40,8 @@ class ProsidingController extends Controller
      */
     public function create()
     {
+        $title = 'Prosiding';
+
         // Ambil hanya kolom nama dari model User
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom
 
@@ -46,9 +49,9 @@ class ProsidingController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view('karyawan.publikasi.prosiding.create', ['users' => $user]);
+            return view('karyawan.publikasi.prosiding.create', compact('title'),['users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.publikasi.prosiding.create', ['users' => $user]);
+            return view('admin.publikasi.prosiding.create', compact('title'),['users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

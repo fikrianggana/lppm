@@ -3,7 +3,7 @@
 
 <body>
    @section('konten')
-    <?php if (('success')): ?>
+    {{-- <?php if (('success')): ?>
         <script type="text/javascript">
             $(document).ready(function() {
                 swal.fire({
@@ -177,6 +177,6 @@
         });*/
     </script>
 </body>
-</html>
+</html> --}}
     
 @endsection

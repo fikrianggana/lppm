@@ -64,6 +64,12 @@
                                                 </a>
                                             @endif
 
+                                            @if ($pst->status === 0)
+                                                <a href="{{ route('karyawan.pengajuan.edit', ['pst_id' => $pst->pst_id]) }}" class="btn btn-default detail-button">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            @endif
+
                                             <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-nama="{{ $pst->usr_id }}"
@@ -74,11 +80,13 @@
                                             </a>
 
                                             <!-- Delete Button -->
-                                            <a href="{{ route('karyawan.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}"
+                                            @if($pst->status == 0)
+                                                <a href="{{ route('karyawan.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}"
                                                 class="btn btn-default detail-button"
                                                 onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pst->pst_id }}').submit(); }">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
+                                                </a>
+                                            @endif
 
                                             <form id="delete-form-{{ $pst->pst_id }}" action="{{ route('karyawan.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}" method="POST" style="display: none;">
                                                 @csrf

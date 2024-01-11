@@ -17,6 +17,7 @@ class JurnalController extends Controller
      */
     public function index()
     {
+        $title ='Jurnal';
         $jurnal = Jurnal::all();
         // $user = User::pluck('pgn_nama'); // Sesuaikan dengan nama kolom di tabel User
 
@@ -24,9 +25,9 @@ class JurnalController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.jurnal.index',  ['jurnal' => $jurnal]);
+            return view ('karyawan.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.jurnal.index',  ['jurnal' => $jurnal]);
+            return view ('admin.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -40,15 +41,17 @@ class JurnalController extends Controller
      */
     public function create()
     {
+        $title ='Jurnal';
+ 
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom di tabel User
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.jurnal.create', ['users' => $user]);
+            return view ('karyawan.publikasi.jurnal.create', compact('title'),['users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.jurnal.create', ['users' => $user]);
+            return view ('admin.publikasi.jurnal.create', compact('title'),['users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -103,6 +106,7 @@ class JurnalController extends Controller
     {
         $jurnal = Jurnal::findOrFail($jrn_id);
         $users = User::pluck('usr_nama', 'usr_id');
+        
         return view('admin.publikasi.jurnal.edit', [
             'jrn'=>$jurnal,
             'users'=>$users,
