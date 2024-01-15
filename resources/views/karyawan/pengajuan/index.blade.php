@@ -33,6 +33,9 @@
                                         <th class="text-center">Nama Pengaju</th>
                                         <th class="text-center">Nama Surat Tugas</th>
                                         <th class="text-center">Masa Pelaksanaan</th>
+                                        <!-- <th class="text-center">Status</th> -->
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Keterangan</th>
                                         <th class="text-center">Aksi</th>
                                   </tr>
                               </thead>
@@ -51,14 +54,25 @@
                                         <td class="text-center">{{$pst->pst_namasurattugas}}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
                                         <td class="text-center">
-                                            <!-- <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-default detail-button"
-                                                data-toggle="modal" data-target="#modal-detail"
-                                                data-nama="{{ $pst->usr_id }}"
-                                                data-namasurat="{{ $pst->pst_namasurattugas }}"
-                                                data-waktupelaksanaan="{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}"
-                                                data-buktipendukung="{{ $pst->pst_buktipendukung }}">
-                                                <i class="fa fa-list" aria-hidden="true"></i>
-                                            </a> -->
+                                            @if ($pst->status === 1)
+                                                <span class="badge badge-info">Sedang Diajukan</span>
+                                            @elseif ($pst->status === 2)
+                                                <span class="badge badge-success">Diterima</span>
+                                            @elseif ($pst->status === 3)
+                                                <span class="badge badge-danger">Ditolak</span>
+                                            @elseif ($pst->status === 4)
+                                                <span class="badge badge-info">Surat Telah diBerikan</span>
+                                            @else
+                                                <span class="badge badge-warning">Belum Dikirim</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($pst->status === 3)
+                                                {{$pst->keterangan}}
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                        
                                             @if ($pst->status === 0)
                                                 <a href="{{ route('karyawan.pengajuan.kirim', $pst->pst_id) }}" class="btn btn-default detail-button">  <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                                 </a>
