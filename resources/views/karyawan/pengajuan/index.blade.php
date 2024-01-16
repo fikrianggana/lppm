@@ -57,11 +57,12 @@
                                             @if ($pst->status === 1)
                                                 <span class="badge badge-info">Sedang Diajukan</span>
                                             @elseif ($pst->status === 2)
-                                                <span class="badge badge-success">Diterima</span>
+                                                <span class="badge badge-success">Pengajuan Diterima</span>
                                             @elseif ($pst->status === 3)
-                                                <span class="badge badge-danger">Ditolak</span>
+                                                <span class="badge badge-danger">Pengajuan Ditolak</span>
                                             @elseif ($pst->status === 4)
-                                                <span class="badge badge-info">Surat Telah diBerikan</span>
+                                                <span class="badge badge-primary">Surat Tugas Telah Diunggah,</span><br>
+                                                <span class="badge badge-primary">Tolong Cek Kembali</span>
                                             @else
                                                 <span class="badge badge-warning">Belum Dikirim</span>
                                             @endif
