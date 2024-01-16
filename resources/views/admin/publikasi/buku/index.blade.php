@@ -5,29 +5,53 @@
 
 
    <main id="main" class="main">
-      <section class="section">
-          <div class="row">
-              <div class="col-lg-12">
-                  <div class="card-title">
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-title">
                           <h5> List Buku</h5>
-                  </div>
-                  <br>
+                    </div>
+                    <br>
 
-                          @if (session('success'))
-                              <div class="alert alert-success">{{ session('success')}} </div>
-                          @endif
+                            @if (session('success'))
+                                <div class="alert alert-success">{{ session('success')}} </div>
+                            @endif
 
-                          @if (session('error'))
-                              <div class="alert alert-danger">{{ session('error')}} </div>
-                          @endif
+                            @if (session('error'))
+                                <div class="alert alert-danger">{{ session('error')}} </div>
+                            @endif
 
-                          <p>
-                            <a class="btn btn-primary" href="{{ route('admin.publikasi.buku.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah Buku</a>
-                            <a class="btn btn-success" href="{{ route('admin.publikasi.buku.export') }}"><i class="fa fa-download" aria-hidden="true"></i>  Export Data</a>
-                          </p>
+                            <p>
+                                <a class="btn btn-primary" href="{{ route('admin.publikasi.buku.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah Buku</a>
+                            </p>
+                            
+                            <!-- Search Form and Export Excel Button -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <!-- Search Form -->
+                                        <form action="{{ route('admin.publikasi.buku.index') }}" method="GET" class="form-inline w-100">
+                                            <div class="input-group">
+                                                <input name="search" type="search" class="form-control w-100" placeholder="Pencarian" />
+                                                <div class="input-group-btn">
+                                                    <button type="submit" class="btn btn-secondary">
+                                                        <i class="fa fa-search"></i>&nbsp;Cari
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Export Excel Button -->
+                                            <a class="btn btn-success" href="{{ route('admin.publikasi.buku.export') }}">
+                                                <i class="fa fa-download" aria-hidden="true"></i>&nbsp;Export Data
+                                            </a>
+                                        </form>                                     
+                                    </div>
+                                </div>
+                            </div>
+
 
                           <!-- Table with stripped rows -->
-                          <table class="table table-hover table-bordered table-condensed table-striped grid">
+                            <table class="table table-hover table-bordered table-condensed table-striped grid">
                               <thead>
                                   <tr>
                                         <th class="text-center">No</th>

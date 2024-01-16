@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Buku;
 use App\Models\User;
@@ -17,10 +18,13 @@ class BukuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = 'Buku';
         $buku = Buku::all();
+
+        $query = $request->get('search');
+        $search = Buku::where('bku_tahun', 'like', "%$query%")->get();
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
@@ -28,7 +32,7 @@ class BukuController extends Controller
         if ($usr_role === 'karyawan') {
             return view ('karyawan.publikasi.buku.index', compact('title'), ['buku' => $buku]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.buku.index', compact('title'), ['buku' => $buku]);
+            return view ('admin.publikasi.buku.index', compact('title'), ['buku' => $buku, $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

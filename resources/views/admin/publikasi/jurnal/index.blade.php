@@ -28,7 +28,7 @@
                         <table class="table table-hover table-bordered table-condensed table-striped grid">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ID Jurnal</th>
+                                    <th class="text-center">No</th>
                                     <th class="text-center">Judul Makalah</th>
                                     <th class="text-center">Nama Jurnal</th>
                                     <th class="text-center">Nama Personil</th>
