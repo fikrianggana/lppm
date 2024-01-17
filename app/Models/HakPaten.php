@@ -28,7 +28,6 @@ class HakPaten extends Model
         'hpt_namalengkap',
         'hpt_judul',
         'hpt_nopemohonan',
-        'hpt_tglpelaksanaan',
         'hpt_tglpenerimaan',
         'hpt_status',
         'usr_id'

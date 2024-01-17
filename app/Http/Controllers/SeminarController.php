@@ -28,15 +28,15 @@ class SeminarController extends Controller
         $query = $request->get('search');
            
         $search = Seminar::where(function ($query) use ($request) {
-            $query->where('smn_namapenulis', 'like', "%{$request->search}%")
-                  ->orWhere('smn_kategori', 'like', "%{$request->search}%")
-                  ->orWhere('smn_penyelenggara', 'like', "%{$request->search}%")
-                  ->orWhere('smn_waktu', 'like', "%{$request->search}%")
-                  ->orWhere('smn_tempatpelaksaan', 'like', "%{$request->search}%")
-                  ->orWhere('smn_keterangan', 'like', "%{$request->search}%");
+        $query->where('smn_namapenulis', 'like', "%{$request->search}%")
+              ->orWhere('smn_kategori', 'like', "%{$request->search}%")
+              ->orWhere('smn_penyelenggara', 'like', "%{$request->search}%")
+              ->orWhere('smn_waktu', 'like', "%{$request->search}%")
+              ->orWhere('smn_tempatpelaksaan', 'like', "%{$request->search}%")
+              ->orWhere('smn_keterangan', 'like', "%{$request->search}%");
         })
         ->get();
-        
+
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna

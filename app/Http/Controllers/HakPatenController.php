@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Exports\HakPatenExport;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HakPaten;
@@ -18,20 +19,31 @@ class HakPatenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title= 'Hak Paten';
 
         $hakPaten = HakPaten::all();
         // $user = User::pluck('pgn_nama'); // Sesuaikan dengan nama kolom di tabel User
 
-        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+        $query = $request->get('search');
+           
+        $search = HakPaten::where(function ($query) use ($request) {
+            $query->where('hpt_namalengkap', 'like', "%{$request->search}%")
+                  ->orWhere('hpt_judul', 'like', "%{$request->search}%")
+                  ->orWhere('hpt_nopemohonan', 'like', "%{$request->search}%")
+                  ->orWhere('hpt_tglpenerimaan', 'like', "%{$request->search}%")
+                  ->orWhere('hpt_status', 'like', "%{$request->search}%");
+            })
+        ->get();
+
+       $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
             return view ('karyawan.publikasi.hakpaten.index', compact('title'), ['hakpaten' => $hakPaten]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.hakpaten.index', compact('title'), ['hakpaten' => $hakPaten]);
+            return view ('admin.publikasi.hakpaten.index', compact('title'), ['hakpaten' => $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
