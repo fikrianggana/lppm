@@ -23,6 +23,22 @@
                             <a class="btn btn-primary" href="{{ route('karyawan.publikasi.seminar.create') }}">+ Tambah Seminar</a>
                         </p>
 
+                        <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group w-100">
+                                        <!-- Search Form -->
+                                        <form action="{{ route('karyawan.publikasi.seminar.index') }}" method="GET" class="form-inline w-100">
+                                            <input name="search" type="search" class="form-control" placeholder="Pencarian" />
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-secondary">
+                                                    <i class="fa fa-search"></i>&nbsp;Cari
+                                                </button>
+                                            </span>
+                                        </form>                                     
+                                    </div>
+                                </div>
+                            </div>
+
                         <!-- Table with stripped rows -->
                         <table class="table table-hover table-bordered table-condensed table-striped grid">
                             <thead>

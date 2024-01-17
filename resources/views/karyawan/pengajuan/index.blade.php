@@ -25,6 +25,22 @@
                             <a class="btn btn-primary" href="{{ route('karyawan.pengajuan.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengajuan Surat Tugas</a>
                           </p>
 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group w-100">
+                                        <!-- Search Form -->
+                                        <form action="{{ route('karyawan.pengajuan.index') }}" method="GET" class="form-inline w-100">
+                                            <input name="search" type="search" class="form-control" placeholder="Pencarian" />
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-secondary">
+                                                    <i class="fa fa-search"></i>&nbsp;Cari
+                                                </button>
+                                            </span>
+                                        </form>                                     
+                                    </div>
+                                </div>
+                            </div>
+
                           <!-- Table with stripped rows -->
                           <table class="table table-hover table-bordered table-condensed table-striped grid">
                               <thead>
@@ -90,7 +106,9 @@
                                                 data-nama="{{ $pst->usr_id }}"
                                                 data-namasurat="{{ $pst->pst_namasurattugas }}"
                                                 data-waktupelaksanaan="{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}"
-                                                data-buktipendukung="{{ $pst->pst_buktipendukung }}">
+                                                data-buktipendukung="{{ $pst->pst_buktipendukung }}"
+                                                data-status="{{ $pst->status }}"
+                                                data-surattugas="{{ $pst->surattugas }}"> 
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>
 
@@ -164,6 +182,15 @@
                                 </td>
                             </tr>
 
+                            <tr id="surattugas-row">
+                                <th>Surat Tugas</th>
+                                <td>
+                                    <a id="surattugas-download" href="" class="btn btn-primary btn-download" download>
+                                        <i class="fa fa-download"></i> &nbsp;Download Surat Tugas
+                                    </a>
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -182,21 +209,35 @@
                 var namasurat = $(this).data('namasurat');
                 var waktupelaksanaan = $(this).data('waktupelaksanaan');
                 var buktipendukung = $(this).data('buktipendukung');
+                var surattugas = $(this).data('surattugas');
+                var status = $(this).data('status');
 
-                // Menampilkan data dalam modal
+                // Display data in the modal
                 $('#modal-detail').find('#name').text(nama);
                 $('#modal-detail').find('#jns').text(namasurat);
                 $('#modal-detail').find('#waktu').text(waktupelaksanaan);
-                $('#modal-detail').find('#mahasiswa').text(mhs);
-                // $('#modal-detail').find('#bukti').text(buktipendukung);
 
-                // Memperbarui tautan download dengan URL bukti pendukung
+                // Update the download link for bukti pendukung
                 var buktiDownloadLink = $('#modal-detail').find('#bukti-download');
                 buktiDownloadLink.attr('href', buktipendukung);
 
+                // Update the download link for surattugas based on the status
+                var suratTugasRow = $('#modal-detail').find('#surattugas-row');
+                var suratTugasDownloadLink = $('#modal-detail').find('#surattugas-download');
+                
+                if (status == 4 && surattugas) {
+                    suratTugasDownloadLink.attr('href', surattugas);
+                    suratTugasRow.show(); // Show the row for status 4
+                } else {
+                    suratTugasRow.hide(); // Hide the row for other statuses
+                }
+
+                // Show the modal
                 $('#modal-detail').modal('show');
             });
         });
+
+
     </script>
 </html>
 

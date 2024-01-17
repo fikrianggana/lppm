@@ -28,6 +28,7 @@
 <script src="{{ asset('assets/Scripts/tableToExcel.js') }}"></script>
 <script src="{{ asset('assets/Scripts/aos.js') }}"></script>
 <script src="{{ asset('assets/Scripts/xlsx.full.min.js') }}"></script>
+
 <style>
     .mce-branding-powered-by {
         display: none;

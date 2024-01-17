@@ -41,7 +41,7 @@ class SeminarController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.seminar.index', compact('title'), ['seminar' => $seminar]);
+            return view ('karyawan.publikasi.seminar.index', compact('title'), ['seminar' => $search]);
         } elseif ($usr_role === 'admin') {
             return view ('admin.publikasi.seminar.index', compact('title'), ['seminar' => $search]);
         } else {

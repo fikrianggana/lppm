@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use App\Models\PengajuanSuratTugas;
 use App\Http\Requests\StorePengajuanSuratTugasRequest;
 use App\Http\Requests\UpdatePengajuanSuratTugasRequest;
@@ -17,21 +17,33 @@ class PengajuanSuratTugasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = 'Pengajuan Surat Tugas';
+        $pengajuanSuratTugas = PengajuanSuratTugas::all();
 
+        $query = $request->get('search');
+           
+        $search = PengajuanSuratTugas::where(function ($query) use ($request) {
+            $query->where('pst_namasurattugas', 'like', "%{$request->search}%")
+                  ->orWhere('pst_masapelaksanaan', 'like', "%{$request->search}%")
+                  ->orWhere('pst_buktipendukung', 'like', "%{$request->search}%")
+                  ->orWhere('status', 'like', "%{$request->search}%")
+                  ->orWhere('surattugas', 'like', "%{$request->search}%");
+        })
+        ->get();
+        
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
             // Filter out records with status 3 for karyawan view
-            $pengajuanSuratTugas = PengajuanSuratTugas::all();
-            return view('karyawan.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
+            // $pengajuanSuratTugas = PengajuanSuratTugas::all();
+            return view('karyawan.pengajuan.index', compact('title'), ['pengajuan' => $search]);
         } elseif ($usr_role === 'admin') {
             // Filter out records with status 3 for admin view
-            $pengajuanSuratTugas = PengajuanSuratTugas::where('status', '!=', 3)->get();
-            return view('admin.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
+            // $pengajuanSuratTugas = PengajuanSuratTugas::where('status', '!=', 3)->get();
+            return view('admin.pengajuan.index', compact('title'), ['pengajuan' => $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

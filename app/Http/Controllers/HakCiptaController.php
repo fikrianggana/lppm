@@ -40,7 +40,7 @@ class HakCiptaController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $hakCipta]);
+            return view ('karyawan.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $search]);
         } elseif ($usr_role === 'admin') {
             return view ('admin.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $search]);
         } else {

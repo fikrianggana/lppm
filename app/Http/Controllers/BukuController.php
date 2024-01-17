@@ -34,6 +34,25 @@ class BukuController extends Controller
                   ->orWhere('bku_penerbit', 'like', "%{$request->search}%");
         })
         ->get();
+
+        // Check if search result is empty
+        // if ($search->isEmpty()) {
+        //     session()->flash('info', 'Data tidak ditemukan.');
+        // }
+
+        // Check if search results are empty
+        if ($search->isEmpty()) {
+            // Add SweetAlert script for 'Data Tidak Ditemukan'
+            echo '<script>
+                    Swal.fire({
+                        icon: "info",
+                        title: "Data Tidak Ditemukan",
+                        showConfirmButton: false,
+                        timer: 3000 // Close after 3 seconds
+                    });
+                </script>';
+        }
+
         
         // dd($search);        
 
@@ -41,7 +60,7 @@ class BukuController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.buku.index', compact('title'), ['buku' => $buku]);
+            return view ('karyawan.publikasi.buku.index', compact('title'), ['buku' => $search]);
         } elseif ($usr_role === 'admin') {
             return view ('admin.publikasi.buku.index', compact('title'), ['buku' => $search]);
         } else {

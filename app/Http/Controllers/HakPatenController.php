@@ -41,7 +41,7 @@ class HakPatenController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.hakpaten.index', compact('title'), ['hakpaten' => $hakPaten]);
+            return view ('karyawan.publikasi.hakpaten.index', compact('title'), ['hakpaten' => $search]);
         } elseif ($usr_role === 'admin') {
             return view ('admin.publikasi.hakpaten.index', compact('title'), ['hakpaten' => $search]);
         } else {

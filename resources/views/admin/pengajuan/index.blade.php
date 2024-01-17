@@ -7,24 +7,40 @@
       <section class="section">
           <div class="row">
               <div class="col-lg-12">
-                  <div class="card-title">
-                          <h5> List Pengajuan Surat Tugas</h5>
-                  </div>
-                  <br>
+                    <div class="card-title">
+                            <h5> List Pengajuan Surat Tugas</h5>
+                    </div>
+                    <br>
 
-                          @if (session('success'))
-                              <div class="alert alert-success">{{ session('success')}} </div>
-                          @endif
+                        @if (session('success'))
+                          <div class="alert alert-success">{{ session('success')}} </div>
+                        @endif
 
-                          @if (session('error'))
-                              <div class="alert alert-danger">{{ session('error')}} </div>
-                          @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">{{ session('error')}} </div>
+                        @endif
 
-                          <p>
-                          <a class="btn btn-primary" href="{{ route('admin.pengajuan.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengajuan Surat Tugas</a>
-                          </p>
+                        <p>
+                        <a class="btn btn-primary" href="{{ route('admin.pengajuan.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengajuan Surat Tugas</a>
+                        </p>
 
-                          <!-- Table with stripped rows -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="input-group w-100">
+                                    <!-- Search Form -->
+                                    <form action="{{ route('admin.pengajuan.index') }}" method="GET" class="form-inline w-100">
+                                        <input name="search" type="search" class="form-control" placeholder="Pencarian" />
+                                        <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-secondary">
+                                            <i class="fa fa-search"></i>&nbsp;Cari
+                                        </button>
+                                        </span>
+                                    </form>                                     
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table with stripped rows -->
                         <table class="table table-hover table-bordered table-condensed table-striped grid">
                             <thead>
                                 <tr>
@@ -38,7 +54,7 @@
                             </thead>
                             <tbody>
                                 @forelse ($pengajuan as $index => $pst)
-                                    @if ($pst->status === 1 || $pst->status === 2)
+                                    @if ($pst->status === 1 || $pst->status === 2 || $pst->status === 4)
                                     <tr>
                                         <td class="text-center">{{ $index + 1 }}</td>
                                         <td class="text-center">
@@ -163,6 +179,19 @@
                                                 </div>
                                             </div>
                                             @endif
+
+                                            @if ($pst->status === 4)
+                                            <a href="" id="detail-{{ $pst->pst_id }}" class="btn btn-default detail-button"
+                                                data-toggle="modal" data-target="#modal-detail"
+                                                data-nama="{{ $pst->usr_id }}"
+                                                data-namasurat="{{ $pst->pst_namasurattugas }}"
+                                                data-waktupelaksanaan="{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}"
+                                                data-buktipendukung="{{ $pst->pst_buktipendukung }}"
+                                                data-status="{{ $pst->status }}"
+                                                data-surattugas="{{ $pst->surattugas }}"> 
+                                                <i class="fa fa-list" aria-hidden="true"></i>
+                                            </a>
+                                            @endif
                                         </td>
                                         
                                     </tr>
@@ -182,8 +211,8 @@
         </section>
     </main><!-- End #main -->
 
-    <!-- Untuk memunculkan form modal detail -->
-    <div class="modal fade" id="modal-detail">
+     <!-- Untuk memunculkan form modal detail -->
+     <div class="modal fade" id="modal-detail">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -198,6 +227,7 @@
                 <div class="modal-body table-responsive">
                     <table class="table table-bordered no-margin">
                         <tbody>
+
                             <tr>
                                 <th>Nama Pengaju</th>
                                 <td><span id="name"></span></td>
@@ -219,6 +249,15 @@
                                 </td>
                             </tr>
 
+                            <tr id="surattugas-row">
+                                <th>Surat Tugas</th>
+                                <td>
+                                    <a id="surattugas-download" href="" class="btn btn-primary btn-download" download>
+                                        <i class="fa fa-download"></i> &nbsp;Download Surat Tugas
+                                    </a>
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -235,6 +274,8 @@
             var namasurat = $(this).data('namasurat');
             var waktupelaksanaan = $(this).data('waktupelaksanaan');
             var buktipendukung = $(this).data('buktipendukung');
+            var surattugas = $(this).data('surattugas');
+            var status = $(this).data('status');
 
             // Menampilkan data dalam modal
             $('#modal-detail').find('#name').text(nama);
@@ -246,10 +287,22 @@
             var buktiDownloadLink = $('#modal-detail').find('#bukti-download');
             buktiDownloadLink.attr('href', buktipendukung);
 
+        
+            // Update the download link for surattugas based on the status
+            var suratTugasRow = $('#modal-detail').find('#surattugas-row');
+            var suratTugasDownloadLink = $('#modal-detail').find('#surattugas-download');
+                
+            if (status == 4 && surattugas) {
+                suratTugasDownloadLink.attr('href', surattugas);
+                suratTugasRow.show(); // Show the row for status 4
+            } else {
+                suratTugasRow.hide(); // Hide the row for other statuses
+            }
+
             $('#modal-detail').modal('show');
         });
 
-          // Additional script for downloading the file
+        // Additional script for downloading the file
         $('#bukti-download').on('click', function (e) {
             e.preventDefault();
             var downloadUrl = $(this).attr('href');

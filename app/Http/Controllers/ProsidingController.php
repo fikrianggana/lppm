@@ -41,7 +41,7 @@ class ProsidingController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.prosiding.index', compact('title'), ['prosiding' => $prosiding]);
+            return view ('karyawan.publikasi.prosiding.index', compact('title'), ['prosiding' => $search]);
         } elseif ($usr_role === 'admin') {
             return view ('admin.publikasi.prosiding.index', compact('title'), ['prosiding' => $search]);
         } else {

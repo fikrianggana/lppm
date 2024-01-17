@@ -46,7 +46,7 @@ class JurnalController extends Controller
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
+            return view ('karyawan.publikasi.jurnal.index', compact('title'), ['jurnal' => $search]);
         } elseif ($usr_role === 'admin') {
             return view ('admin.publikasi.jurnal.index', compact('title'), ['jurnal' => $search]);
         } else {
