@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Exports\JurnalExport;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Jurnal;
@@ -17,11 +18,29 @@ class JurnalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title ='Jurnal';
         $jurnal = Jurnal::all();
         // $user = User::pluck('pgn_nama'); // Sesuaikan dengan nama kolom di tabel User
+
+        $query = $request->get('search');
+
+        $search = Jurnal::where(function ($query) use ($request) {
+            $query->where('jrn_judulmakalah', 'like', "%{$request->search}%")
+                ->orWhere('jrn_namajurnal', 'like', "%{$request->search}%")
+                ->orWhere('jrn_namapersonil', 'like', "%{$request->search}%")
+                ->orWhere('jrn_issn', 'like', "%{$request->search}%")
+                ->orWhere('jrn_volume', 'like', "%{$request->search}%")
+                ->orWhere('jrn_nomor', 'like', "%{$request->search}%")
+                ->orWhere('jrn_halamanawal', 'like', "%{$request->search}%")
+                ->orWhere('jrn_halamanakhir', 'like', "%{$request->search}%")
+                ->orWhere('jrn_url', 'like', "%{$request->search}%")
+                ->orWhere('jrn_kategori', 'like', "%{$request->search}%")
+                ->orWhere('usr_id', 'like', "%{$request->search}%");
+        })
+        ->get();
+
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
@@ -29,7 +48,7 @@ class JurnalController extends Controller
         if ($usr_role === 'karyawan') {
             return view ('karyawan.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
+            return view ('admin.publikasi.jurnal.index', compact('title'), ['jurnal' => $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

@@ -50,7 +50,7 @@
                                             <td class="text-center">{{$bk->bku_editor}}</td>
                                             <td class="text-center">{{$bk->bku_isbn}}</td>
                                             <td class="text-center">{{$bk->bku_penerbit}}</td>
-                                            <td class="text-center">{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}</td>
+                                            <td class="text-center">{{$bk->bku_tahun}}</td>
 
                                             <td class="text-center">
                                                 <a href="" id="detail-{{ $bk->bku_id }}" class="btn btn-default detail-button"
@@ -60,7 +60,9 @@
                                                     data-editor="{{ $bk->bku_editor }}"
                                                     data-isbn="{{ $bk->bku_isbn }}"
                                                     data-penerbit="{{ $bk->bku_penerbit }}"
-                                                    data-tahun="{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}">
+                                                    data-tahun="$bk->bku_tahun}}">
+                                                    <!-- data-tahun="{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}" -->
+
 
                                                     <i class="fa fa-list" aria-hidden="true"></i>
                                                 </a>

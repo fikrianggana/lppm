@@ -28,27 +28,27 @@
                             <!-- Search Form and Export Excel Button -->
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="input-group">
+                                    <div class="input-group w-100">
                                         <!-- Search Form -->
                                         <form action="{{ route('admin.publikasi.buku.index') }}" method="GET" class="form-inline w-100">
-                                            <div class="input-group">
-                                                <input name="search" type="search" class="form-control w-100" placeholder="Pencarian" />
-                                                <div class="input-group-btn">
-                                                    <button type="submit" class="btn btn-secondary">
-                                                        <i class="fa fa-search"></i>&nbsp;Cari
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            <input name="search" type="search" class="form-control" placeholder="Pencarian" />
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-secondary">
+                                                    <i class="fa fa-search"></i>&nbsp;Cari
+                                                </button>
+                                            </span>
+                                        </form>
 
-                                            <!-- Export Excel Button -->
+                                        <!-- Export Excel Button -->
+                                        <div class="text-right">
                                             <a class="btn btn-success" href="{{ route('admin.publikasi.buku.export') }}">
-                                                <i class="fa fa-download" aria-hidden="true"></i>&nbsp;Export Data
+                                                <i class="fa fa-download" aria-hidden="true"></i>&nbsp;Unduh Excel
                                             </a>
-                                        </form>                                     
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
+                            <br>
 
                           <!-- Table with stripped rows -->
                             <table class="table table-hover table-bordered table-condensed table-striped grid">
@@ -75,7 +75,7 @@
                                         <td class="text-center">{{$bk->bku_editor}}</td>
                                         <td class="text-center">{{$bk->bku_isbn}}</td>
                                         <td class="text-center">{{$bk->bku_penerbit}}</td>
-                                        <td class="text-center">{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}</td>
+                                        <td class="text-center">{{$bk->bku_tahun}}</td>
 
                                         <td class="text-center">
 
@@ -89,12 +89,12 @@
                                                 class="btn btn-danger"
                                                 onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $bk->bku_id }}').submit(); }">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </a>
+                                             </a>
 
-                                                <form id="delete-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
+                                            <form id="delete-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
 
 
                                             <a href="" id="detail-{{ $bk->bku_id }}" class="btn btn-primary detail-button"
@@ -104,7 +104,7 @@
                                                 data-editor="{{ $bk->bku_editor }}"
                                                 data-isbn="{{ $bk->bku_isbn }}"
                                                 data-penerbit="{{ $bk->bku_penerbit }}"
-                                                data-tahun="{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}">
+                                                data-tahun="{{$bk->bku_tahun}}">
 
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>

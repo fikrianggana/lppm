@@ -24,7 +24,18 @@ class BukuController extends Controller
         $buku = Buku::all();
 
         $query = $request->get('search');
-        $search = Buku::where('bku_tahun', 'like', "%$query%")->get();
+           
+        $search = Buku::where(function ($query) use ($request) {
+            $query->where('bku_tahun', 'like', "%{$request->search}%")
+                  ->orWhere('bku_judul', 'like', "%{$request->search}%")
+                  ->orWhere('bku_penulis', 'like', "%{$request->search}%")
+                  ->orWhere('bku_editor', 'like', "%{$request->search}%")
+                  ->orWhere('bku_isbn', 'like', "%{$request->search}%")
+                  ->orWhere('bku_penerbit', 'like', "%{$request->search}%");
+        })
+        ->get();
+        
+        // dd($search);        
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
@@ -32,7 +43,7 @@ class BukuController extends Controller
         if ($usr_role === 'karyawan') {
             return view ('karyawan.publikasi.buku.index', compact('title'), ['buku' => $buku]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.buku.index', compact('title'), ['buku' => $buku, $search]);
+            return view ('admin.publikasi.buku.index', compact('title'), ['buku' => $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

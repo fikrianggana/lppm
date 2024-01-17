@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Exports\ProsidingExport;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Prosiding;
@@ -17,10 +18,24 @@ class ProsidingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = 'Prosiding';
         $prosiding = Prosiding::all();
+
+        $query = $request->get('search');
+           
+        $search = Prosiding::where(function ($query) use ($request) {
+            $query->where('pro_namapenulis', 'like', "%{$request->search}%")
+                  ->orWhere('pro_judulprogram', 'like', "%{$request->search}%")
+                  ->orWhere('pro_judulpaper', 'like', "%{$request->search}%")
+                  ->orWhere('pro_kategori', 'like', "%{$request->search}%")
+                  ->orWhere('pro_penyelenggara', 'like', "%{$request->search}%")
+                  ->orWhere('pro_waktuterbit', 'like', "%{$request->search}%")
+                  ->orWhere('pro_tempatpelaksanaan', 'like', "%{$request->search}%")
+                  ->orWhere('pro_keterangan', 'like', "%{$request->search}%");
+        })
+        ->get();
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
@@ -28,7 +43,7 @@ class ProsidingController extends Controller
         if ($usr_role === 'karyawan') {
             return view ('karyawan.publikasi.prosiding.index', compact('title'), ['prosiding' => $prosiding]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.prosiding.index', compact('title'), ['prosiding' => $prosiding]);
+            return view ('admin.publikasi.prosiding.index', compact('title'), ['prosiding' => $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

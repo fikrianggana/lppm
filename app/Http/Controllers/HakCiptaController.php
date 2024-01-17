@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Exports\HakCiptaExport;
 use Illuminate\Support\Facades\Auth;
 use App\Models\HakCipta;
@@ -18,11 +19,22 @@ class HakCiptaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title= 'Hak Cipta';
 
         $hakCipta = HakCipta::all();
+
+        $query = $request->get('search');
+        $search = HakCipta::where(function ($query) use ($request) {
+            $query->where('hcp_namalengkap', 'like', "%{$request->search}%")
+                ->orWhere('hcp_judul', 'like', "%{$request->search}%")
+                ->orWhere('hcp_noapk', 'like', "%{$request->search}%")
+                ->orWhere('hcp_sertifikat', 'like', "%{$request->search}%")
+                ->orWhere('hcp_keterangan', 'like', "%{$request->search}%");
+        })
+        ->get();
+
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
@@ -30,7 +42,7 @@ class HakCiptaController extends Controller
         if ($usr_role === 'karyawan') {
             return view ('karyawan.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $hakCipta]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $hakCipta]);
+            return view ('admin.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

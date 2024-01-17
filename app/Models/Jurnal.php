@@ -36,7 +36,6 @@ class Jurnal extends Model
         'jrn_url',
         'jrn_kategori',
         'usr_id',
-        'jrn_atribut',
     ];
 
     public function user()

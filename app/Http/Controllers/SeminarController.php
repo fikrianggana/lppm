@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Exports\SeminarExport;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Seminar;
@@ -17,20 +18,32 @@ class SeminarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
         $title= 'Seminar';
 
         $seminar = Seminar::all();
         // $user = User::pluck('usr_nama'); // Sesuaikan dengan nama kolom di tabel User
 
+        $query = $request->get('search');
+           
+        $search = Seminar::where(function ($query) use ($request) {
+            $query->where('smn_namapenulis', 'like', "%{$request->search}%")
+                  ->orWhere('smn_kategori', 'like', "%{$request->search}%")
+                  ->orWhere('smn_penyelenggara', 'like', "%{$request->search}%")
+                  ->orWhere('smn_waktu', 'like', "%{$request->search}%")
+                  ->orWhere('smn_tempatpelaksaan', 'like', "%{$request->search}%")
+                  ->orWhere('smn_keterangan', 'like', "%{$request->search}%");
+        })
+        ->get();
+        
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
             return view ('karyawan.publikasi.seminar.index', compact('title'), ['seminar' => $seminar]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.seminar.index', compact('title'), ['seminar' => $seminar]);
+            return view ('admin.publikasi.seminar.index', compact('title'), ['seminar' => $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
