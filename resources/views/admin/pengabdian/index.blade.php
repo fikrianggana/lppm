@@ -25,6 +25,29 @@
                           <a class="btn btn-primary" href="{{ route('admin.pengabdian.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengabdian Masyakarat</a>
                           </p>
 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group w-100">
+                                        <!-- Search Form -->
+                                        <form action="{{ route('admin.pengabdian.index') }}" method="GET" class="form-inline w-100">
+                                            <input name="search" type="search" class="form-control" placeholder="Pencarian" />
+                                            <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-secondary">
+                                                <i class="fa fa-search"></i>&nbsp;Cari
+                                            </button>
+                                            </span>
+                                        </form>      
+                                        
+                                        <!-- Export Excel Button -->
+                                        <div class="text-right">
+                                            <a class="btn btn-success" href="{{ route('admin.pengabdian.export') }}">
+                                                <i class="fa fa-download" aria-hidden="true"></i>&nbsp;Unduh Excel
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                           <!-- Table with stripped rows -->
                             <table class="table table-hover table-bordered table-condensed table-striped grid">
                                 <thead>

@@ -35,7 +35,14 @@
                                             <i class="fa fa-search"></i>&nbsp;Cari
                                         </button>
                                         </span>
-                                    </form>                                     
+                                    </form>      
+                                    
+                                    <!-- Export Excel Button -->
+                                    <div class="text-right">
+                                        <a class="btn btn-success" href="{{ route('admin.pengajuan.export') }}">
+                                            <i class="fa fa-download" aria-hidden="true"></i>&nbsp;Unduh Excel
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +104,7 @@
 
                                             <!-- Reject Button -->
                                             <a href="#" class="btn btn-danger reject-button" data-toggle="modal" data-target="#modal-reject" data-pstid="{{ $pst->pst_id }}">
-                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                <i class="fa fa-times" aria-hidden="true"></i>
                                             </a>
 
                                             <!-- Rejection Modal -->
@@ -281,17 +288,15 @@
             $('#modal-detail').find('#name').text(nama);
             $('#modal-detail').find('#jns').text(namasurat);
             $('#modal-detail').find('#waktu').text(waktupelaksanaan);
-            // $('#modal-detail').find('#bukti').text(buktipendukung);
-
+                
             // Memperbarui tautan download dengan URL bukti pendukung
             var buktiDownloadLink = $('#modal-detail').find('#bukti-download');
             buktiDownloadLink.attr('href', buktipendukung);
-
-        
+            
             // Update the download link for surattugas based on the status
             var suratTugasRow = $('#modal-detail').find('#surattugas-row');
             var suratTugasDownloadLink = $('#modal-detail').find('#surattugas-download');
-                
+                    
             if (status == 4 && surattugas) {
                 suratTugasDownloadLink.attr('href', surattugas);
                 suratTugasRow.show(); // Show the row for status 4
@@ -324,6 +329,7 @@
 
 <script>
     $(document).ready(function() {
+        // CONFIRM SURAT TUGAS
         $('.confirm-button').on('click', function() {
             var pstId = $(this).data('pstid');
             var confirmUrl = '{{ route("admin.pengajuan.confirm", ["pst_id" => ":pst_id"]) }}'.replace(':pst_id', pstId);

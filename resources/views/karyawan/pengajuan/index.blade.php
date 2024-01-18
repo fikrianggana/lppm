@@ -88,15 +88,15 @@
                                                 {{$pst->keterangan}}
                                             @endif
                                         </td>
+                                        <!-- ... Bagian HTML lainnya ... -->
+
                                         <td class="text-center">
-                                        
                                             @if ($pst->status === 0)
-                                                <a href="{{ route('karyawan.pengajuan.kirim', $pst->pst_id) }}" class="btn btn-default detail-button">  <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                                                </a>
+                                                <a href="{{ route('karyawan.pengajuan.kirim', $pst->pst_id) }}" class="btn btn-default">  <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
                                             @endif
 
                                             @if ($pst->status === 0)
-                                                <a href="{{ route('karyawan.pengajuan.edit', ['pst_id' => $pst->pst_id]) }}" class="btn btn-default detail-button">
+                                                <a href="{{ route('karyawan.pengajuan.edit', ['pst_id' => $pst->pst_id]) }}" class="btn btn-default">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                             @endif
@@ -108,14 +108,14 @@
                                                 data-waktupelaksanaan="{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}"
                                                 data-buktipendukung="{{ $pst->pst_buktipendukung }}"
                                                 data-status="{{ $pst->status }}"
-                                                data-surattugas="{{ $pst->surattugas }}"> 
+                                                data-surattugas="{{ $pst->surattugas }}">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>
 
                                             <!-- Delete Button -->
                                             @if($pst->status == 0)
                                                 <a href="{{ route('karyawan.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}"
-                                                class="btn btn-default detail-button"
+                                                class="btn btn-default"
                                                 onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pst->pst_id }}').submit(); }">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </a>
@@ -197,8 +197,6 @@
             </div>
         </div>
     </div>
-</main><!-- End #main -->
-
 </body>
 
     <!-- script untuk mengambil data dan memunculkan kedalam modal detail -->

@@ -26,9 +26,9 @@ use App\Models\PengajuanSuratTugas;
 |
 */
 
-Route::get('/', [LoginController::class, 'index']);
-Route::post('/login', [LoginController::class, 'login'])->name('login');
-Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
+    Route::get('/', [LoginController::class, 'index']);
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
+    Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
 
     Route::middleware(['auth', 'userAccess:admin'])->group(function () {
         // Rute khusus untuk admin
@@ -41,8 +41,9 @@ Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
         Route::get('pengabdian/{pkm_id}/edit', [PengabdianMasyarakatController::class, 'edit'])->name('admin.pengabdian.edit');
         Route::get('pengabdian/{pkm_id}', [PengabdianMasyarakatController::class, 'update'])->name('admin.pengabdian.update');
         Route::delete('pengabdian/{pkm_id}', [PengabdianMasyarakatController::class, 'destroy'])->name('admin.pengabdian.destroy');
+        Route::get('pengabdian/pengabdianexport', [PengabdianMasyarakatController::class, 'pengabdianexport'])->name('admin.pengabdian.export');
 
-        //Pengajuan
+        //Pengajuan surat Tugas
         Route::get('pengajuan',[PengajuanSuratTugasController::class,'index'])->name('admin.pengajuan.index');
         Route::get('pengajuan/create', [PengajuanSuratTugasController::class, 'create'])->name('admin.pengajuan.create');
         Route::post('pengajuan', [PengajuanSuratTugasController::class, 'store'])->name('admin.pengajuan.store');
@@ -52,6 +53,8 @@ Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
         Route::get('pengajuan/{pst_id}/confirm', [PengajuanSuratTugasController::class, 'confirm'])->name('admin.pengajuan.confirm');
         Route::post('pengajuan/{pst_id}/reject', [PengajuanSuratTugasController::class, 'reject'])->name('admin.pengajuan.reject');
         Route::post('pengajuan/{pst_id}/kirimSurat', [PengajuanSuratTugasController::class, 'kirimSuratTugas'])->name('admin.pengajuan.kirim');
+        Route::get('pengajuan/surattugasexport', [PengajuanSuratTugasController::class, 'surattugasexport'])->name('admin.pengajuan.export');
+
 
         //Buku
         Route::get('buku',[BukuController::class,'index'])->name('admin.publikasi.buku.index');

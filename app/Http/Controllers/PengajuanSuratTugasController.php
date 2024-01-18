@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SuratTugasExport;
 use Illuminate\Http\Request;
 use App\Models\PengajuanSuratTugas;
 use App\Http\Requests\StorePengajuanSuratTugasRequest;
@@ -9,6 +10,7 @@ use App\Http\Requests\UpdatePengajuanSuratTugasRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+
 
 class PengajuanSuratTugasController extends Controller
 {
@@ -273,22 +275,6 @@ class PengajuanSuratTugasController extends Controller
         }
     }
 
-    // public function kirimSuratTugas($pst_id)
-    // {
-    //     // Logika pengiriman surat tugas ke karyawan
-    //     $pengajuan = PengajuanSuratTugas::findOrFail($pst_id);
-
-    //     // Misalnya, Anda dapat memperbarui status_pengiriman di database
-    //     if ($pengajuan->status == 1) {
-    //         // Change the status to "Rejected"
-    //         $pengajuan->update(['status' => 4, 'surattugas' => request('surattugas')]);
-
-    //     return redirect()->route('admin.pengajuan.index')->with('success', 'Surat Tugas berhasil dikirim.');
-    //     } else {
-    //         return redirect()->route('admin.pengajuan.index')->with('error', 'Surat Tugas Tidak berhasil dikirim.');
-    //     }
-    // }
-
     public function kirimSuratTugas($pst_id)
     {
         try {
@@ -312,5 +298,9 @@ class PengajuanSuratTugasController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error mengirim Surat Tugas: ' . $e->getMessage()], 500);
         }
+    }
+
+    public function surattugasexport(){
+        return Excel::download(new SuratTugasExport, 'Laporan_Surat_Tugas.xlsx');
     }
 }

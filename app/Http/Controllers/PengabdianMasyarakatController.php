@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PengabdianExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PengabdianMasyarakat;
@@ -10,6 +11,7 @@ use App\Models\User;
 use App\Http\Requests\StorePengabdianMasyarakatRequest;
 use App\Http\Requests\UpdatePengabdianMasyarakatRequest;
 use Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PengabdianMasyarakatController extends Controller
 {
@@ -25,13 +27,25 @@ class PengabdianMasyarakatController extends Controller
         $prodis = Prodi::pluck('prd_nama');
         $user = User::pluck('usr_nama');
 
+        $query = $request->get('search');
+        $search = PengabdianMasyarakat::where(function ($query) use ($request) {
+            $query->where('pkm_namakegiatan', 'like', "%{$request->search}%")
+                ->orWhere('pkm_jenis', 'like', "%{$request->search}%")
+                ->orWhere('pkm_waktupelaksanaan', 'like', "%{$request->search}%")
+                ->orWhere('pkm_personilterlibat', 'like', "%{$request->search}%")
+                ->orWhere('pkm_jumlahpenerimamanfaat', 'like', "%{$request->search}%")
+                ->orWhere('pkm_buktipendukung', 'like', "%{$request->search}%")
+                ->orWhere('pkm_mahasiswa', 'like', "%{$request->search}%");
+        })
+        ->get();
+
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
-            return view('karyawan.pengabdian.index', compact('title'),['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
+            return view('karyawan.pengabdian.index', compact('title'),['pengabdian' => $search, 'prodis' => $prodis, 'users' => $user]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.pengabdian.index', compact('title'),['pengabdian' => $pengabdianMasyarakat, 'prodis' => $prodis, 'users' => $user]);
+            return view('admin.pengabdian.index', compact('title'),['pengabdian' => $search, 'prodis' => $prodis, 'users' => $user]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -163,28 +177,8 @@ class PengabdianMasyarakatController extends Controller
         }
     }
 
-    // public function search(Request $request)
-    // {
-    //     $usr_role = Auth::user()->usr_role;
-
-    //     // Check if the user has admin role
-    //     if ($usr_role === 'admin') {
-    //         if ($request->has('search')) {
-
-    //             $searchTerm = $request->search;
-    //             // Perform the search based on the provided term
-    //             $pengabdianMasyarakat = PengabdianMasyarakat::where('pkm_namakegiatan', 'LIKE', '%' . $searchTerm . '%')->get();
-    //         }
-    
-    //         $prodis = Prodi::pluck('prd_nama');
-    //         $user = User::pluck('usr_nama');
-    
-    //         // Return the view with the search results
-    //         return view('admin.pengabdian.index', ['pengabdian' => $pengabdianMasyarakat ?? [], 'prodis' => $prodis, 'users' => $user]);
-    //     } else {
-    //         // Handle unauthorized access for non-admin users
-    //         return abort(403, 'Unauthorized action.');
-    //     }
-    // }
+    public function pengabdianexport(){
+        return Excel::download(new PengabdianExport, 'Laporan_Pengabdian_Masyarakat.xlsx');
+    }
 
 }
