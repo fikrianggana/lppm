@@ -39,21 +39,7 @@ class BukuController extends Controller
         // if ($search->isEmpty()) {
         //     session()->flash('info', 'Data tidak ditemukan.');
         // }
-
-        // Check if search results are empty
-        if ($search->isEmpty()) {
-            // Add SweetAlert script for 'Data Tidak Ditemukan'
-            echo '<script>
-                    Swal.fire({
-                        icon: "info",
-                        title: "Data Tidak Ditemukan",
-                        showConfirmButton: false,
-                        timer: 3000 // Close after 3 seconds
-                    });
-                </script>';
-        }
-
-        
+      
         // dd($search);        
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
@@ -185,7 +171,10 @@ class BukuController extends Controller
             return redirect()->back()->with('error', 'Error deleting book: ' . $e->getMessage());
         }
     }
-    public function bukuexport(){
-        return Excel::download(new BukuExport, 'Buku.xlsx');
+    
+    public function bukuexport(Request $request){
+        $search = $request->get('search');
+        return Excel::download(new BukuExport($search), 'Buku.xlsx');
     }
+    
 }

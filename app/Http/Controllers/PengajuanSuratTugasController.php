@@ -300,7 +300,16 @@ class PengajuanSuratTugasController extends Controller
         }
     }
 
-    public function surattugasexport(){
-        return Excel::download(new SuratTugasExport, 'Laporan_Surat_Tugas.xlsx');
+    public function surattugasexport(Request $request)
+    {
+        // Get the search query from the request
+        $searchQuery = $request->get('search');
+
+        // Create an instance of SuratTugasExport with the search query
+        $export = new SuratTugasExport($searchQuery);
+
+        // Download the Excel file
+        return Excel::download($export, 'Laporan_Surat_Tugas.xlsx');
     }
+
 }

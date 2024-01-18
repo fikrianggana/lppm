@@ -11,15 +11,30 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SuratTugasExport implements FromCollection, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
+class SuratTugasExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
 {
+    protected $searchQuery;
+
+    public function __construct($searchQuery)
+    {
+        $this->searchQuery = $searchQuery;
+    }
+
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        // Filter data berdasarkan status 4
-        $data = PengajuanSuratTugas::where('status', 4)->get();
+        // Filter data based on the search query
+        $data = PengajuanSuratTugas::where('status', 4)
+            ->where(function ($query) {
+                $query->where('pst_namasurattugas', 'like', "%{$this->searchQuery}%")
+                      ->orWhere('pst_masapelaksanaan', 'like', "%{$this->searchQuery}%")
+                      ->orWhere('pst_buktipendukung', 'like', "%{$this->searchQuery}%")
+                      ->orWhere('status', 'like', "%{$this->searchQuery}%")
+                      ->orWhere('surattugas', 'like', "%{$this->searchQuery}%");
+            })
+            ->get();
 
         return $data;
     }
@@ -49,21 +64,6 @@ class SuratTugasExport implements FromCollection, WithHeadings, WithMapping, Wit
             'Masa Pelaksanaan',
             'Bukti Pendukung',
             'Surat Tugas',
-        ];
-    }
-
-    /**
-     * @param Worksheet $sheet
-     * @return array
-     */
-    public function styles(Worksheet $sheet)
-    {
-        return [
-            'A' => ['width' => 20],
-            'B' => ['width' => 30],
-            'C' => ['width' => 20],
-            'D' => ['width' => 100],
-            'E' => ['width' => 100],
         ];
     }
 }
