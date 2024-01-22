@@ -32,17 +32,25 @@ class HakCiptaController extends Controller
                 ->orWhere('hcp_noapk', 'like', "%{$request->search}%")
                 ->orWhere('hcp_sertifikat', 'like', "%{$request->search}%")
                 ->orWhere('hcp_keterangan', 'like', "%{$request->search}%");
-        })
-        ->get();
+        });
+        // ->get();
+        // $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
+        $user = Auth::user();
+        $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
+        $usr_id = $user->usr_id;
 
-        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+        if ($usr_role === 'karyawan') {
+            $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
+        }
+
+        $hakCipta = $search->get();
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $search]);
+            return view ('karyawan.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $hakCipta]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $search]);
+            return view ('admin.publikasi.hakcipta.index', compact('title'), ['hakcipta' => $hakCipta]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

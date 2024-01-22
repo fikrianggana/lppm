@@ -39,16 +39,26 @@ class JurnalController extends Controller
                 ->orWhere('jrn_kategori', 'like', "%{$request->search}%")
                 ->orWhere('usr_id', 'like', "%{$request->search}%");
         })
-        ->get();
+        ;
 
+        $user = Auth::user();
+        $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
+        $usr_id = $user->usr_id;
 
-        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+        if ($usr_role === 'karyawan') {
+            $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
+        }
+
+        $jurnal = $search->get();
+        // ->get();
+
+        // $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.jurnal.index', compact('title'), ['jurnal' => $search]);
+            return view ('karyawan.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.jurnal.index', compact('title'), ['jurnal' => $search]);
+            return view ('admin.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

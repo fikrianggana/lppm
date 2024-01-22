@@ -46,17 +46,28 @@ class PengaduanController extends Controller
                 ->orWhere('status', 'like', "%{$request->search}%")
                 ->orWhere('keterangan', 'like', "%{$request->search}%");
         })
-        ->get();
+        ;
 
-        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+        $user = Auth::user();
+        $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
+        $usr_id = $user->usr_id;
+
+        if ($usr_role === 'karyawan') {
+            $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
+        }
+
+        $pengaduan = $search->get();
+        // ->get();
+
+        // $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
             // Filter out records with status 3 for karyawan view
             // $pengajuanSuratTugas = PengajuanSuratTugas::all();
-            return view('karyawan.pengaduan.index', compact('title'), ['pengaduan' => $search]);
+            return view('karyawan.pengaduan.index', compact('title'), ['pengaduan' => $pengaduan]);
         } elseif ($usr_role === 'admin') {
-            return view('admin.pengaduan.index', compact('title'), ['pengaduan' => $search]);
+            return view('admin.pengaduan.index', compact('title'), ['pengaduan' => $pengaduan]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');

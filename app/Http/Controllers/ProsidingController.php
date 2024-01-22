@@ -34,16 +34,26 @@ class ProsidingController extends Controller
                   ->orWhere('pro_waktuterbit', 'like', "%{$request->search}%")
                   ->orWhere('pro_tempatpelaksanaan', 'like', "%{$request->search}%")
                   ->orWhere('pro_keterangan', 'like', "%{$request->search}%");
-        })
-        ->get();
+        });
 
-        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+        $user = Auth::user();
+        $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
+        $usr_id = $user->usr_id;
+
+        if ($usr_role === 'karyawan') {
+            $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
+        }
+
+        $prosiding = $search->get();
+        // ->get();
+
+        // $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.prosiding.index', compact('title'), ['prosiding' => $search]);
+            return view ('karyawan.publikasi.prosiding.index', compact('title'), ['prosiding' => $prosiding]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.prosiding.index', compact('title'), ['prosiding' => $search]);
+            return view ('admin.publikasi.prosiding.index', compact('title'), ['prosiding' => $prosiding]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
