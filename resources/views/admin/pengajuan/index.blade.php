@@ -35,8 +35,8 @@
                                             <i class="fa fa-search"></i>&nbsp;Cari
                                         </button>
                                         </span>
-                                    </form>      
-                                    
+                                    </form>
+
                                     <!-- Export Excel Button -->
                                     <div class="text-right">
                                         <a class="btn btn-success" href="{{ route('admin.pengajuan.export', ['search' => request('search')]) }}">
@@ -55,7 +55,6 @@
                                     <th class="text-center">Nama Pengajuan</th>
                                     <th class="text-center">Nama Surat Tugas</th>
                                     <th class="text-center">Masa Pelaksanaan</th>
-                                    <!-- <th>Bukti Pendukung</th> -->
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -73,7 +72,7 @@
                                         <td class="text-center">{{$pst->pst_namasurattugas}}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
                                         <!-- <td>{{$pst->pst_buktipendukung}}</td> -->
-                                        
+
                                         <td class="text-center">
                                             @if ($pst->status === 1)
                                             <!-- Confirm Button -->
@@ -146,10 +145,10 @@
                                                 data-waktupelaksanaan="{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}"
                                                 data-buktipendukung="{{ $pst->pst_buktipendukung }}">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
-                                            </a>    
-                                        
+                                            </a>
+
                                             @endif
-    
+
                                             @if ($pst->status === 2)
                                                 <!-- Tampilkan tombol kirim hanya jika status pengiriman sudah diterima -->
                                                 <a href="#" data-toggle="modal" data-target="#modal-feedback" data-pstid="{{ $pst->pst_id }}" class="btn btn-info feedback-button">
@@ -171,7 +170,7 @@
                                                                 <div class="form-group row">
                                                                     <label for="surattugas" class="col-sm-2 col-form-label">Surat Tugas <span style="color: red;">*</span></label>
                                                                     </br>
-                                                                    
+
                                                                     <div class="col-sm-12">
                                                                         <input type="file" class="form-control" name="surattugas" id="surattugas" required>
                                                                     </div>
@@ -195,12 +194,12 @@
                                                 data-waktupelaksanaan="{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}"
                                                 data-buktipendukung="{{ $pst->pst_buktipendukung }}"
                                                 data-status="{{ $pst->status }}"
-                                                data-surattugas="{{ $pst->surattugas }}"> 
+                                                data-surattugas="{{ $pst->surattugas }}">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>
                                             @endif
                                         </td>
-                                        
+
                                     </tr>
                                     @endif
                                 @empty
@@ -288,15 +287,15 @@
             $('#modal-detail').find('#name').text(nama);
             $('#modal-detail').find('#jns').text(namasurat);
             $('#modal-detail').find('#waktu').text(waktupelaksanaan);
-                
+
             // Memperbarui tautan download dengan URL bukti pendukung
             var buktiDownloadLink = $('#modal-detail').find('#bukti-download');
             buktiDownloadLink.attr('href', buktipendukung);
-            
+
             // Update the download link for surattugas based on the status
             var suratTugasRow = $('#modal-detail').find('#surattugas-row');
             var suratTugasDownloadLink = $('#modal-detail').find('#surattugas-download');
-                    
+
             if (status == 4 && surattugas) {
                 suratTugasDownloadLink.attr('href', surattugas);
                 suratTugasRow.show(); // Show the row for status 4
@@ -311,7 +310,7 @@
         $('#bukti-download').on('click', function (e) {
             e.preventDefault();
             var downloadUrl = $(this).attr('href');
-            
+
             // Use fetch API for downloading
             fetch(downloadUrl)
             .then(response => response.blob())
@@ -361,7 +360,7 @@
         });
 
 
-        // KIRIM SURAT TUGAS 
+        // KIRIM SURAT TUGAS
         $('.feedback-button').on('click', function() {
             var pstId = $(this).data('pstid');
             var feedbackUrl = '{{ route("admin.pengajuan.kirim", ["pst_id" => ":pst_id"]) }}'.replace(':pst_id', pstId);
