@@ -19,41 +19,40 @@ class BukuController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        $title = 'Buku';
-        $buku = Buku::all();
+{
+    $title = 'Buku';
+    $buku = Buku::all();
 
-        $query = $request->get('search');
-           
-        $search = Buku::where(function ($query) use ($request) {
-            $query->where('bku_tahun', 'like', "%{$request->search}%")
-                  ->orWhere('bku_judul', 'like', "%{$request->search}%")
-                  ->orWhere('bku_penulis', 'like', "%{$request->search}%")
-                  ->orWhere('bku_editor', 'like', "%{$request->search}%")
-                  ->orWhere('bku_isbn', 'like', "%{$request->search}%")
-                  ->orWhere('bku_penerbit', 'like', "%{$request->search}%");
-        })
-        ->get();
+    $query = $request->get('search');
 
-        // Check if search result is empty
-        // if ($search->isEmpty()) {
-        //     session()->flash('info', 'Data tidak ditemukan.');
-        // }
-      
-        // dd($search);        
+    $search = Buku::where(function ($query) use ($request) {
+        $query->where('bku_tahun', 'like', "%{$request->search}%")
+            ->orWhere('bku_judul', 'like', "%{$request->search}%")
+            ->orWhere('bku_penulis', 'like', "%{$request->search}%")
+            ->orWhere('bku_editor', 'like', "%{$request->search}%")
+            ->orWhere('bku_isbn', 'like', "%{$request->search}%")
+            ->orWhere('bku_penerbit', 'like', "%{$request->search}%");
+    });
 
-        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+    $user = Auth::user();
+    $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
+    $usr_id = $user->usr_id;
 
-        // Tentukan view berdasarkan peran pengguna
-        if ($usr_role === 'karyawan') {
-            return view ('karyawan.publikasi.buku.index', compact('title'), ['buku' => $search]);
-        } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.buku.index', compact('title'), ['buku' => $search]);
-        } else {
-            // Handle jika peran tidak teridentifikasi
-            return abort(403, 'Unauthorized action.');
-        }
+    if ($usr_role === 'karyawan') {
+        $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
     }
+
+    $buku = $search->get();
+
+    if ($usr_role === 'karyawan') {
+        return view('karyawan.publikasi.buku.index', compact('title', 'buku'));
+    } elseif ($usr_role === 'admin') {
+        return view('admin.publikasi.buku.index', compact('title', 'buku'));
+    } else {
+        // Handle jika peran tidak teridentifikasi
+        return abort(403, 'Unauthorized action.');
+    }
+}
 
     /**
      * Show the form for creating a new resource.

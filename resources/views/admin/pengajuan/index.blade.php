@@ -20,9 +20,9 @@
                             <div class="alert alert-danger">{{ session('error')}} </div>
                         @endif
 
-                        <p>
+                        <!-- <p>
                         <a class="btn btn-primary" href="{{ route('admin.pengajuan.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengajuan Surat Tugas</a>
-                        </p>
+                        </p> -->
 
                         <div class="row">
                             <div class="col-lg-12">

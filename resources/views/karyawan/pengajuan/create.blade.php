@@ -74,7 +74,7 @@
 
 @endsection
 
-public function getData(Request $request)
+<!-- public function getData(Request $request)
     {
         $id = $request->input('usr_id');
         $pengaduan = $request->input('pengaduan');
@@ -105,4 +105,4 @@ public function getData(Request $request)
 
             return response()->json($data);
         }
-    }
+    } -->

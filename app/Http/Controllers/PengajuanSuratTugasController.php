@@ -32,20 +32,27 @@ class PengajuanSuratTugasController extends Controller
                   ->orWhere('pst_buktipendukung', 'like', "%{$request->search}%")
                   ->orWhere('status', 'like', "%{$request->search}%")
                   ->orWhere('surattugas', 'like', "%{$request->search}%");
-        })
-        ->get();
+        });
 
-        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
-
+        $user = Auth::user();
+        $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
+        $usr_id = $user->usr_id;
+    
+        if ($usr_role === 'karyawan') {
+            $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
+        }
+    
+        $pengajuanSuratTugas = $search->get();
+        
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
             // Filter out records with status 3 for karyawan view
             // $pengajuanSuratTugas = PengajuanSuratTugas::all();
-            return view('karyawan.pengajuan.index', compact('title'), ['pengajuan' => $search]);
+            return view('karyawan.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
         } elseif ($usr_role === 'admin') {
             // Filter out records with status 3 for admin view
             // $pengajuanSuratTugas = PengajuanSuratTugas::where('status', '!=', 3)->get();
-            return view('admin.pengajuan.index', compact('title'), ['pengajuan' => $search]);
+            return view('admin.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -302,10 +309,10 @@ class PengajuanSuratTugasController extends Controller
 
     public function surattugasexport(Request $request)
     {
-        // Get the search query from the request
+        // search query dari request
         $searchQuery = $request->get('search');
 
-        // Create an instance of SuratTugasExport with the search query
+        // buat instansiasi dari search query
         $export = new SuratTugasExport($searchQuery);
 
         // Download the Excel file

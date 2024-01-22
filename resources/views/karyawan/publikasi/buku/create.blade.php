@@ -76,7 +76,7 @@
                                 </div>
                                 <br>
                                 <div class="col-12">
-                                    <label class="form-label">Pengguna</label>
+                                    <!-- <label class="form-label">Pengguna</label>
                                     <select name="usr_id" class="form-control" >
                                         <opton value="">-- Pengguna --</opton>
                                         @foreach ($users as $usr => $usr_nama)
@@ -84,7 +84,8 @@
                                                 {{ $usr_nama }}
                                             </option>
                                         @endforeach
-                                    </select>
+                                    </select> -->
+                                    <input type="hidden" name="usr_id" value="{{ Auth::user()->usr_id }}">
                                 </div>
                                 <br>
                                 </div>

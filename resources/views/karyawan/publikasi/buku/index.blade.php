@@ -83,7 +83,7 @@
                                                     data-editor="{{ $bk->bku_editor }}"
                                                     data-isbn="{{ $bk->bku_isbn }}"
                                                     data-penerbit="{{ $bk->bku_penerbit }}"
-                                                    data-tahun="$bk->bku_tahun}}">
+                                                    data-tahun="{{$bk->bku_tahun}}">
                                                     <!-- data-tahun="{{ \Carbon\Carbon::parse($bk->bku_tahun)->format('Y') }}" -->
 
 
