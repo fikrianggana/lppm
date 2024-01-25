@@ -52,7 +52,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th class="text-center">Nama Pengajuan</th>
+                                    <th class="text-center">Nama Pengaju</th>
                                     <th class="text-center">Nama Surat Tugas</th>
                                     <th class="text-center">Masa Pelaksanaan</th>
                                     <th class="text-center">Aksi</th>

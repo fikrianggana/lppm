@@ -176,7 +176,8 @@ class ProsidingController extends Controller
             return redirect()->back()->with('error', 'Error deleting book: ' . $e->getMessage());
         }
     }
-    public function prosidingexport(){
-        return Excel::download(new ProsidingExport, 'Prosiding.xlsx');
+    public function prosidingexport(Request $request){
+        $search = $request->get('search');
+        return Excel::download(new ProsidingExport($search), 'Laporan_Prosiding.xlsx');
     }
 }

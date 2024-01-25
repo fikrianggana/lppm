@@ -163,7 +163,13 @@
 
                             <tr>
                                 <th>Nama Pengaju</th>
-                                <td><span id="name"></span></td>
+                                <td>
+                                    <!-- <span id="name"></span> -->
+                                    @php
+                                        $user = App\Models\User::find($pst->usr_id);
+                                        echo $user ? $user->usr_nama : 'User Tidak Ditemukan';
+                                    @endphp
+                                </td>
                             </tr>
                             <tr>
                                 <th>Nama Surat Tugas</th>

@@ -173,7 +173,8 @@ class HakCiptaController extends Controller
             return redirect()->back()->with('error', 'Error deleting book: ' . $e->getMessage());
         }
     }
-    public function hakciptaexport(){
-        return Excel::download(new HakCiptaExport, 'HakCipta.xlsx');
+    public function hakciptaexport(Request $request){
+        $search = $request->get('search');
+        return Excel::download(new HakCiptaExport($search), 'Laporan_HakCipta.xlsx');
     }
 }

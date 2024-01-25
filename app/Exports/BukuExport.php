@@ -81,4 +81,3 @@ class BukuExport implements FromCollection, ShouldAutoSize, WithHeadings, WithSt
 		];
 	}
 }
-

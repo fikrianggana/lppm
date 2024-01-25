@@ -58,7 +58,7 @@ class JurnalController extends Controller
         if ($usr_role === 'karyawan') {
             return view ('karyawan.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
         } elseif ($usr_role === 'admin') {
-            return view ('admin.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal]);
+            return view ('admin.publikasi.jurnal.index', compact('title'), ['jurnal' => $jurnal, $search]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -180,7 +180,8 @@ class JurnalController extends Controller
             return redirect()->back()->with('error', 'Error deleting book: ' . $e->getMessage());
         }
     }
-    public function jurnalexport(){
-        return Excel::download(new JurnalExport, 'Jurnal.xlsx');
+    public function jurnalexport(Request $request){
+        $search = $request->get('search');
+        return Excel::download(new JurnalExport($search), 'Laporan_Jurnal.xlsx');
     }
 }

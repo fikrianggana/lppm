@@ -1,4 +1,4 @@
-@extends('admin.layouts.layout')
+    @extends('admin.layouts.layout')
 <body>
     @section('konten')
 
@@ -64,7 +64,7 @@
                                     <div class="col-12">
                                         <label class="form-label">Pengguna</label>
                                         <select name="usr_id" class="form-control" >
-                                            <opton value="">-- Pengguna --</opton>
+                                            <option value="">-- Pengguna --</option>
                                             @foreach ($users as $usr => $usr_nama)
                                                 <option value="{{ $usr }}" @selected(old('usr_id') == $usr || $hcp -> usr_id == $usr)>
                                                     {{ $usr_nama }}

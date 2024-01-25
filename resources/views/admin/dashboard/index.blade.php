@@ -3,7 +3,7 @@
 
 <body>
    @section('konten')
-    <?php if (('success')): ?>
+    <!-- <?php if (('success')): ?>
         <script type="text/javascript">
             $(document).ready(function() {
                 swal.fire({
@@ -67,9 +67,9 @@
                     e.preventDefault();
             }
         }
-    </script> 
+    </script>  -->
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         let valueDisplays = document.querySelectorAll(".num");
 
         valueDisplays.forEach((valueDisplay) => {
@@ -85,7 +85,7 @@
                 }
             }, 69);
         });
-    </script>
+    </script> -->
 
     <script>
         AOS.init();

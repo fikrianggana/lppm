@@ -176,7 +176,8 @@ class HakPatenController extends Controller
             return redirect()->back()->with('error', 'Error deleting book: ' . $e->getMessage());
         }
     }
-    public function hakpatenexport(){
-        return Excel::download(new HakPatenExport, 'HakPaten.xlsx');
+    public function hakpatenexport(Request $request){
+        $search = $request->get('search');
+        return Excel::download(new HakPatenExport($search), 'Laporan_HakPaten.xlsx');
     }
 }

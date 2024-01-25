@@ -28,13 +28,15 @@ class SeminarController extends Controller
         $query = $request->get('search');
            
         $search = Seminar::where(function ($query) use ($request) {
-        $query->where('smn_namapenulis', 'like', "%{$request->search}%")
-              ->orWhere('smn_kategori', 'like', "%{$request->search}%")
-              ->orWhere('smn_penyelenggara', 'like', "%{$request->search}%")
-              ->orWhere('smn_waktu', 'like', "%{$request->search}%")
-              ->orWhere('smn_tempatpelaksaan', 'like', "%{$request->search}%")
-              ->orWhere('smn_keterangan', 'like', "%{$request->search}%");
+            $query->where('smn_namapenulis', 'like', "%{$request->search}%")
+                ->orWhere('smn_kategori', 'like', "%{$request->search}%")
+                ->orWhere('smn_penyelenggara', 'like', "%{$request->search}%")
+                ->orWhere('smn_waktu', 'like', "%{$request->search}%")
+                ->orWhere('smn_tempatpelaksaan', 'like', "%{$request->search}%")
+                ->orWhere('smn_keterangan', 'like', "%{$request->search}%");
         });
+
+        dd($search);
 
         $user = Auth::user();
         $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
@@ -46,8 +48,6 @@ class SeminarController extends Controller
     
         $seminar = $search->get();
         // ->get();
-
-        // $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Tentukan view berdasarkan peran pengguna
         if ($usr_role === 'karyawan') {
@@ -174,7 +174,9 @@ class SeminarController extends Controller
             return redirect()->back()->with('error', 'Error deleting book: ' . $e->getMessage());
         }
     }
-    public function seminarexport(){
-        return Excel::download(new SeminarExport, 'Seminar.xlsx');
+    public function seminarexport(Request  $request){
+        $search = $request->get('search');
+        dd($search);
+        return Excel::download(new SeminarExport($search), 'Laporan_Seminar.xlsx');
     }
 }

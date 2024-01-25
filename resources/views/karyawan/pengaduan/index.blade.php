@@ -69,14 +69,11 @@
                                         <td class="text-center">{{ $pdn->pdn_jenis }}</td>
                                         <td class="text-center">
                                             @if ($pdn->status === 1)
-                                                <span class="badge badge-info">Sedang Diajukan</span>
+                                                <span class="badge badge-info">Sedang Diadukan</span>
                                             @elseif ($pdn->status === 2)
-                                                <span class="badge badge-success">Pengajuan Diterima</span>
+                                                <span class="badge badge-success">Pengaduan Diterima</span>
                                             @elseif ($pdn->status === 3)
-                                                <span class="badge badge-danger">Pengajuan Ditolak</span>
-                                            @elseif ($pdn->status === 4)
-                                                <span class="badge badge-primary">Pengaduan Telah Diunggah,</span><br>
-                                                <span class="badge badge-primary">Tolong Cek Kembali</span>
+                                                <span class="badge badge-danger">Pengaduan Ditolak</span>
                                             @else
                                                 <span class="badge badge-warning">Belum Dikirim</span>
                                             @endif
@@ -168,7 +165,18 @@
                             </tr>
                             <tr>
                                 <th>Status</th>
-                                <td><span id="status"></span></td>
+                                <td>
+                                    <!-- <span id="status"></span> -->
+                                    @if ($pdn->status === 1)
+                                        <span class="badge badge-info">Sedang Diadukan</span>
+                                    @elseif ($pdn->status === 2)
+                                        <span class="badge badge-success">Pengaduan Diterima</span>
+                                    @elseif ($pdn->status === 3)
+                                        <span class="badge badge-danger">Pengaduan Ditolak</span>
+                                    @else
+                                        <span class="badge badge-warning">Belum Dikirim</span>
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <th>Keterangan</th>

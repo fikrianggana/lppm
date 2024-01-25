@@ -219,8 +219,9 @@ class PengabdianMasyarakatController extends Controller
         }
     }
 
-    public function pengabdianexport(){
-        return Excel::download(new PengabdianExport, 'Laporan_Pengabdian_Masyarakat.xlsx');
+    public function pengabdianexport(Request $request){
+        $search = $request->get('search');
+        return Excel::download(new PengabdianExport($search), 'Laporan_Pengabdian_Masyarakat.xlsx');
     }
 
 }
