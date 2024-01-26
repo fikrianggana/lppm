@@ -178,6 +178,6 @@ class HakPatenController extends Controller
     }
     public function hakpatenexport(Request $request){
         $search = $request->get('search');
-        return Excel::download(new HakPatenExport($search), 'Laporan_HakPaten.xlsx');
+        return Excel::download(new HakPatenExport($search), 'Laporan_Hak_Paten.xlsx');
     }
 }

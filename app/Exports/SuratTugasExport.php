@@ -50,8 +50,8 @@ class SuratTugasExport implements FromCollection, WithHeadings, WithMapping, Sho
 			$item->pst_masapelaksanaan,
 			URL::to($item->pst_buktipendukung),
 			URL::to($item->surattugas),
-			];
-		}
+		];
+	}
 
 	/**
 	 * @return array

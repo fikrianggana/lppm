@@ -175,6 +175,6 @@ class HakCiptaController extends Controller
     }
     public function hakciptaexport(Request $request){
         $search = $request->get('search');
-        return Excel::download(new HakCiptaExport($search), 'Laporan_HakCipta.xlsx');
+        return Excel::download(new HakCiptaExport($search), 'Laporan_Hak_Cipta.xlsx');
     }
 }

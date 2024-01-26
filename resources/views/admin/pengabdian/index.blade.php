@@ -40,7 +40,7 @@
 
                                         <!-- Export Excel Button -->
                                         <div class="text-right">
-                                            <a class="btn btn-success" href="{{ route('admin.pengabdian.export') }}">
+                                            <a class="btn btn-success" href="{{ route('admin.pengabdian.export', ['search' => request('search')]) }}">
                                                 <i class="fa fa-download" aria-hidden="true"></i>&nbsp;Unduh Excel
                                             </a>
                                         </div>

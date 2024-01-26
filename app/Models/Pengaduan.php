@@ -40,10 +40,12 @@ class Pengaduan extends Model
         'keterangan',
     ];
 
+    // Assuming the foreign key is 'usr_id' in the Pengaduan model
     public function user()
     {
-        return $this -> belongsTo(User::class);
+        return $this->belongsTo(User::class, 'usr_id');
     }
+
     public function hakpaten(){
         return $this -> belongsTo(HakPaten::class);
     }

@@ -47,11 +47,11 @@ class PengajuanSuratTugasController extends Controller
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
             // Filter out records with status 3 for karyawan view
-            // $pengajuanSuratTugas = PengajuanSuratTugas::all();
+           
             return view('karyawan.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
         } elseif ($usr_role === 'admin') {
             // Filter out records with status 3 for admin view
-            // $pengajuanSuratTugas = PengajuanSuratTugas::where('status', '!=', 3)->get();
+            
             return view('admin.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
         } else {
             // Handle jika peran tidak teridentifikasi

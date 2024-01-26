@@ -173,7 +173,7 @@ class BukuController extends Controller
     
     public function bukuexport(Request $request){
         $search = $request->get('search');
-        return Excel::download(new BukuExport($search), 'Buku.xlsx');
+        return Excel::download(new BukuExport($search), 'Laporan_Buku.xlsx');
     }
     
 }

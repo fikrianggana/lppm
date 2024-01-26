@@ -40,7 +40,7 @@
 
                                         <!-- Export Excel Button -->
                                         <div class="text-right">
-                                            <a class="btn btn-success" href="{{ route('admin.pengaduan.export') }}">
+                                            <a class="btn btn-success" href="{{ route('admin.pengaduan.export', ['search' => request('search')]) }}">
                                                 <i class="fa fa-download" aria-hidden="true"></i>&nbsp;Unduh Excel
                                             </a>
                                         </div>
@@ -54,6 +54,7 @@
                               <thead>
                                   <tr>
                                         <th class="text-center">No</th>
+                                        <th class="text-center">Nama Pengaju</th>
                                         <th class="text-center">Tipe Pengaduan</th>
                                         <th class="text-center">Jenis Pengaduan</th>
                                         <th class="text-center">Keterangan</th>
@@ -66,6 +67,12 @@
                                     @if ($pdn->status === 1 || $pdn->status === 2 || $pdn->status === 4)
                                     <tr>
                                         <td class="text-center">{{ $index + 1 }}</td>
+                                        <td class="text-center">
+                                            @php
+                                                $user = App\Models\User::find($pdn->usr_id);
+                                                echo $user ? $user->usr_nama : 'User Tidak Ditemukan';
+                                            @endphp
+                                        </td>
                                         <td class="text-center">{{$pdn->pdn_tipe}}</td>
                                         <td class="text-center">{{$pdn->pdn_jenis}}</td>
                                         <td class="text-center">{{$pdn->keterangan}}</td>
@@ -137,6 +144,7 @@
                                             <!-- Detail Button -->
                                             <a href="" id="detail-{{ $pdn->pdn_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
+                                                data-nama="{{ $pdn->usr_id }}"
                                                 data-tipe="{{ $pdn->pdn_tipe }}"
                                                 data-jenis="{{ $pdn->pdn_jenis }}"
                                                 data-status="{{ $pdn->status }}"
@@ -192,7 +200,10 @@
                 <div class="modal-body table-responsive">
                     <table class="table table-bordered no-margin">
                         <tbody>
-
+                            <tr>
+                                <th>Nama Pengaju</th>
+                                <td><span id="nama"></span></td>
+                            </tr>
                             <tr>
                                 <th>Tipe Pengaduan</th>
                                 <td><span id="tipe"></span></td>
@@ -221,12 +232,14 @@
 <script>
     $(document).ready(function() {
         $('.detail-button').on('click', function() {
+            var nama = $(this).data('nama');
             var tipe = $(this).data('tipe');
             var jenis = $(this).data('jenis');
             var status = $(this).data('status');
             var ket = $(this).data('keterangan');
 
             // Display data in the modal
+            $('#modal-detail').find('#nama').text(nama);
             $('#modal-detail').find('#tipe').text(tipe);
             $('#modal-detail').find('#jns').text(jenis);
             $('#modal-detail').find('#status').text(status);

@@ -31,40 +31,28 @@ class PengaduanController extends Controller
         $pengaduan = Pengaduan::all();
 
         $query = $request->get('search');
-
+    
         $search = Pengaduan::where(function ($query) use ($request) {
             $query->where('pdn_tipe', 'like', "%{$request->search}%")
-                ->orwhere('pdn_jenis', 'like', "%{$request->search}%")
-                ->orwhere('usr_id', 'like', "%{$request->search}%")
-                ->orWhere('hpt_id', 'like', "%{$request->search}%")
-                ->orWhere('pro_id', 'like', "%{$request->search}%")
-                ->orWhere('smn_id', 'like', "%{$request->search}%")
-                ->orWhere('hcp_id', 'like', "%{$request->search}%")
-                ->orWhere('jrn_id', 'like', "%{$request->search}%")
-                ->orWhere('bku_id', 'like', "%{$request->search}%")
-                ->orWhere('pkm_id', 'like', "%{$request->search}%")
-                ->orWhere('status', 'like', "%{$request->search}%")
+                ->orWhere('pdn_jenis', 'like', "%{$request->search}%")
+                ->orWhere('usr_id', 'like', "%{$request->search}%")
                 ->orWhere('keterangan', 'like', "%{$request->search}%");
-        })
-        ;
-
+        });
+    
         $user = Auth::user();
         $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
         $usr_id = $user->usr_id;
-
+    
         if ($usr_role === 'karyawan') {
             $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
         }
-
+    
         $pengaduan = $search->get();
-        // ->get();
-
-        // $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
             // Filter out records with status 3 for karyawan view
-            // $pengajuanSuratTugas = PengajuanSuratTugas::all();
+           
             return view('karyawan.pengaduan.index', compact('title'), ['pengaduan' => $pengaduan]);
         } elseif ($usr_role === 'admin') {
             return view('admin.pengaduan.index', compact('title'), ['pengaduan' => $pengaduan]);
@@ -251,10 +239,11 @@ class PengaduanController extends Controller
         }
     }
 
-    public function pengaduanexport(){
-        return Excel::download(new Pengaduan, 'Laporan_Pengaduan.xlsx');
+    public function pengaduanexport(Request $request)
+    {
+        $search = $request->get('search');
+        return Excel::download(new PengaduanExport($search), 'Laporan_Pengaduan.xlsx');
     }
-
 
     public function getData(Request $request) {
         $id = $request->input('id');
