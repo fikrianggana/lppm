@@ -68,15 +68,9 @@
 
                               <tbody>
 
-                                 @forelse ($pengaduan as $index => $pdn)
+                                @forelse ($pengaduan as $index => $pdn)
                                     <tr>
                                         <td class="text-center">{{ $index + 1 }}</td>
-                                        {{--  <td class="text-center">
-                                            @php
-                                                $user = App\Models\User::find($pdn->usr_id);
-                                                echo $user ? $user->usr_nama : 'User Tidak Ditemukan';
-                                            @endphp
-                                        </td>  --}}
                                         <td class="text-center">{{$pdn->pdn_tipe}}</td>
                                         <td class="text-center">{{ $pdn->pdn_jenis }}</td>
                                         <td class="text-center">
@@ -90,14 +84,8 @@
                                                 <span class="badge badge-warning">Belum Dikirim</span>
                                             @endif
                                         </td>
-
                                         <td class="text-center">{{ $pdn->keterangan }}</td>
-                                        {{--  <td class="text-center">
-                                            @if ($pdn->status === 3)
-                                                {{$pdn->keterangan}}
-                                            @endif
-                                        </td>  --}}
-
+                                        
                                         <td class="text-center">
                                             @if ($pdn->status === 0)
                                                 <a href="{{ route('karyawan.pengaduan.kirim', $pdn->pdn_id) }}" class="btn btn-default">  <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
@@ -111,8 +99,8 @@
 
                                             <a href="" id="detail-{{ $pdn->pdn_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
-                                                data-tipe="{{ $pdn->pdn_tipe }}"
-                                                data-jenis="{{ $pdn->pdn_jenis }}"
+                                                data-pdn_tipe="{{ $pdn->pdn_tipe }}"
+                                                data-pdn_jenis="{{ $pdn->pdn_jenis }}"
                                                 data-status="{{ $pdn->status }}"
                                                 data-keterangan="{{ $pdn->keterangan }}">
                                                 <i class="fa fa-list" aria-hidden="true"></i>

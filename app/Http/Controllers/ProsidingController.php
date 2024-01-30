@@ -20,7 +20,7 @@ class ProsidingController extends Controller
      */
     public function index(Request $request)
     {
-        $title = 'Prosiding';
+        $title = 'Publikasi - Prosiding';
         $prosiding = Prosiding::all();
 
         $query = $request->get('search');

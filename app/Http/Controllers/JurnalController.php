@@ -20,7 +20,7 @@ class JurnalController extends Controller
      */
     public function index(Request $request)
     {
-        $title ='Jurnal';
+        $title ='Publikasi - Jurnal';
         $jurnal = Jurnal::all();
         // $user = User::pluck('pgn_nama'); // Sesuaikan dengan nama kolom di tabel User
 

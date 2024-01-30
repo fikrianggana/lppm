@@ -88,7 +88,7 @@
                                     {{--  <td class="text-center"><a href="{{ $pkm->pkm_buktipendukung }}" class="fa fa-solid fa-download" type="button"></a></td>  --}}
 
                                     <td class="text-center">
-                                        <a href="{{ route('admin.pengabdian.edit', ['pkm_id' => $pkm->pkm_id]) }}" class="btn btn-warning">
+                                        <a href="{{ route('admin.pengabdian.edit', ['pkm_id' => $pkm->pkm_id]) }}" class="btn btn-default">
                                             <i class="fa fa-edit" aria-hidden="true"></i>
                                         </a>
 
@@ -124,7 +124,7 @@
                                             @method('DELETE')
                                         </form>
 
-                                        <a href="" id="detail-{{ $pkm->pkm_id }}" class="btn btn-primary detail-button"
+                                        <a href="" id="detail-{{ $pkm->pkm_id }}" class="btn btn-default detail-button"
                                             data-toggle="modal" data-target="#modal-detail"
                                             data-nama="{{ $pkm->pkm_namakegiatan }}"
                                             data-jenis="{{ $pkm->pkm_jenis }}"

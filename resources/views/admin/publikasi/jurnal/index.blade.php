@@ -96,7 +96,7 @@
 
 
                                         <td class="text-center">
-                                            <a href="{{ route('admin.publikasi.jurnal.edit', ['jrn_id' => $jrn->jrn_id]) }}" class="btn btn-warning">
+                                            <a href="{{ route('admin.publikasi.jurnal.edit', ['jrn_id' => $jrn->jrn_id]) }}" class="btn btn-default">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
 
@@ -133,7 +133,7 @@
                                             </a>
 
 
-                                            <a href="" id="detail-{{ $jrn->jrn_id }}" class="btn btn-primary detail-button"
+                                            <a href="" id="detail-{{ $jrn->jrn_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-judul="{{ $jrn->jrn_judulmakalah }}"
                                                 data-nama="{{ $jrn->jrn_namajurnal }}"

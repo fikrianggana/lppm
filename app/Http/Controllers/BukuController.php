@@ -20,7 +20,7 @@ class BukuController extends Controller
      */
     public function index(Request $request)
 {
-    $title = 'Buku';
+    $title = 'Publikasi - Buku';
     $buku = Buku::all();
 
     $query = $request->get('search');

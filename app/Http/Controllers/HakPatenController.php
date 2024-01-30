@@ -21,7 +21,7 @@ class HakPatenController extends Controller
      */
     public function index(Request $request)
     {
-        $title= 'Hak Paten';
+        $title= 'Publikasi - Hak Paten';
 
         $hakPaten = HakPaten::all();
         // $user = User::pluck('pgn_nama'); // Sesuaikan dengan nama kolom di tabel User

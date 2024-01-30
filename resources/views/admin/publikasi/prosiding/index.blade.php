@@ -90,7 +90,7 @@
 
 
                                         <td class="text-center">
-                                            <a href="{{ route('admin.publikasi.prosiding.edit', ['pro_id' => $pro->pro_id]) }}" class="btn btn-warning">
+                                            <a href="{{ route('admin.publikasi.prosiding.edit', ['pro_id' => $pro->pro_id]) }}" class="btn btn-default">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
 
@@ -126,7 +126,7 @@
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
 
-                                            <a href="" id="detail-{{ $pro->pro_id }}" class="btn btn-primary detail-button"
+                                            <a href="" id="detail-{{ $pro->pro_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-nama="{{ $pro->pro_namapenulis }}"
                                                 data-program="{{ $pro->pro_judulprogram }}"

@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3>Grafik Sertifikasi Keseluruhan</h3>
+                    <h3>Grafik LPPM Keseluruhan</h3>
                 </div>
                 <br>
                 <div class="card-body scrollstyle">
@@ -22,23 +22,6 @@
                                     @endfor
                                 </select>                                
                             </div>
-    
-                            {{-- <div class="col">
-                                <select class="form-control" id="filter-prodi" style="border-radius: 10px;">
-                                    <option value="">Pilih Prodi</option>
-                                    @foreach($prodiList as $prodi)
-                                        @if($prodi->status === 'Aktif')
-                                            <option value="{{ $prodi->id_prodi }}">{{ $prodi->nama_prodi }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>                         --}}
-                        
-                            {{-- <div class="col">
-                                <select class="form-control" id="filter-sertifikasi" style="border-radius: 10px;">
-                                    <option value="">Pilih Sertifikasi</option>
-                                </select>
-                            </div> --}}
                             
                         </div>
                     </div>
@@ -61,10 +44,25 @@
 </body>
     
 <script>
+
+    $(document).ready(function () {
+        // Attach an event listener to the dropdown
+        loadChartData();
+
+        $('#filter-month').change(function () {
+            const selectedMonth = $(this).val();
+
+            if(selectedMonth === ""){
+                loadChartData();
+            }else{
+                loadChartData(selectedMonth);
+            }
+        });
+    });
     const labels = [];
 
     const data = {
-        labels: 'My First Dataset',
+        labels: 'Jumlah Data',
         datasets: [{
             label: 'Jumlah Data LPPM',
             data: [],
@@ -127,48 +125,48 @@
     // Initial call to set up the chart size
     updateChartSize();
 
-    // Definisikan nilai bulan
-    loadChartData()
+    function loadChartData(selectedMonth) {
+    $.ajax({
+        url: "/dashboardKaryawan/totalPengajuan",
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+            // Filter data for the selected month
+            const filteredData = selectedMonth
+                ? data.filter(function (item) {
+                      return item.bulan == selectedMonth;
+                  })
+                : data;
 
-    function loadChartData() {
-        $.ajax({
-            url: "/dashboardKaryawan/totalPengajuan/",
-            type: "GET",
-            dataType: 'json',
-            success: function (data) {
-                // Initialize arrays to hold labels and values
-                const labels = [];
-                const values = [];
+            // Initialize arrays to hold labels and values
+            const labels = [];
+            const values = [];
 
-                // Define array of month names
-                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-                // Iterate through each object in the data array
-                data.forEach(function(item) {
-                    // Get month name based on month number
-                    const monthName = monthNames[item.bulan - 1]; // Array index starts from 0
+            // Iterate through each object in the filtered data array
+            filteredData.forEach(function (item) {
+                // Push month name and total_pengajuan to their respective arrays
+                labels.push(monthNames[item.bulan - 1]); // gunakan monthNames array untuk mendapatkan nama bulan
+                values.push(item.total_pengajuan);
+            });
 
-                    // Push month name and total_pengajuan to their respective arrays
-                    labels.push(monthName);
-                    values.push(item.total_pengajuan);
-                });
+            // Update chart data with the extracted labels and values
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].data = values;
 
-                // Update chart data with the extracted labels and values
-                myChart.data.labels = labels;
-                myChart.data.datasets[0].data = values;
+            // Update the chart
+            myChart.update();
 
-                // Update the chart
-                myChart.update();
+            console.log(filteredData);
+        },
 
-                console.log(data);
-            },
-            error: function (xhr, status, error) {
-                console.error("AJAX Error:", status, error);
-                swal.fire("Error!", "Terjadi kesalahan saat mengambil data!", "error");
-            }
-        });
-    }
-
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", status, error);
+            swal.fire("Error!", "Terjadi kesalahan saat mengambil data!", "error");
+        }
+    });
+}
 
 </script>
 

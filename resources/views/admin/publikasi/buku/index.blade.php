@@ -94,7 +94,7 @@
                                         <td class="text-center">
 
 
-                                            <a href="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" class="btn btn-warning">
+                                            <a href="{{ route('admin.publikasi.buku.edit', ['bku_id' => $bk->bku_id]) }}" class="btn btn-default">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
 
@@ -131,7 +131,7 @@
                                             </form>
 
 
-                                            <a href="" id="detail-{{ $bk->bku_id }}" class="btn btn-primary detail-button"
+                                            <a href="" id="detail-{{ $bk->bku_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-judul="{{ $bk->bku_judul }}"
                                                 data-penulis="{{ $bk->bku_penulis }}"

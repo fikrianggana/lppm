@@ -20,7 +20,7 @@ class SeminarController extends Controller
      */
     public function index(request $request)
     {
-        $title= 'Seminar';
+        $title= 'Publikasi - Seminar';
 
         $seminar = Seminar::all();
         // $user = User::pluck('usr_nama'); // Sesuaikan dengan nama kolom di tabel User
@@ -36,7 +36,7 @@ class SeminarController extends Controller
                 ->orWhere('smn_keterangan', 'like', "%{$request->search}%");
         });
 
-        dd($search);
+        // dd($search);
 
         $user = Auth::user();
         $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
@@ -176,7 +176,7 @@ class SeminarController extends Controller
     }
     public function seminarexport(Request  $request){
         $search = $request->get('search');
-        dd($search);
+        // dd($search);
         return Excel::download(new SeminarExport($search), 'Laporan_Seminar.xlsx');
     }
 }

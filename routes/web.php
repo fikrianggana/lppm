@@ -123,7 +123,9 @@ use App\Models\PengajuanSuratTugas;
     Route::middleware(['auth', 'userAccess:karyawan'])->group(function () {
         // Rute khusus untuk karyawan
         Route::get('/dashboardKaryawan',[DashboardKaryawanController::class,'index'])->name('karyawan.dashboard.index');
-        Route::get('/dashboardKaryawan/totalPengajuan',[DashboardKaryawanController::class,'totalPengajuan'])->name('karyawan.dashboard.totalPengajuan');
+        Route::get('/dashboardKaryawan/totalPengajuan/',[DashboardKaryawanController::class,'totalPengajuan'])->name('karyawan.dashboard.totalPengajuan');
+        Route::get('/dashboardKaryawan/totalSeminar/',[DashboardKaryawanController::class,'totalSeminar'])->name('karyawan.dashboard.totalSeminar');
+
 
         //Pengabdian
         Route::get('pengabdianKaryawan', [PengabdianMasyarakatController::class, 'index'])->name('karyawan.pengabdian.index');

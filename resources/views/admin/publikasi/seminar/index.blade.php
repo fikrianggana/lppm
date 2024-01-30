@@ -89,7 +89,7 @@
                                         <td class="text-center">{{ $smn->smn_keterangan }}</td>
 
                                         <td class="text-center">
-                                            <a href="{{ route('admin.publikasi.seminar.edit', ['smn_id' => $smn->smn_id]) }}" class="btn btn-warning">
+                                            <a href="{{ route('admin.publikasi.seminar.edit', ['smn_id' => $smn->smn_id]) }}" class="btn btn-default">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
 
@@ -125,7 +125,7 @@
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
 
-                                            <a href="" id="detail-{{ $smn->smn_id }}" class="btn btn-primary detail-button"
+                                            <a href="" id="detail-{{ $smn->smn_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-nama="{{ $smn->smn_namapenulis }}"
                                                 data-kategori="{{ $smn->smn_kategori }}"

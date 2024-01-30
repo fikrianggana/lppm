@@ -88,7 +88,7 @@
                                         <td class="text-center">{{ $hcp->hcp_keterangan }}</td>
 
                                         <td class="text-center">
-                                            <a href="{{ route('admin.publikasi.hakcipta.edit', ['hcp_id' => $hcp->hcp_id]) }}" class="btn btn-warning">
+                                            <a href="{{ route('admin.publikasi.hakcipta.edit', ['hcp_id' => $hcp->hcp_id]) }}" class="btn btn-default">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
 
@@ -125,7 +125,7 @@
                                             </a>
 
 
-                                            <a href="" id="detail-{{ $hcp->hcp_id }}" class="btn btn-primary detail-button"
+                                            <a href="" id="detail-{{ $hcp->hcp_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-nama="{{ $hcp->hcp_namalengkap }}"
                                                 data-judul="{{ $hcp->hcp_judul }}"

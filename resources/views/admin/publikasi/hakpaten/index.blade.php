@@ -88,7 +88,7 @@
                                         <td class="text-center">{{ $hpt->hpt_status }}</td>
 
                                         <td class="text-center">
-                                            <a href="{{ route('admin.publikasi.hakpaten.edit', ['hpt_id' => $hpt->hpt_id]) }}" class="btn btn-warning">
+                                            <a href="{{ route('admin.publikasi.hakpaten.edit', ['hpt_id' => $hpt->hpt_id]) }}" class="btn btn-default">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
 
@@ -124,7 +124,7 @@
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
 
-                                            <a href="" id="detail-{{ $hpt->hpt_id }}" class="btn btn-primary detail-button"
+                                            <a href="" id="detail-{{ $hpt->hpt_id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
                                                 data-nama="{{ $hpt->hpt_namalengkap }}"
                                                 data-judul="{{ $hpt->hpt_judul }}"

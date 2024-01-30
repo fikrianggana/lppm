@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardKaryawanController extends Controller
@@ -86,13 +87,36 @@ class DashboardKaryawanController extends Controller
 
     public function totalPengajuan()
     {
-        $results = DB::connection()->select("
-            SELECT MONTH(pst_masapelaksanaan) as bulan, COUNT(*) as total_pengajuan 
+        $usr_id = Auth::user()->usr_id;
+
+        $results = DB::connection()->select("SELECT 
+            MONTH(pst_masapelaksanaan) as bulan, 
+            pengajuan_surat_tugas.usr_id,
+            users.usr_nama, 
+            COUNT(*) as total_pengajuan 
             FROM pengajuan_surat_tugas 
-            GROUP BY bulan
-        ");
+            JOIN users ON pengajuan_surat_tugas.usr_id = users.usr_id
+            WHERE pengajuan_surat_tugas.usr_id = :user_id
+            GROUP BY bulan, pengajuan_surat_tugas.usr_id, users.usr_nama", ['user_id' => $usr_id]);
+
+        return response()->json($results);
+    }
+
+    public function totalSeminar()
+    {
+        $usr_id = Auth::user()->usr_id;
     
-        return $results;
+        $results = DB::connection()->select("SELECT 
+            MONTH(smn_waktu) as bulan, 
+            seminars.usr_id,
+            users.usr_nama, 
+            COUNT(*) as total_seminar
+            FROM seminars 
+            JOIN users ON seminars.usr_id = users.usr_id
+            WHERE seminars.usr_id = :user_id
+            GROUP BY bulan, seminars.usr_id, users.usr_nama", ['user_id' => $usr_id]);
+    
+        return response()->json($results);
     }
     
 }

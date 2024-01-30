@@ -51,8 +51,6 @@ class PengaduanController extends Controller
 
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
-            // Filter out records with status 3 for karyawan view
-           
             return view('karyawan.pengaduan.index', compact('title'), ['pengaduan' => $pengaduan]);
         } elseif ($usr_role === 'admin') {
             return view('admin.pengaduan.index', compact('title'), ['pengaduan' => $pengaduan]);

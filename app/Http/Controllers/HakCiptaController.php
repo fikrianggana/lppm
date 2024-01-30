@@ -21,7 +21,7 @@ class HakCiptaController extends Controller
      */
     public function index(Request $request)
     {
-        $title= 'Hak Cipta';
+        $title= 'Publikasi - Hak Cipta';
 
         $hakCipta = HakCipta::all();
 
