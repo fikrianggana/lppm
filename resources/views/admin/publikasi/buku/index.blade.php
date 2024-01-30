@@ -13,13 +13,26 @@
                     </div>
                     <br>
 
-                            @if (session('success'))
-                                <div class="alert alert-success">{{ session('success')}} </div>
-                            @endif
+                        @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}',
+                            });
+                            </script>
+                        @endif
+                                
+                        @if (session('error'))
+                            <script>
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '{{ session('error') }}',
+                                });
+                            </script>
+                        @endif
 
-                            @if (session('error'))
-                                <div class="alert alert-danger">{{ session('error')}} </div>
-                            @endif
 
                             <p>
                                 <a class="btn btn-primary" href="{{ route('admin.publikasi.buku.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>  Tambah Buku</a>
@@ -86,11 +99,31 @@
                                             </a>
 
                                             <!-- Delete Button -->
-                                            <a href="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}"
-                                                class="btn btn-danger"
-                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $bk->bku_id }}').submit(); }">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                             </a>
+                                            <a href="#"
+                                                class="btn btn-default"
+                                                onclick="event.preventDefault(); 
+                                                        swal.fire({
+                                                        title: 'Are you sure?',
+                                                        text: 'You will not be able to recover this item!',
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: 'Yes, delete it!',
+                                                        cancelButtonText: 'No, cancel!',
+                                                        reverseButtons: true
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    document.getElementById('delete-form-{{ $bk->bku_id }}').submit();
+                                                                } else if (result.dismiss === swal.DismissReason.cancel) {
+                                                                    swal.fire(
+                                                                        'Cancelled',
+                                                                        'Your item is safe :)',
+                                                                        'error'
+                                                                    )
+                                                                }
+                                                            });
+                                                        ">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
 
                                             <form id="delete-form-{{ $bk->bku_id }}" action="{{ route('admin.publikasi.buku.destroy', ['bku_id' => $bk->bku_id]) }}" method="POST" style="display: none;">
                                                 @csrf

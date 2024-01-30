@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class DashboardAdminController extends Controller
@@ -11,8 +12,8 @@ class DashboardAdminController extends Controller
      */
     public function index()
     {
-
-        return view ('admin.dashboard.index');
+        $title = 'Dashboard';
+        return view ('admin.dashboard.index', compact('title'));
     }
 
     /**
@@ -61,5 +62,16 @@ class DashboardAdminController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function totalPengajuan()
+    {
+        $results = DB::connection()->select("
+            SELECT MONTH(pst_masapelaksanaan) as bulan, COUNT(*) as total_pengajuan 
+            FROM pengajuan_surat_tugas 
+            GROUP BY bulan
+        ");
+    
+        return $results;
     }
 }

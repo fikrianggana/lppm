@@ -13,16 +13,28 @@
                   </div>
                   <br>
 
-                          @if (session('success'))
-                              <div class="alert alert-success">{{ session('success')}} </div>
-                          @endif
-
-                          @if (session('error'))
-                              <div class="alert alert-danger">{{ session('error')}} </div>
-                          @endif
+                        @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}',
+                            });
+                            </script>
+                        @endif
+                                
+                        @if (session('error'))
+                            <script>
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '{{ session('error') }}',
+                                });
+                            </script>
+                        @endif
 
                           <p>
-                            <a class="btn btn-primary" href="{{ route('karyawan.pengajuan.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengajuan Surat Tugas</a>
+                            <a class="btn btn-primary" href="{{ route('karyawan.pengajuan.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Tambah Pengajuan Surat Tugas</a>
                           </p>
 
                             <div class="row">
@@ -92,7 +104,9 @@
 
                                         <td class="text-center">
                                             @if ($pst->status === 0)
-                                                <a href="{{ route('karyawan.pengajuan.kirim', $pst->pst_id) }}" class="btn btn-default">  <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                                                <a href="{{ route('karyawan.pengajuan.kirim', $pst->pst_id) }}" class="btn btn-default">
+                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                </a>
                                             @endif
 
                                             @if ($pst->status === 0)
@@ -114,9 +128,29 @@
 
                                             <!-- Delete Button -->
                                             @if($pst->status == 0)
-                                                <a href="{{ route('karyawan.pengajuan.destroy', ['pst_id' => $pst->pst_id]) }}"
-                                                class="btn btn-default"
-                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pst->pst_id }}').submit(); }">
+                                                <a href="#"
+                                                    class="btn btn-default"
+                                                    onclick="event.preventDefault(); 
+                                                            swal.fire({
+                                                            title: 'Are you sure?',
+                                                            text: 'You will not be able to recover this item!',
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonText: 'Yes, delete it!',
+                                                            cancelButtonText: 'No, cancel!',
+                                                            reverseButtons: true
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        document.getElementById('delete-form-{{ $pst->pst_id }}').submit();
+                                                                    } else if (result.dismiss === swal.DismissReason.cancel) {
+                                                                        swal.fire(
+                                                                            'Cancelled',
+                                                                            'Your item is safe :)',
+                                                                            'error'
+                                                                        )
+                                                                    }
+                                                                });
+                                                            ">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </a>
                                             @endif

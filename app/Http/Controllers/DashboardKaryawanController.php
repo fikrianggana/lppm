@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardKaryawanController extends Controller
 {
@@ -82,4 +83,16 @@ class DashboardKaryawanController extends Controller
     {
         //
     }
+
+    public function totalPengajuan()
+    {
+        $results = DB::connection()->select("
+            SELECT MONTH(pst_masapelaksanaan) as bulan, COUNT(*) as total_pengajuan 
+            FROM pengajuan_surat_tugas 
+            GROUP BY bulan
+        ");
+    
+        return $results;
+    }
+    
 }

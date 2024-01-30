@@ -13,13 +13,25 @@
                   </div>
                   <br>
 
-                          @if (session('success'))
-                              <div class="alert alert-success">{{ session('success')}} </div>
-                          @endif
-
-                          @if (session('error'))
-                              <div class="alert alert-danger">{{ session('error')}} </div>
-                          @endif
+                        @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}',
+                            });
+                            </script>
+                        @endif
+                                
+                        @if (session('error'))
+                            <script>
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '{{ session('error') }}',
+                                });
+                            </script>
+                        @endif
 
                           <p>
                             <a class="btn btn-primary" href="{{ route('karyawan.pengaduan.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>   Tambah Pengaduan</a>
@@ -108,11 +120,31 @@
 
                                             <!-- Delete Button -->
                                             @if($pdn->status == 0)
-                                                <a href="{{ route('karyawan.pengaduan.destroy', ['pdn_id' => $pdn->pdn_id]) }}"
+                                            <a href="#"
                                                 class="btn btn-default"
-                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $pdn->pdn_id }}').submit(); }">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </a>
+                                                onclick="event.preventDefault(); 
+                                                        swal.fire({
+                                                        title: 'Are you sure?',
+                                                        text: 'You will not be able to recover this item!',
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: 'Yes, delete it!',
+                                                        cancelButtonText: 'No, cancel!',
+                                                        reverseButtons: true
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    document.getElementById('delete-form-{{ $pdn->pdn_id }}').submit();
+                                                                } else if (result.dismiss === swal.DismissReason.cancel) {
+                                                                    swal.fire(
+                                                                        'Cancelled',
+                                                                        'Your item is safe :)',
+                                                                        'error'
+                                                                    )
+                                                                }
+                                                            });
+                                                        ">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
                                             @endif
 
                                             <form id="delete-form-{{ $pdn->pdn_id }}" action="{{ route('karyawan.pengaduan.destroy', ['pdn_id' => $pdn->pdn_id]) }}" method="POST" style="display: none;">

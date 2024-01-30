@@ -34,6 +34,7 @@ use App\Models\PengajuanSuratTugas;
     Route::middleware(['auth', 'userAccess:admin'])->group(function () {
         // Rute khusus untuk admin
         Route::get('/dashboardAdmin',[DashboardAdminController::class,'index'])->name('admin.dashboard.index');
+        Route::get('/dashboardAdmin/totalPengajuan',[DashboardAdminController::class,'totalPengajuan'])->name('admin.dashboard.totalPengajuan');
 
         //Pengabdian
         Route::get('pengabdian', [PengabdianMasyarakatController::class, 'index'])->name('admin.pengabdian.index');
@@ -122,6 +123,7 @@ use App\Models\PengajuanSuratTugas;
     Route::middleware(['auth', 'userAccess:karyawan'])->group(function () {
         // Rute khusus untuk karyawan
         Route::get('/dashboardKaryawan',[DashboardKaryawanController::class,'index'])->name('karyawan.dashboard.index');
+        Route::get('/dashboardKaryawan/totalPengajuan',[DashboardKaryawanController::class,'totalPengajuan'])->name('karyawan.dashboard.totalPengajuan');
 
         //Pengabdian
         Route::get('pengabdianKaryawan', [PengabdianMasyarakatController::class, 'index'])->name('karyawan.pengabdian.index');

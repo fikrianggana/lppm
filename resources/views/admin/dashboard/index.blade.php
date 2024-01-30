@@ -1,182 +1,176 @@
 @extends('admin.layouts.layout')
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <body>
-   @section('konten')
-    <!-- <?php if (('success')): ?>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                swal.fire({
-                    title: "Berhasil !!",
-                    text: "<?php echo ('success'); ?>",
-                    showConfirmButton: true,
-                    icon: 'success'
-                });
-            });
-        </script>
-    <?php endif; ?>
+    @section('konten')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Grafik Sertifikasi Keseluruhan</h3>
+                </div>
+                <br>
+                <div class="card-body scrollstyle">
+                    <div class="col-md-5 col-sm-12">
+                        <div class="row">
+                            <div class="col">
+                                <select class="form-control" id="filter-month" style="border-radius: 10px;">
+                                    <option value="">Pilih Bulan</option>
+                                    @for ($month = 1; $month <= 12; $month++) 
+                                        <option value="{{ $month }}">{{ date('F', mktime(0, 0, 0, $month, 1)) }}</option>
+                                    @endfor
+                                </select>                                
+                            </div>
+    
+                            {{-- <div class="col">
+                                <select class="form-control" id="filter-prodi" style="border-radius: 10px;">
+                                    <option value="">Pilih Prodi</option>
+                                    @foreach($prodiList as $prodi)
+                                        @if($prodi->status === 'Aktif')
+                                            <option value="{{ $prodi->id_prodi }}">{{ $prodi->nama_prodi }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>                         --}}
+                        
+                            {{-- <div class="col">
+                                <select class="form-control" id="filter-sertifikasi" style="border-radius: 10px;">
+                                    <option value="">Pilih Sertifikasi</option>
+                                </select>
+                            </div> --}}
+                            
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-12">
+                        <div class="col">
+                            <h4>Grafik Total Pengajuan</h4>
+                        </div>                
+                    </div>
+                    <br>
+                    <div class="col-12">
+                        <div class="chart-container">
+                            <canvas id="myChart" width="200" height="60"></canvas>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+    
+<script>
+    const labels = [];
 
-    <?php if (('error')): ?>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                swal.fire({
-                    title: "Gagal !!",
-                    text: "<?php echo ('error'); ?>",
-                    showConfirmButton: true,
-                    icon: 'error'
-                });
-            });
-        </script>
-    <?php endif; ?>
+    const data = {
+        labels: 'My First Dataset',
+        datasets: [{
+            label: 'My First Dataset',
+            data: [],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
-    <?php if (('warning')): ?>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                swal.fire({
-                    title: "Peringatan !!",
-                    text: "<?php echo ('warning'); ?>",
-                    showConfirmButton: true,
-                    icon: 'warning'
-                });
-            });
-        </script>
-    <?php endif; ?>
-
-    <script type="text/javascript">        
-        $(document).ready(function () {
-            $('#myTable').DataTable({
-                "language": {
-                    "emptyTable": "Tidak ada Data >"
-                },
-                "dom": 'lfrti<"bottom-wrapper"p>',
-                scrollX: true,
-                "bLengthChange": false,
-                "bInfo": false,
-                "pageLength": 10
-            });
-        });
-    </script>
-
-    <script language="Javascript" type="text/javascript">
-        function allowAlphaNumericSpace(e) {
-            var code = ('charCode' in e) ? e.charCode : e.keyCode;
-
-            if (!(code > 47 && code < 58) && // numeric (0-9)
-                !(code > 64 && code < 91) && // upper alpha (A-Z)
-                !(code > 96 && code < 123)) { // lower alpha (a-z)
-                    e.preventDefault();
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            },
+            scales: {
+                y: {
+                    title: {
+                        display: true,
+                        text: 'My First Dataset'
+                    }
+                }
             }
         }
-    </script>  -->
+    };
 
-    <!-- <script type="text/javascript">
-        let valueDisplays = document.querySelectorAll(".num");
+    var myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
 
-        valueDisplays.forEach((valueDisplay) => {
-            let startValue = 0;
-            let endValue = parseInt(valueDisplay.getAttribute("data-val"));
+    window.addEventListener('resize', function () {
+        updateChartSize();
+    });
 
-            let counter = setInterval(function () {
-                startValue += 1;
-                valueDisplay.textContent = startValue;
+    // Function to update chart size
+    function updateChartSize() {
+        myChart.resize();
+    }
 
-                if (startValue == endValue) {
-                    clearInterval(counter);
-                }
-            }, 69);
-        });
-    </script> -->
+    // Initial call to set up the chart size
+    updateChartSize();
 
-    <script>
-        AOS.init();
-    </script>
+// Definisikan nilai bulan
+loadChartData()
 
-	<script>
-        // function cekExt(param) {
-        //     var input, file, valid = true;
-        //     input = param;
-        //     file = input.files[0];
-        //     if (file.size / 1024 > 5120) {
-        //         alert("Opps! Berkas file terlalu besar! Ukuran maksimal berkas yang bisa dikirim adalah 5 MB");
-        //         valid = false;
-        //     }
-        //     var a = input.value.split(".").pop();
-        //     if (a.toLowerCase() != "jpg" && a.toLowerCase() != "png" && a.toLowerCase() != "pdf" && a.toLowerCase() != "zip" && a.toLowerCase() != "rar") {
-        //         alert("Opps! Format berkas " + deskripsi + " yang dibolehkan adalah .jpg, .png, .pdf, .zip atau .rar");
-        //         valid = false;
-        //     }
-        //     if (!valid) {
-        //         param.value = "";
-        //     }
-        // }
 
-        // $(document).ready(function () {
-        //     var id = 123;
-        //     $('.readmore').each(function () {
-        //         var limit = 100;
-        //         var text = $(this).text();
-        //         if (text.length > limit) {
-        //             var sub = text.substring(0, limit);
-        //             var next = text.substring(limit);
-        //             $(this).html(
-        //                 sub +
-        //                 "<span style='display:none;' id='readmore-" + id + "'>" + next + "</span>" +
-        //                 "<br/><a onclick=\"$('#readmore-" + id + "').toggle(300);$(this).hide(300);\" style='color: blue; font-weight: bold; cursor: pointer;'>Selengkapnya</a>"
-        //             );
-        //         }
-        //         id++;
-        //     });
+function loadChartData() {
+    $.ajax({
+        url: "/dashboardAdmin/totalPengajuan/",
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+            // Initialize arrays to hold labels and values
+            const labels = [];
+            const values = [];
 
-        //     $('.centang').each(function () {
-        //         if ($(this).text() == 'Ya') {
-        //             $(this).html('<i class="fa fa-check" aria-hidden="true"></i>');
-        //         }
-        //         else if ($(this).text() == 'Tidak') {
-        //             $(this).html('<i class="fa fa-times" aria-hidden="true"></i>');
-        //         }
-        //     });
-        // });
-    </script>
+            // Define array of month names
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    <script type="text/javascript">
-        /*$(document).ready(function () {
-            $('.table').each(function () {
-                if ($(this).attr('id') != 'tabeljadwal') {
-                    var x = $(this).find('tbody tr').eq(0).html();
-                    $(this).append('<thead><tr>' + x + '</tr></thead>');
-                    $(this).find('tbody tr').eq(0).remove();
-                    if (!$(this).parents('.modal').length)
-                        $('table').floatThead({
-                            responsiveContainer: function ($table) {
-                                return $table.closest(".scrollstyle");
-                            },
-                            top: 70,
-                            zIndex: 2
-                        });
-                }
+            // Iterate through each object in the data array
+            data.forEach(function(item) {
+                // Get month name based on month number
+                const monthName = monthNames[item.bulan - 1]; // Array index starts from 0
+
+                // Push month name and total_pengajuan to their respective arrays
+                labels.push(monthName);
+                values.push(item.total_pengajuan);
             });
-        });
-        var prm = Sys.WebForms.PageRequestManager.getInstance();
 
-        prm.add_endRequest(function () {
-            $('.table').each(function () {
-                if ($(this).attr('id') != 'tabeljadwal') {
-                    var x = $(this).find('tbody tr').eq(0).html();
-                    $(this).append('<thead><tr>' + x + '</tr></thead>');
-                    $(this).find('tbody tr').eq(0).remove();
-                    if (!$(this).parents('.modal').length)
-                        $('table').floatThead({
-                            responsiveContainer: function ($table) {
-                                return $table.closest(".scrollstyle");
-                            },
-                            top: 70,
-                            zIndex: 2
-                        });
-                }
-            });
-        });*/
-    </script>
-</body>
-</html>
-    
+            // Update chart data with the extracted labels and values
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].data = values;
+
+            // Update the chart
+            myChart.update();
+
+            console.log(data);
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", status, error);
+            swal.fire("Error!", "Terjadi kesalahan saat mengambil data!", "error");
+        }
+    });
+}
+
+
+</script>
+
 @endsection

@@ -12,12 +12,25 @@
                         <br>
 
                         @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }} </div>
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}',
+                            });
+                            </script>
+                        @endif
+                                
+                        @if (session('error'))
+                            <script>
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '{{ session('error') }}',
+                                });
+                            </script>
                         @endif
 
-                        @if (session('error'))
-                            <div class="alert alert-danger">{{ session('error') }} </div>
-                        @endif
 
                         <p>
                             <a class="btn btn-primary" href="{{ route('admin.publikasi.hakpaten.create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Hak Paten</a>
@@ -85,10 +98,31 @@
                                                 @method('DELETE')
                                             </form>
 
-                                            <a href="#" class="btn btn-danger" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this item?')) { document.getElementById('delete-form-{{ $hpt->hpt_id }}').submit(); }">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <a href="#"
+                                                    class="btn btn-default"
+                                                    onclick="event.preventDefault(); 
+                                                        swal.fire({
+                                                            title: 'Are you sure?',
+                                                            text: 'You will not be able to recover this item!',
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonText: 'Yes, delete it!',
+                                                            cancelButtonText: 'No, cancel!',
+                                                            reverseButtons: true
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    document.getElementById('delete-form-{{ $hpt->hpt_id  }}').submit();
+                                                                } else if (result.dismiss === swal.DismissReason.cancel) {
+                                                                    swal.fire(
+                                                                        'Cancelled',
+                                                                        'Your item is safe :)',
+                                                                        'error'
+                                                                    )
+                                                                }
+                                                            });
+                                                        ">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
-
 
                                             <a href="" id="detail-{{ $hpt->hpt_id }}" class="btn btn-primary detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
