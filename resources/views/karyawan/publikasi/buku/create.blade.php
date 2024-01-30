@@ -39,15 +39,6 @@
                                     <label class="form-label">Judul</label>
                                     <input type="text" class="form-control" name="bku_judul" value="{{ old('bku_judul')}}" placeholder="Judul">
                                 </div>
-                                {{--  <div class="col-12">
-                                    <label class="form-label">Jenis Pengabdian</label>
-                                    <!-- <input type="text" class="form-control" name="pkm_jenis" value="{{ old('pkm_jenis')}}" placeholder="Jenis Pengabdian"> -->
-                                    <select name="pkm_jenis" class="form-control form-control-line" required>
-                                        <option value="">Pilih Salah Satu</option>
-                                        <option value="UMKM" @if(old('pkm_jenis') == 'UMKM') selected @endif>UMKM </option>
-                                        <option value="SMK" @if(old('pkm_jenis') == 'SMK') selected @endif>SMK </option>
-                                    </select>
-                                </div>  --}}
                                 <br>
                                 <div class="col-12">
                                     <label class="form-label">Nama Penulis</label>
@@ -76,15 +67,7 @@
                                 </div>
                                 <br>
                                 <div class="col-12">
-                                    <!-- <label class="form-label">Pengguna</label>
-                                    <select name="usr_id" class="form-control" >
-                                        <opton value="">-- Pengguna --</opton>
-                                        @foreach ($users as $usr => $usr_nama)
-                                            <option value="{{ $usr }}" @selected(old('usr_id') == $usr)>
-                                                {{ $usr_nama }}
-                                            </option>
-                                        @endforeach
-                                    </select> -->
+                                   
                                     <input type="hidden" name="usr_id" value="{{ Auth::user()->usr_id }}">
                                 </div>
                                 <br>

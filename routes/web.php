@@ -125,6 +125,8 @@ use App\Models\PengajuanSuratTugas;
         Route::get('/dashboardKaryawan',[DashboardKaryawanController::class,'index'])->name('karyawan.dashboard.index');
         Route::get('/dashboardKaryawan/totalPengajuan/',[DashboardKaryawanController::class,'totalPengajuan'])->name('karyawan.dashboard.totalPengajuan');
         Route::get('/dashboardKaryawan/totalSeminar/',[DashboardKaryawanController::class,'totalSeminar'])->name('karyawan.dashboard.totalSeminar');
+        Route::get('/dashboardKaryawan/totalProsiding/',[DashboardKaryawanController::class,'totalProsiding'])->name('karyawan.dashboard.totalProsiding');
+        Route::get('/dashboardKaryawan/totalHakPaten/',[DashboardKaryawanController::class,'totalHakPaten'])->name('karyawan.dashboard.totalHakPaten');
 
 
         //Pengabdian

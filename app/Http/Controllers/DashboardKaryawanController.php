@@ -118,5 +118,39 @@ class DashboardKaryawanController extends Controller
     
         return response()->json($results);
     }
+
+    public function totalHakPaten()
+    {
+        $usr_id = Auth::user()->usr_id;
+    
+        $results = DB::connection()->select("SELECT 
+            MONTH(hpt_tglpenerimaan) as bulan, 
+            hak_patens.usr_id,
+            users.usr_nama, 
+            COUNT(*) as total_hakpaten
+            FROM hak_patens 
+            JOIN users ON hak_patens.usr_id = users.usr_id
+            WHERE hak_patens.usr_id = :user_id
+            GROUP BY bulan, hak_patens.usr_id, users.usr_nama", ['user_id' => $usr_id]);
+    
+        return response()->json($results);
+    }
+    
+    public function totalProsiding()
+    {
+        $usr_id = Auth::user()->usr_id;
+    
+        $results = DB::connection()->select("SELECT 
+            MONTH(pro_waktuterbit) as bulan, 
+            prosidings.usr_id,
+            users.usr_nama, 
+            COUNT(*) as total_prosiding
+            FROM prosidings 
+            JOIN users ON prosidings.usr_id = users.usr_id
+            WHERE prosidings.usr_id = :user_id
+            GROUP BY bulan, prosidings.usr_id, users.usr_nama", ['user_id' => $usr_id]);
+    
+        return response()->json($results);
+    }
     
 }

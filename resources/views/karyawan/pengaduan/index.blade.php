@@ -14,7 +14,7 @@
                   <br>
 
                         @if (session('success'))
-                        <script>
+                            <script>
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Success',
