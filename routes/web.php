@@ -36,7 +36,7 @@ use App\Models\PengajuanSuratTugas;
     Route::middleware(['auth', 'userAccess:admin'])->group(function () {
         // Rute khusus untuk admin
         Route::get('/dashboardAdmin',[DashboardAdminController::class,'index'])->name('admin.dashboard.index');
-        Route::get('/dashboardAdmin/totalPengajuan',[DashboardAdminController::class,'totalPengajuan'])->name('admin.dashboard.totalPengajuan');
+        Route::get('/dashboardAdmin/getChartByMenu/{menuName}/{forOneYear?}', [DashboardAdminController::class, 'getChartByMenu'])->name('admin.dashboard.getChartByMenu');
 
         //Pengabdian
         Route::get('pengabdian', [PengabdianMasyarakatController::class, 'index'])->name('admin.pengabdian.index');
@@ -142,10 +142,7 @@ use App\Models\PengajuanSuratTugas;
     Route::middleware(['auth', 'userAccess:karyawan'])->group(function () {
         // Rute khusus untuk karyawan
         Route::get('/dashboardKaryawan',[DashboardKaryawanController::class,'index'])->name('karyawan.dashboard.index');
-        Route::get('/dashboardKaryawan/totalPengajuan/',[DashboardKaryawanController::class,'totalPengajuan'])->name('karyawan.dashboard.totalPengajuan');
-        Route::get('/dashboardKaryawan/totalSeminar/',[DashboardKaryawanController::class,'totalSeminar'])->name('karyawan.dashboard.totalSeminar');
-        Route::get('/dashboardKaryawan/totalProsiding/',[DashboardKaryawanController::class,'totalProsiding'])->name('karyawan.dashboard.totalProsiding');
-        Route::get('/dashboardKaryawan/totalHakPaten/',[DashboardKaryawanController::class,'totalHakPaten'])->name('karyawan.dashboard.totalHakPaten');
+        Route::get('/dashboardKaryawan/getChartByMenu/{menuName}/{forOneYear?}', [DashboardKaryawanController::class, 'getChartByMenu'])->name('karyawan.dashboard.getChartByMenu');
 
 
         //Pengabdian

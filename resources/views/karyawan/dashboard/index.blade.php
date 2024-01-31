@@ -15,355 +15,101 @@
                     <div class="col-md-5 col-sm-12">
                         <div class="row">
                             <div class="col">
-                                <select class="form-control" id="filter-month" style="border-radius: 10px;">
-                                    <option value="">Pilih Bulan</option>
-                                    @for ($month = 1; $month <= 12; $month++) 
-                                        <option value="{{ $month }}">{{ date('F', mktime(0, 0, 0, $month, 1)) }}</option>
-                                    @endfor
-                                </select>                                
+                                <select class="form-control" id="filter-chart" style="border-radius: 10px;">
+                                    <option value="">Pilih Chart</option>
+                                    <option value="surattugas">Surat Tugas</option>
+                                    <option value="seminar">Seminar</option>
+                                    <option value="hakpaten">Hak Paten</option>
+                                    <option value="prosiding">Prosiding</option>
+                                    <option value="pengabdian">Pengabdian Masyarakat</option>
+                                    <option value="jurnal">Jurnal</option>
+                                    <option value="hakcipta">Hak Cipta</option>
+                                    <option value="buku">Buku</option>
+                                </select>
                             </div>
 
-                            
                         </div>
                     </div>
                     <br>
                     <div class="col-12">
                         <div class="col">
-                            <h4>Grafik Total Pengajuan</h4>
-                        </div>                
-                    
+                            <h4>Grafik Data</h4>
+                        </div>
+
                         <div class="chart-container">
                             <canvas id="myChart" width="200" height="60"></canvas>
-                        </div>                
-                    </div>
-
-                    <div class="col-12">
-                        <div class="col">
-                            <h4>Grafik Total Seminar</h4>
-                        </div>                
-                        <div class="chart-container">
-                            <canvas id="myChartSeminar" width="200" height="60"></canvas>
-                        </div>                
-                    </div>
-
-                    <div class="col-12">
-                        <div class="col">
-                            <h4>Grafik Total Hak Paten</h4>
-                        </div>                
-                        <div class="chart-container">
-                            <canvas id="myChartHakPaten" width="200" height="60"></canvas>
-                        </div>                
-                    </div>
-
-                    <div class="col-12">
-                        <div class="col">
-                            <h4>Grafik Total Prosiding</h4>
-                        </div>                
-                        <div class="chart-container">
-                            <canvas id="myChartPro" width="200" height="60"></canvas>
-                        </div>                
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
-    
+
 <script>
 
     $(document).ready(function () {
         // Attach an event listener to the dropdown
-        loadChartData(),loadGrafikseminar(), loadGrafikHakPaten(), loadGrafikProsiding();
+        // loadChartData();
 
+        $('#filter-chart').change(function () {
+            const selectedChart = $('#filter-chart').val();
 
-        $('#filter-month').change(function () {
-            const selectedMonth = $(this).val();
-
-            if(selectedMonth === ""){
-                loadChartData();
-                loadGrafikseminar();
-                loadGrafikHakPaten();
-                loadGrafikProsiding();
-            }else{
-                loadChartData(selectedMonth);
-                loadGrafikseminar(selectedMonth);
-                loadGrafikHakPaten(selectedMonth);
-                loadGrafikProsiding(selectedMonth);
+            if (selectedChart === "") {
+                // Handle case when no chart is selected
+                // You can clear the chart or show a message
+            } else {
+                console.log(selectedChart);
+                loadChartData(selectedChart,true);
             }
         });
     });
-    const labels = [];
 
-    const data = {
-        labels: '',
-        datasets: [{
-            label: '',
-            data: [],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(201, 203, 207, 0.2)'
-            ],
-            borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(54, 162, 235)',
-                'rgb(153, 102, 255)',
-                'rgb(201, 203, 207)'
-            ],
-            borderWidth: 1
-        }]
-    };
-
-    const config = {
-        type: 'bar',
-        data: data,
-        options: {
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
+    function loadChartData(menuName,forOneYear) {
+        $.ajax({
+            url: "/dashboardKaryawan/getChartByMenu" + '/' + menuName+ '/' + forOneYear,
+            type: "GET",
+            dataType: 'json',
+            success: function (data) {
+                console.log();
+                updateLineChart(data);
             },
-            scales: {
-                y: {
-                    title: {
-                        display: true,
-                        text: ''
+
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", status, error);
+                swal.fire("Error!", "Terjadi kesalahan saat mengambil data!", "error");
+            }
+        });
+    }
+
+    var myChart;
+
+    function updateLineChart(data) {
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        // Hancurkan grafik yang ada (jika ada)
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Total Data',
+                    data: data.values,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
                 }
-            }
-        }
-    };
-
-    var myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
-
-    var myChartSeminar = new Chart(
-        document.getElementById('myChartSeminar'),
-        config
-    );
-
-    var myChartHpt = new Chart(
-        document.getElementById('myChartHakPaten'),
-        config
-    );
-
-    var myChartPro = new Chart(
-        document.getElementById('myChartPro'),
-        config
-    );
-
-    window.addEventListener('resize', function () {
-        updateChartSize();
-    });
-
-    // Function to update chart size
-    function updateChartSize() {
-        myChart.resize();
-        myChartSeminar.resize();
-        myChartHpt.resize();
-        myChartPro.resize();
-    }
-
-    // Initial call to set up the chart size
-    updateChartSize();
-
-    function loadChartData(selectedMonth) {
-    $.ajax({
-        url: "/dashboardKaryawan/totalPengajuan",
-        type: "GET",
-        dataType: 'json',
-        success: function (data) {
-            // Filter data for the selected month
-            const filteredData = selectedMonth
-                ? data.filter(function (item) {
-                      return item.bulan == selectedMonth;
-                  })
-                : data;
-
-            // Initialize arrays to hold labels and values
-            const labels = [];
-            const values = [];
-
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-            // Iterate through each object in the filtered data array
-            filteredData.forEach(function (item) {
-                // Push month name and total_pengajuan to their respective arrays
-                labels.push(monthNames[item.bulan - 1]); // gunakan monthNames array untuk mendapatkan nama bulan
-                values.push(item.total_pengajuan);
-            });
-
-            // Update chart data with the extracted labels and values
-            myChart.data.labels = labels;
-            myChart.data.datasets[0].data = values;
-
-            // Update chart title and label
-            myChart.options.scales.y.title.text = 'Jumlah Data Pengajuan'; // Update y-axis title
-            myChart.data.datasets[0].label = 'Jumlah Data Pengajuan'; // Update dataset label
-
-            // Update the chart
-            myChart.update();
-
-            console.log(filteredData);
-        },
-
-        error: function (xhr, status, error) {
-            console.error("AJAX Error:", status, error);
-            swal.fire("Error!", "Terjadi kesalahan saat mengambil data!", "error");
-        }
-        });
-    }
-
-
-    function loadGrafikseminar(selectedMonth) {
-        $.ajax({
-            url: "/dashboardKaryawan/totalSeminar", // Update the URL to match your route
-            type: "GET",
-            dataType: 'json',
-            success: function (data) {
-                // Filter data for the selected month
-                const filteredData = selectedMonth
-                    ? data.filter(function (item) {
-                        return item.bulan == selectedMonth;
-                    })
-                    : data;
-
-                // Initialize arrays to hold labels and values
-                const labels = [];
-                const values = [];
-
-                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-                // Iterate through each object in the filtered data array
-                filteredData.forEach(function (item) {
-                    // Push month name and total_seminar to their respective arrays
-                    labels.push(monthNames[item.bulan - 1]); // use the monthNames array to get the month name
-                    values.push(item.total_seminar);
-                });
-
-                // Update chart data with the extracted labels and values
-                myChartSeminar.data.labels = labels;
-                myChartSeminar.data.datasets[0].data = values;
-
-                // Update chart title and label
-                myChartSeminar.options.scales.y.title.text = 'Jumlah Data Seminar'; // Update y-axis title
-                myChartSeminar.data.datasets[0].label = 'Jumlah Data Seminar'; // Update dataset label
-                
-                // Update the chart
-                myChartSeminar.update();
-
-                console.log(filteredData);
-            },
-
-            error: function (xhr, status, error) {
-                console.error("AJAX Error:", status, error);
-                swal.fire("Error!", "Terjadi kesalahan saat mengambil data!", "error");
-            }
-        });
-    }
-
-    
-    function loadGrafikHakPaten(selectedMonth) {
-        $.ajax({
-            url: "/dashboardKaryawan/totalHakPaten", // Update the URL to match your route
-            type: "GET",
-            dataType: 'json',
-            success: function (data) {
-                // Filter data for the selected month
-                const filteredData = selectedMonth
-                    ? data.filter(function (item) {
-                        return item.bulan == selectedMonth;
-                    })
-                    : data;
-
-                // Initialize arrays to hold labels and values
-                const labels = [];
-                const values = [];
-
-                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-                // Iterate through each object in the filtered data array
-                filteredData.forEach(function (item) {
-                    // Push month name and total_seminar to their respective arrays
-                    labels.push(monthNames[item.bulan - 1]); // use the monthNames array to get the month name
-                    values.push(item.total_hakpaten);
-                });
-
-                // Update chart data with the extracted labels and values
-                myChartHpt.data.labels = labels;
-                myChartHpt.data.datasets[0].data = values;
-
-                // Update chart title and label
-                myChartHpt.options.scales.y.title.text = 'Jumlah Data Hak Paten'; // Update y-axis title
-                myChartHpt.data.datasets[0].label = 'Jumlah Data Hak Paten'; // Update dataset label
-
-                // Update the chart
-                myChartHpt.update();
-
-                console.log(filteredData);
-            },
-
-            error: function (xhr, status, error) {
-                console.error("AJAX Error:", status, error);
-                swal.fire("Error!", "Terjadi kesalahan saat mengambil data!", "error");
-            }
-        });
-    }
-
-    
-    function loadGrafikProsiding(selectedMonth) {
-        $.ajax({
-            url: "/dashboardKaryawan/totalProsiding", // Update the URL to match your route
-            type: "GET",
-            dataType: 'json',
-            success: function (data) {
-                // Filter data for the selected month
-                const filteredData = selectedMonth
-                    ? data.filter(function (item) {
-                        return item.bulan == selectedMonth;
-                    })
-                    : data;
-
-                // Initialize arrays to hold labels and values
-                const labels = [];
-                const values = [];
-
-                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-                // Iterate through each object in the filtered data array
-                filteredData.forEach(function (item) {
-                    // Push month name and total_seminar to their respective arrays
-                    labels.push(monthNames[item.bulan - 1]); // use the monthNames array to get the month name
-                    values.push(item.total_prosiding);
-                });
-
-                // Update chart data with the extracted labels and values
-                myChartPro.data.labels = labels;
-                myChartPro.data.datasets[0].data = values;
-
-                // Update chart title and label
-                myChartPro.options.scales.y.title.text = 'Jumlah Data Prosiding'; // Update y-axis title
-                myChartPro.data.datasets[0].label = 'Jumlah Data Prosiding'; // Update dataset label
-
-
-                // Update the chart
-                myChartPro.update();
-
-                console.log(filteredData);
-            },
-
-            error: function (xhr, status, error) {
-                console.error("AJAX Error:", status, error);
-                swal.fire("Error!", "Terjadi kesalahan saat mengambil data!", "error");
             }
         });
     }

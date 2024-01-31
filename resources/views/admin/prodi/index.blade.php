@@ -125,7 +125,7 @@
                                             <!-- Detail Button -->
                                             <a href="" id="detail-{{ $prd->id }}" class="btn btn-default detail-button"
                                                 data-toggle="modal" data-target="#modal-detail"
-                                                data-judul="{{ $prd->prd_nama }}"
+                                                data-judul="{{ $prd->prd_nama }}">
 
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </a>
