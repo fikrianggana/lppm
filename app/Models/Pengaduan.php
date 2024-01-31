@@ -65,6 +65,6 @@ class Pengaduan extends Model
         return $this -> belongsTo(Buku::class);
     }
     public function pengabdian(){
-        return $this -> belongsTo(Pengabdian::class);
+        return $this -> belongsTo(PengabdianMasyarakat::class);
     }
 }

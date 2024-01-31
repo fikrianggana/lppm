@@ -51,12 +51,12 @@
                                     <label class="form-label">Jenis Pengaduan</label>
                                     <select name="pdn_jenis" class="form-control form-control-line" id="jenisPengaduan" required>
                                         <option value="">Pilih Salah Satu</option>
-                                        <option value="Pengabdian Masyarakat" @if(old('pdn_jenis') == 'Pengabdian Masyarakat') selected @endif>Pengabdian Masyarakat </option>
+                                        <option value="PengabdianMasyarakat" @if(old('pdn_jenis') == 'PengabdianMasyarakat') selected @endif>Pengabdian Masyarakat </option>
                                         <option value="Buku" @if(old('pdn_jenis') == 'Buku') selected @endif>Buku </option>
                                         <option value="Jurnal" @if(old('pdn_jenis') == 'Jurnal') selected @endif>Jurnal </option>
                                         <option value="Seminar" @if(old('pdn_jenis') == 'Seminar') selected @endif>Seminar </option>
-                                        <option value="Hak Cipta" @if(old('pdn_jenis') == 'Hak Cipta') selected @endif>Hak Cipta </option>
-                                        <option value="Hak Paten" @if(old('pdn_jenis') == 'Hak Paten') selected @endif>Hak Paten </option>
+                                        <option value="HakCipta" @if(old('pdn_jenis') == 'HakCipta') selected @endif>Hak Cipta </option>
+                                        <option value="HakPaten" @if(old('pdn_jenis') == 'HakPaten') selected @endif>Hak Paten </option>
                                         <option value="Prosiding" @if(old('pdn_jenis') == 'Prosiding') selected @endif>Prosiding </option>
                                     </select>
                                 </div>

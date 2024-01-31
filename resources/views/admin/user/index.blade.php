@@ -93,7 +93,7 @@
 
                                         <td class="text-center">
 
-                                            {{--  <a href="{{ route('admin.user.edit', ['usr_id' => $usr->usr_id]) }}" class="btn btn-default">
+                                            <a href="{{ route('admin.user.edit', ['usr_id' => $usr->usr_id]) }}" class="btn btn-default">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
 
@@ -128,7 +128,7 @@
                                             <form id="delete-form-{{ $usr->usr_id }}" action="{{ route('admin.user.destroy', ['usr_id' => $usr->usr_id]) }}" method="POST" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
-                                            </form>  --}}
+                                            </form> 
 
 
                                             <a href="" id="detail-{{ $usr->usr_id }}" class="btn btn-default detail-button"

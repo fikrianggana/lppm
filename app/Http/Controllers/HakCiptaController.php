@@ -33,9 +33,7 @@ class HakCiptaController extends Controller
                 ->orWhere('hcp_sertifikat', 'like', "%{$request->search}%")
                 ->orWhere('hcp_keterangan', 'like', "%{$request->search}%");
         });
-        // ->get();
-        // $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
-
+        
         $user = Auth::user();
         $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
         $usr_id = $user->usr_id;
@@ -64,7 +62,7 @@ class HakCiptaController extends Controller
      */
     public function create()
     {
-        $title= 'Hak Cipta';
+        $title= 'Publikasi - Hak Cipta';
 
         // Ambil hanya kolom nama dari model User
         $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom

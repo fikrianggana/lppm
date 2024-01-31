@@ -65,6 +65,7 @@
                                         <th class="text-center">ISBN</th>
                                         <th class="text-center">Penerbit</th>
                                         <th class="text-center">Tahun</th>
+                                        <th class="text-center">User</th>
                                         <th class="text-center">Aksi</th>
                                   </tr>
                               </thead>
@@ -80,6 +81,7 @@
                                             <td class="text-center">{{$bk->bku_isbn}}</td>
                                             <td class="text-center">{{$bk->bku_penerbit}}</td>
                                             <td class="text-center">{{$bk->bku_tahun}}</td>
+                                            <td class="text-center">{{$bk->usr_id}}</td>
 
                                             <td class="text-center">
                                                 <a href="" id="detail-{{ $bk->bku_id }}" class="btn btn-default detail-button"

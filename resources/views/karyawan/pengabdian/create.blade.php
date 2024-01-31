@@ -103,6 +103,7 @@
                                     <label class="form-label">Prodi</label>
                                     <select name="prodi_id" class="form-control">
                                         @foreach ($prodis as $prd => $prd_nama)
+                                            <option value="">Pilih Salah Satu</option>
                                             <option value="{{ $prd }}" {{ old('prd_id') == $prd ? 'selected' : '' }}>
                                                 {{ $prd_nama }}
                                             </option>
@@ -112,7 +113,7 @@
                                 <br>
                                 <div class="col-12">
                                     <label for="Detail" class="control-label">Detail</label>
-                                    <textarea id="Detail" name="Detail" class="form-control">{{ old('Detail') }}</textarea>
+                                    <textarea id="Detail" name="Detail" class="form-control" readonly>{{ old('Detail') }}</textarea>
                                 </div>
                                 <div class="col-12">
                                     <!-- Span for validation error -->

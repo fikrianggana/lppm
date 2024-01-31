@@ -60,7 +60,7 @@ class PengabdianMasyarakatController extends Controller
     public function create()
     {
         $title = 'Pengabdian Masyarakat';
-        $prodis = Prodi::pluck('prd_nama');
+        $prodis = Prodi::pluck('prd_nama', 'id');
         $user = User::pluck('usr_nama');
 
         $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login

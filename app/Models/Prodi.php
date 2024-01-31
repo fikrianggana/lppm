@@ -15,7 +15,7 @@ class Prodi extends Model
 
     public function pengguna()
     {
-        return $this -> hasMany(Pengguna::class);
+        return $this -> hasMany(User::class);
     }
 
     public function pengabdianMasyarakat(){

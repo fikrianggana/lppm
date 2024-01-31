@@ -58,7 +58,7 @@
                                 <br>
                                 <div class="col-12">
                                     <label class="form-label">Password</label>
-                                    <input type="text" class="form-control" name="password" value="{{ old('password')}}" placeholder="Password">
+                                    <input type="password" class="form-control" name="password" value="{{ old('password')}}" placeholder="Password">
                                 </div>
                                 <br>
                                 <div class="col-12">

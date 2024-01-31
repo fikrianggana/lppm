@@ -8,6 +8,7 @@ use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -47,6 +48,9 @@ class UserController extends Controller
                 'usr_email',
                 'usr_notelpon',
             ]);
+
+            // Enkripsi password menggunakan bcrypt sebelum menyimpan ke database
+            $dataToStore['password'] = Hash::make($dataToStore['password']);
 
             $user = User::create($dataToStore);
 

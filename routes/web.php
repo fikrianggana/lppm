@@ -52,6 +52,8 @@ use App\Models\PengajuanSuratTugas;
         Route::get('user/create', [UserController::class, 'create'])->name('admin.user.create');
         Route::post('user', [UserController::class, 'store'])->name('admin.user.store');
         Route::get('user/{usr_id}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
+        Route::put('user/{usr_id}', [UserController::class, 'update'])->name('admin.user.update');
+        Route::delete('user/{usr_id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
         Route::get('user/userexport', [UserController::class, 'userexport'])->name('admin.user.export');
 
 

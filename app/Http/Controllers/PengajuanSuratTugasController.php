@@ -98,7 +98,6 @@ class PengajuanSuratTugasController extends Controller
         $validatedData['status'] = 0;
         $validatedData['inputby'] = Auth::user()->usr_id;
 
-
         if ($request->hasFile('pst_buktipendukung')) {
             $pst_buktipendukung = $request->file('pst_buktipendukung');
             $nama_buktipendukung = $pst_buktipendukung->getClientOriginalName(); // Gunakan nama asli file

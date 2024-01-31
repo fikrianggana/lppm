@@ -91,17 +91,19 @@
                                 <div class="col-12">
                                     <label class="form-label">Prodi</label>
                                     <select name="prodi_id" class="form-control">
+                                        <option value="">-- Prodi --</option>
                                         @foreach ($prodis as $prd => $prd_nama)
-                                            <option value="{{ $prd }}" {{ old('prd_id') == $prd ? 'selected' : '' }}>
+                                            <option value="{{ $prd }}" {{ old('id') == $prd ? 'selected' : '' }}>
                                                 {{ $prd_nama }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <br>
                                 <div class="col-12">
                                     <label for="Detail" class="control-label">Detail</label>
-                                    <textarea id="Detail" name="Detail" class="form-control">{{ old('Detail') }}</textarea>
+                                    <textarea id="Detail" name="Detail" class="form-control" readonly>{{ old('Detail') }}</textarea>
                                 </div>
                                 <div class="col-12">
                                     <!-- Span for validation error -->
@@ -178,6 +180,7 @@
 
         document.getElementById('Detail').value = newDetailValue;
     });
+
 </script>
 
 @endsection

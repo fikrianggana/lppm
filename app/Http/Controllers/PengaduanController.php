@@ -300,9 +300,40 @@ class PengaduanController extends Controller
 
                 $data[] = $pengaduanEntry;
             }
+        }   elseif ($pengaduan == "PengabdianMasyrakat"){
+            $pengabdianMasyarakat = PengabdianMasyarakat::where('usr_id', $id)->get();
+
+            foreach ($pengabdianMasyarakat as $pkm){
+                $pengaduanEntry = new DataModel([
+                    'id' => $pkm->pkm_id,
+                    'nama' => $pkm->pkm_namakegiatan
+                ]);
+
+                $data[] = $pengaduanEntry;
+            }
+        } elseif ($pengaduan == "HakPaten"){
+            $hakPaten = HakPaten::where('usr_id', $id)->get();
+
+            foreach ($hakPaten as $hpt){
+                $pengaduanEntry = new DataModel([
+                    'id' => $hpt->hpt_id,
+                    'nama' => $hpt->hpt_namalengkap
+                ]);
+
+                $data[] = $pengaduanEntry;
+            }
+        }elseif ($pengaduan == "Prosiding"){
+            $prosiding = Prosiding::where('usr_id', $id)->get();
+
+            foreach ($prosiding as $pro){
+                $pengaduanEntry = new DataModel([
+                    'id' => $pro->pro_id,
+                    'nama' => $pro->pro_judulprogram
+                ]);
+
+                $data[] = $pengaduanEntry;
+            }
         }
-
-
         return response()->json($data);
     }
 

@@ -96,7 +96,7 @@ class HakPatenController extends Controller
     {
         $validatedData = $request->validated();
 
-        if ($hakPaten = HakPaten::create($validatedData)){
+        if (HakPaten::create($validatedData)){
             $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
 
             // Tentukan view berdasarkan peran pengguna
@@ -130,9 +130,10 @@ class HakPatenController extends Controller
      */
     public function edit(HakPaten $hakPaten, $hpt_id)
     {
+        $title = 'Ubah HakPaten';
         $hakPaten = HakPaten::findOrFail($hpt_id);
         $users = User::pluck('usr_nama', 'usr_id');
-        return view('admin.publikasi.hakpaten.edit', [
+        return view('admin.publikasi.hakpaten.edit',compact('title'), [
             'hpt'=>$hakPaten,
             'users'=>$users,
         ]);

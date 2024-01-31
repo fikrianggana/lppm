@@ -29,8 +29,9 @@ class StoreUserRequest extends FormRequest
             'username' => ['required'],
             'password' => ['required'],
             'usr_role' => ['required'],
-            'usr_email' => ['required'],
+            'usr_email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
             'usr_notelpon' => ['required', 'numeric'],
         ];
+        
     }
 }
