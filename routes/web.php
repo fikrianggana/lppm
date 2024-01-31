@@ -4,8 +4,10 @@ use App\Http\Controllers\HakCiptaController;
 use App\Http\Controllers\HakPatenController;
 use App\Http\Controllers\JurnalController;
 use App\Http\Controllers\PengaduanController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\ProsidingController;
 use App\Http\Controllers\SeminarController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardAdminController;
@@ -44,6 +46,23 @@ use App\Models\PengajuanSuratTugas;
         Route::put('pengabdian/{pkm_id}', [PengabdianMasyarakatController::class, 'update'])->name('admin.pengabdian.update');
         Route::delete('pengabdian/{pkm_id}', [PengabdianMasyarakatController::class, 'destroy'])->name('admin.pengabdian.destroy');
         Route::get('pengabdian/pengabdianexport', [PengabdianMasyarakatController::class, 'pengabdianexport'])->name('admin.pengabdian.export');
+
+        //Pengguna
+        Route::get('user', [UserController::class, 'index'])->name('admin.user.index');
+        Route::get('user/create', [UserController::class, 'create'])->name('admin.user.create');
+        Route::post('user', [UserController::class, 'store'])->name('admin.user.store');
+        Route::get('user/{usr_id}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
+        Route::get('user/userexport', [UserController::class, 'userexport'])->name('admin.user.export');
+
+
+        //Prodi
+        Route::get('prodi', [ProdiController::class, 'index'])->name('admin.prodi.index');
+        Route::get('prodi/create', [ProdiController::class, 'create'])->name('admin.prodi.create');
+        Route::post('prodi', [ProdiController::class, 'store'])->name('admin.prodi.store');
+        Route::get('prodi/{id}/edit', [ProdiController::class, 'edit'])->name('admin.prodi.edit');
+        Route::put('prodi/{id}', [ProdiController::class, 'update'])->name('admin.prodi.update');
+        Route::delete('prodi/{id}', [ProdiController::class, 'destroy'])->name('admin.prodi.destroy');
+        Route::get('prodi/prodiexport', [ProdiController::class, 'prodiexport'])->name('admin.prodi.export');
 
         //Pengajuan surat Tugas
         Route::get('pengajuan',[PengajuanSuratTugasController::class,'index'])->name('admin.pengajuan.index');
