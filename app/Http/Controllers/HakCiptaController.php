@@ -125,9 +125,10 @@ class HakCiptaController extends Controller
      */
     public function edit(HakCipta $hakCipta, $hcp_id)
     {
+        $title = 'Ubah HakCipta';
         $hakCipta = HakCipta::findOrFail($hcp_id);
         $users = User::pluck('usr_nama', 'usr_id');
-        return view('admin.publikasi.hakcipta.edit', [
+        return view('admin.publikasi.hakcipta.edit',compact('title'), [
             'hcp'=>$hakCipta,
             'users'=>$users,
         ]);

@@ -135,10 +135,11 @@ class JurnalController extends Controller
      */
     public function edit(Jurnal $jurnal, $jrn_id)
     {
+        $title = 'Ubah Jurnal';
         $jurnal = Jurnal::findOrFail($jrn_id);
         $users = User::pluck('usr_nama', 'usr_id');
 
-        return view('admin.publikasi.jurnal.edit', [
+        return view('admin.publikasi.jurnal.edit', compact('title'),[
             'jrn'=>$jurnal,
             'users'=>$users,
         ]);

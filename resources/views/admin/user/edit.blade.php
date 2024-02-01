@@ -44,10 +44,10 @@
                                 <br>
                                 <div class="col-12">
                                     <label class="form-label">Prodi</label>
-                                    <select name="prodi_id" class="form-control" >
-                                        <opton value="">-- Prodi --</opton>
-                                        @foreach ($prodis as $usr => $prd_nama)
-                                            <option value="{{ $usr }}" @selected(old('prodi_id') == $usr || $usr -> prodi_id == $usr)>
+                                    <select name="prodi_id" class="form-control">
+                                        <option value="">Pilih Prodi</option>
+                                        @foreach ($prodis as $prd => $prd_nama)
+                                            <option value="{{ $prd }}" @selected(old('prodi_id') == $usr)>
                                                 {{ $prd_nama }}
                                             </option>
                                         @endforeach
@@ -56,7 +56,7 @@
                                 <br>
                                 <div class="col-12">
                                     <label class="form-label">Username</label>
-                                    <input type="text" class="form-control" name="username" value="{{ old('username',  $usr -> username)}}" placeholder="Username">
+                                    <input type="text" class="form-control" name="username" value="{{ old('username', $usr->username)}}" placeholder="Username">
                                 </div>
                                 <br>
                                 <div class="col-12">
@@ -65,26 +65,23 @@
                                 </div>
                                 <br>
                                 <div class="col-12">
+                                    <label class="form-label">Role</label>
+                                    <select name="usr_role" class="form-control form-control-line">
+                                        <option value="">Pilih Salah Satu</option>
+                                        <option value="admin" @if(old('usr_role') == 'admin') selected @endif>Admin</option>
+                                        <option value="karyawan" @if(old('usr_role') == 'karyawan') selected @endif>Karyawan</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="col-12">
                                     <label class="form-label">Email</label>
-                                    <input type="text" class="form-control" name="bku_tahun" value="{{ old('usr_email',  $usr -> usr_email)}}" placeholder="Email">
+                                    <input type="text" class="form-control" name="usr_email" value="{{ old('usr_email',  $usr -> usr_email)}}" placeholder="Email">
                                 </div>
                                 <br>
 
                                 <div class="col-12">
                                     <label class="form-label">No Telepon</label>
                                     <input type="number" class="form-control" name="usr_notelpon" value="{{ old('usr_notelpon',  $usr -> usr_notelpon)}}" placeholder="Penerbit">
-                                </div>
-                                <br>
-                                <div class="col-12">
-                                    <label class="form-label">Pengguna</label>
-                                    <select name="usr_id" class="form-control" >
-                                        <opton value="">-- Pengguna --</opton>
-                                        @foreach ($users as $usr => $usr_nama)
-                                            <option value="{{ $usr }}" @selected(old('usr_id') == $usr || $bk -> usr_id == $usr)>
-                                                {{ $usr_nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
                                 </div>
                                 <br>
                                 </div>

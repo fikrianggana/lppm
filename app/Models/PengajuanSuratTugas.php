@@ -37,11 +37,15 @@ class PengajuanSuratTugas extends Model
         'namafile',
         'namafilesurat',
         'keterangan',
-        'tanggalselesai'
+        'tanggalselesai',
+        'surattugas',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'usr_id');
+    }
+    public function detialSurat(){
+        return $this->hasMany(DetailPengajuanSuratTugas::class);
     }
 }

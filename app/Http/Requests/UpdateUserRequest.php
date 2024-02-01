@@ -11,10 +11,10 @@ class UpdateUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return false;
-    }
+    // public function authorize()
+    // {
+    //     return false;
+    // }
 
     /**
      * Get the validation rules that apply to the request.
@@ -29,7 +29,7 @@ class UpdateUserRequest extends FormRequest
             'username' => ['required'],
             'password' => ['required'],
             'usr_role' => ['required'],
-            'usr_email' => ['required'],
+            'usr_email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
             'usr_notelpon' => ['required', 'numeric'],
         ];
     }

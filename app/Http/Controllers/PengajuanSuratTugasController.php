@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\DetailPengajuanSuratTugas;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SuratTugasExport;
 use Illuminate\Http\Request;
@@ -28,30 +30,30 @@ class PengajuanSuratTugasController extends Controller
 
         $search = PengajuanSuratTugas::where(function ($query) use ($request) {
             $query->where('pst_namasurattugas', 'like', "%{$request->search}%")
-                  ->orWhere('pst_masapelaksanaan', 'like', "%{$request->search}%")
-                  ->orWhere('pst_buktipendukung', 'like', "%{$request->search}%")
-                  ->orWhere('status', 'like', "%{$request->search}%")
-                  ->orWhere('surattugas', 'like', "%{$request->search}%");
+                ->orWhere('pst_masapelaksanaan', 'like', "%{$request->search}%")
+                ->orWhere('pst_buktipendukung', 'like', "%{$request->search}%")
+                ->orWhere('status', 'like', "%{$request->search}%")
+                ->orWhere('surattugas', 'like', "%{$request->search}%");
         });
 
         $user = Auth::user();
         $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
         $usr_id = $user->usr_id;
-    
+
         if ($usr_role === 'karyawan') {
             $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
         }
-    
+
         $pengajuanSuratTugas = $search->get();
-        
+
         // Berdasarkan peran, tentukan view yang akan digunakan
         if ($usr_role === 'karyawan') {
             // Filter out records with status 3 for karyawan view
-           
+
             return view('karyawan.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
         } elseif ($usr_role === 'admin') {
             // Filter out records with status 3 for admin view
-            
+
             return view('admin.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
         } else {
             // Handle jika peran tidak teridentifikasi
@@ -69,19 +71,20 @@ class PengajuanSuratTugasController extends Controller
     {
         $title = 'Pengajuan Surat Tugas';
 
-        $user = User::pluck('usr_nama', 'usr_id'); // Sesuaikan dengan nama kolom
-        $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
+        $users = User::pluck('usr_nama', 'usr_id'); // Pluck user names with user IDs
+        $usr_role = Auth::user()->usr_role; // Get the role of the logged-in user
 
-        // Tentukan view berdasarkan peran pengguna
+        // Determine the view based on the user's role
         if ($usr_role === 'karyawan') {
-            return view('karyawan.pengajuan.create',compact('title'),['users' => $user]);
+            return view('karyawan.pengajuan.create', compact('title', 'users'));
         } elseif ($usr_role === 'admin') {
-            return view('admin.pengajuan.create', compact('title'),['users' => $user]);
+            return view('admin.pengajuan.create', compact('title', 'users'));
         } else {
-            // Handle jika peran tidak teridentifikasi
+            // Handle if the role is not identified
             return abort(403, 'Unauthorized action.');
         }
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -91,12 +94,15 @@ class PengajuanSuratTugasController extends Controller
      */
     public function store(StorePengajuanSuratTugasRequest $request)
     {
-
         $validatedData = $request->validated();
 
         // Set status 0 saat pertama kali data disimpan
         $validatedData['status'] = 0;
         $validatedData['inputby'] = Auth::user()->usr_id;
+        $detailTemp = $request->input('detailTemp');
+
+        $selectedUserIds = explode(',', $detailTemp);
+        
 
         if ($request->hasFile('pst_buktipendukung')) {
             $pst_buktipendukung = $request->file('pst_buktipendukung');
@@ -106,12 +112,17 @@ class PengajuanSuratTugasController extends Controller
             $validatedData['pst_buktipendukung'] = 'files/' . $nama_buktipendukung; // Simpan path file dalam database
         }
 
-        if ($pengajuan = PengajuanSuratTugas::create($validatedData)){
+        if ($pengajuan = PengajuanSuratTugas::create($validatedData)) {
 
             $pengajuan->save();
 
             $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login
-
+            foreach ($selectedUserIds as $userId) {
+                DetailPengajuanSuratTugas::create([
+                    'pengaju_id' =>$pengajuan->pst_id,
+                    'usr_id' => $userId,
+                ]);
+            }
             // Tentukan view berdasarkan peran pengguna
             if ($usr_role === 'karyawan') {
                 return redirect(route('karyawan.pengajuan.index'))->with('success', 'Data Berhasil Disimpan!');
@@ -123,6 +134,7 @@ class PengajuanSuratTugasController extends Controller
             }
 
         }
+        
     }
 
     /**
@@ -317,5 +329,43 @@ class PengajuanSuratTugasController extends Controller
         // Download the Excel file
         return Excel::download($export, 'Laporan_Surat_Tugas.xlsx');
     }
+    public function detail(Request $request)
+    {
+        $title = 'Pengajuan Surat Tugas';
+        $pengajuanSuratTugas = PengajuanSuratTugas::all();
 
+        $query = $request->get('search');
+
+        $search = PengajuanSuratTugas::where(function ($query) use ($request) {
+            $query->where('pst_namasurattugas', 'like', "%{$request->search}%")
+                ->orWhere('pst_masapelaksanaan', 'like', "%{$request->search}%")
+                ->orWhere('pst_buktipendukung', 'like', "%{$request->search}%")
+                ->orWhere('status', 'like', "%{$request->search}%")
+                ->orWhere('surattugas', 'like', "%{$request->search}%");
+        });
+
+        $user = Auth::user();
+        $usr_role = $user->usr_role; // Ambil peran pengguna yang sedang login
+        $usr_id = $user->usr_id;
+
+        if ($usr_role === 'karyawan') {
+            $search->where('usr_id', $usr_id); // Assuming 'created_by' is the correct column
+        }
+
+        $pengajuanSuratTugas = $search->get();
+
+        // Berdasarkan peran, tentukan view yang akan digunakan
+        if ($usr_role === 'karyawan') {
+            // Filter out records with status 3 for karyawan view
+
+            return view('karyawan.pengajuan.detail', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
+        } elseif ($usr_role === 'admin') {
+            // Filter out records with status 3 for admin view
+
+            return view('admin.pengajuan.detail', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
+        } else {
+            // Handle jika peran tidak teridentifikasi
+            return abort(403, 'Unauthorized action.');
+        }
+    }
 }

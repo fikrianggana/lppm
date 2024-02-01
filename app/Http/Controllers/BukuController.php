@@ -125,10 +125,11 @@ class BukuController extends Controller
      */
     public function edit(Buku $buku, $bku_id)
     {
+        $title = 'Ubah Buku';
         $buku = Buku::findOrFail($bku_id);
         $users = User::pluck('usr_nama', 'usr_id');
 
-        return view('admin.publikasi.buku.edit', ['bk'=>$buku,'users'=>$users]);
+        return view('admin.publikasi.buku.edit', compact('title'),['bk'=>$buku,'users'=>$users]);
 
     }
 

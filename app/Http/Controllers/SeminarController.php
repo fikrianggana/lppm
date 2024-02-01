@@ -128,9 +128,10 @@ class SeminarController extends Controller
      */
     public function edit(Seminar $seminar, $smn_id)
     {
+        $title = 'Ubah Seminar';
         $seminar = Seminar::findOrFail($smn_id);
         $users = User::pluck('usr_nama', 'usr_id');
-        return view('admin.publikasi.seminar.edit', [
+        return view('admin.publikasi.seminar.edit',compact('title'), [
             'smn'=>$seminar,
             'users'=>$users,
         ]);

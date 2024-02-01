@@ -130,9 +130,10 @@ class ProsidingController extends Controller
      */
     public function edit(Prosiding $prosiding, $pro_id)
     {
+        $title = 'Ubah Prosiding';
         $prosiding = Prosiding::findOrFail($pro_id);
         $users = User::pluck('usr_nama', 'usr_id');
-        return view('admin.publikasi.prosiding.edit', [
+        return view('admin.publikasi.prosiding.edit',compact('title'), [
             'pro'=>$prosiding,
             'users'=>$users,
         ]);

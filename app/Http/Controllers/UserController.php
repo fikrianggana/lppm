@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExport;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Prodi;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -70,6 +72,7 @@ class UserController extends Controller
 
     public function edit(User $user, $usr_id)
     {
+        $title = 'Ubah User';
 
         $user = User::findOrFail($usr_id);
 
@@ -89,7 +92,7 @@ class UserController extends Controller
             $usr_role = Auth::user()->usr_role;
 
             if ($usr_role === 'admin') {
-                return redirect()->route('admin.prodi.index')->with(['success' => 'Data Berhasil Diubah!']);
+                return redirect()->route('admin.user.index')->with(['success' => 'Data Berhasil Diubah!']);
             }
         } catch (\Exception $e) {
             // Tangani kesalahan update data, misalnya dengan log atau notifikasi
@@ -108,5 +111,10 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error deleting user: ' . $e->getMessage());
         }
+    }
+    public function userexport(Request $request)
+    {
+        $search = $request->get('search');
+        return Excel::download(new UserExport($search), 'Laporan_User.xlsx');
     }
 }

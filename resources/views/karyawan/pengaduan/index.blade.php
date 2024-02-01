@@ -97,15 +97,6 @@
                                                 </a>
                                             @endif
 
-                                            <a href="" id="detail-{{ $pdn->pdn_id }}" class="btn btn-default detail-button"
-                                                data-toggle="modal" data-target="#modal-detail"
-                                                data-pdn_tipe="{{ $pdn->pdn_tipe }}"
-                                                data-pdn_jenis="{{ $pdn->pdn_jenis }}"
-                                                data-status="{{ $pdn->status }}"
-                                                data-keterangan="{{ $pdn->keterangan }}">
-                                                <i class="fa fa-list" aria-hidden="true"></i>
-                                            </a>
-
                                             <!-- Delete Button -->
                                             @if($pdn->status == 0)
                                             <a href="#"
@@ -139,6 +130,16 @@
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
+
+                                            <a href="" id="detail-{{ $pdn->pdn_id }}" class="btn btn-default detail-button"
+                                                data-toggle="modal" data-target="#modal-detail"
+                                                data-pdn_tipe="{{ $pdn->pdn_tipe }}"
+                                                data-pdn_jenis="{{ $pdn->pdn_jenis }}"
+                                                data-status="{{ $pdn->status }}"
+                                                data-keterangan="{{ $pdn->keterangan }}">
+                                                <i class="fa fa-list" aria-hidden="true"></i>
+                                            </a>
+                                            
                                         </td>
                                     </tr>
 
@@ -214,8 +215,8 @@
 <script>
     $(document).ready(function() {
         $('.detail-button').on('click', function() {
-            var tipe = $(this).data('tipe');
-            var jenis = $(this).data('jenis');
+            var tipe = $(this).data('pdn_tipe');
+            var jenis = $(this).data('pdn_jenis');
             var status = $(this).data('status');
             var ket = $(this).data('keterangan');
 

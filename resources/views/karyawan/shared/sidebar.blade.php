@@ -42,24 +42,37 @@
                 <i class="fa fa-group fa-lg fa-pull-left fa-solid fa-people-roof"></i>Pengabdian Masyakarat
             </a>
 
-            <a href='{{ route ('karyawan.pengajuan.index') }}' class='list-group-item list-group-item-action'
-                style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;'>
-                <i class="fa fa-envelope fa-pull-left"></i>Pengajuan Surat Tugas
-            </a>
-
             <a href='{{ route('karyawan.pengaduan.index') }}' class='list-group-item list-group-item-action'
 			    style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;'>
 			    <i class="fa fa-lg fa-bullhorn fa-pull-left"></i>Pengaduan
 		    </a>
 
             <a href='' class='list-group-item list-group-item-action'
-                style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;' data-toggle="collapse" data-target="#submenuPublikasi">
-                <i class="fa fa-chevron-down fa-sm fa-pull-left"></i> Publikasi
-                <!-- <i class="fa fa-caret-down "></i> -->
-            </a>
+            style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;' data-toggle="collapse"
+            data-target="#submenuSuratTugas">
+            <i class="fa fa-chevron-down fa-sm fa-pull-left"></i> Surat Tugas
+            <!-- <i class="fa fa-caret-down "></i> -->
+        </a>
 
-            <!-- Submenu items for Publikasi -->
-            <div class="collapse submenu" id="submenuPublikasi">
+        <div class="collapse submenu" id="submenuSuratTugas">
+            <a href='{{ route ('karyawan.pengajuan.index') }}' class='list-group-item list-group-item-action'
+                style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
+                <i class="fa fa-envelope fa-pull-left"></i>Pengajuan Surat Tugas
+            </a>
+            <a href='{{ route ('karyawan.pengajuan.index') }}' class='list-group-item list-group-item-action'
+                style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
+                <i class="fa fa-info fa-pull-left"></i>Detail Pengajuan Surat Tugas
+            </a>
+        </div>
+
+        <a href='' class='list-group-item list-group-item-action'
+            style='border-radius: 0px; border: none; padding-left: 22px; display: inherit;' data-toggle="collapse"
+            data-target="#submenuPublikasi">
+            <i class="fa fa-chevron-down fa-sm fa-pull-left"></i> Publikasi
+            <!-- <i class="fa fa-caret-down "></i> -->
+        </a>
+        <!-- Submenu items for Publikasi -->
+        <div class="collapse submenu" id="submenuPublikasi">
             <a href='{{ route ('karyawan.publikasi.buku.index') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
                 <i class="fa fa-book fa-pull-left"></i> Buku
@@ -70,7 +83,10 @@
             </a>
             <a href='{{ route ('karyawan.publikasi.seminar.index') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
-                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https:fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M96 32C60.7 32 32 60.7 32 96V384H96V96l384 0V384h64V96c0-35.3-28.7-64-64-64H96zM224 384v32H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H544c17.7 0 32-14.3 32-32s-14.3-32-32-32H416V384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32z"/></svg> Seminar
+                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512">
+                    <path
+                        d="M96 32C60.7 32 32 60.7 32 96V384H96V96l384 0V384h64V96c0-35.3-28.7-64-64-64H96zM224 384v32H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H544c17.7 0 32-14.3 32-32s-14.3-32-32-32H416V384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32z" />
+                </svg> Seminar
             </a>
             <a href='{{ route ('karyawan.publikasi.hakcipta.index') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
@@ -95,4 +111,13 @@
             $('#publikasi-submenu').toggle();
         });
     });
+
+    $(document).ready(function () {
+        $('a[data-toggle="collapse"]').click(function () {
+            var target = $(this).data("target");
+            $(target).toggle();
+        });
+    });
+
+
 </script>
