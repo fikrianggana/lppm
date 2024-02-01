@@ -160,6 +160,7 @@ use App\Models\PengajuanSuratTugas;
         Route::put('pengajuanKaryawan/{pst_id}', [PengajuanSuratTugasController::class, 'update'])->name('karyawan.pengajuan.update');
         Route::delete('pengajuanKaryawan/{pst_id}', [PengajuanSuratTugasController::class, 'destroy'])->name('karyawan.pengajuan.destroy');
         Route::get('pengajuanKaryawan/{pst_id}', [PengajuanSuratTugasController::class, 'kirim'])->name('karyawan.pengajuan.kirim');
+        // Route::get('pengajuanKaryawan', [PengajuanSuratTugasController::class, 'detail'])->name('karyawan.pengajuan.detail');
 
         //Pengaduan
         Route::get('pengaduanKaryawan', [PengaduanController::class, 'index'])->name('karyawan.pengaduan.index');
