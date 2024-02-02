@@ -33,4 +33,16 @@ class StoreHakPatenRequest extends FormRequest
             'usr_id' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'hpt_namalengkap.required' => 'Nama Lengkap wajib diisi.',
+            'hpt_judul.required' => 'Judul wajib diisi.',
+            'hpt_nopemohonan.required' => 'No Permohonan wajib diisi.',
+            'hpt_tglpelaksanaan.required' => 'Tanggal Pelaksanaan wajib diisi.',
+            'hpt_tglpenerimaan.required' => 'Tanggal Penerimaan wajib diisi.',
+            'hpt_status.required' => 'Status wajib diisi.',
+        ];
+    }
 }

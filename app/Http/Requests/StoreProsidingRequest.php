@@ -35,4 +35,18 @@ class StoreProsidingRequest extends FormRequest
             'usr_id' => ['required'],
         ];
     }
+    public function messages()
+    {
+        return [
+            'pro_namapenulis.required' => 'Nama Penulis wajib diisi.',
+            'pro_judulprogram.required' => 'Judul Program wajib diisi.',
+            'pro_judulpaper.required' => 'Judul Paper wajib diisi.',
+            'pro_kategori.required' => 'Kategori wajib diisi.',
+            'pro_penyelenggara.required' => 'Penyelenggara wajib diisi.',
+            'pro_waktuterbit.required' => 'Waktu Terbit wajib diisi.',
+            'pro_tempatpelaksanaan.required' => 'Tempat Pelaksanaan wajib diisi.',
+            'pro_keterangan.required' => 'Keterangan wajib diisi.',
+           
+        ];
+    }
 }

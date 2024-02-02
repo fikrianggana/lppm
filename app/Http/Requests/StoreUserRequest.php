@@ -34,4 +34,17 @@ class StoreUserRequest extends FormRequest
         ];
         
     }
+    public function messages()
+    {
+        return [
+            'usr_nama.required' => 'Nama wajib diisi.',
+            'prodi_id.required' => 'Prodi wajib diisi.',
+            'username.required' => 'Username wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
+            'usr_role.required' => 'Role wajib diisi.',
+            'usr_email.required' => 'Email wajib diisi dengan format @gmail.com.',
+            'usr_notelpon.required' => 'No Telepon hanya bisa angka.',
+           
+        ];
+    }
 }

@@ -17,8 +17,8 @@
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <div class="alert-title">
-                                        <h4>Whoops!</h4>
-                                        There are some problems with your input.
+                                        <h4>Terjadi Kesalahan</h4>
+                                        Data yang di inputkan tidak valid.
                                     </div>
                                     <ul>
                                         @foreach ($errors->all() as $error)

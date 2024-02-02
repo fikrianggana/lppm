@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Collection;
+
 class PengajuanSuratTugas extends Model
 {
 
@@ -48,4 +50,13 @@ class PengajuanSuratTugas extends Model
     public function detialSurat(){
         return $this->hasMany(DetailPengajuanSuratTugas::class);
     }
+
+    // Model PengajuanSuratTugas
+    public function involvedUsers()
+    {
+        return $this->hasMany(DetailPengajuanSuratTugas::class, 'pengaju_id', 'pst_id')
+            ->join('users', 'detail_surat_tugas.usr_id', '=', 'users.usr_id')
+            ->pluck('users.usr_nama', 'users.usr_id');
+    }
+
 }

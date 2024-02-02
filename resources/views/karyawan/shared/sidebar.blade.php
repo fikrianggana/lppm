@@ -59,7 +59,7 @@
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
                 <i class="fa fa-envelope fa-pull-left"></i>Pengajuan Surat Tugas
             </a>
-            <a href='{{ route ('karyawan.pengajuan.index') }}' class='list-group-item list-group-item-action'
+            <a href='{{ route ('karyawan.pengajuan.indexDetail') }}' class='list-group-item list-group-item-action'
                 style='border-radius: 0px; border: none; padding-left: 40px; display: inherit;'>
                 <i class="fa fa-info fa-pull-left"></i>Detail Pengajuan Surat Tugas
             </a>

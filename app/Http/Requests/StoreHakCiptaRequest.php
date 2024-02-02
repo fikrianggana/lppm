@@ -45,7 +45,6 @@ class StoreHakCiptaRequest extends FormRequest
             'hcp_sertifikat.required' => 'Sertifikat wajib diisi.',
             'hcp_sertifikat.digits' => 'Sertifikat harus terdiri dari 10 digit.',
             'hcp_keterangan.required' => 'Keterangan wajib diisi.',
-           
         ];
     }
 }

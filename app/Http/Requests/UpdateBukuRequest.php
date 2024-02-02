@@ -36,5 +36,16 @@ class UpdateBukuRequest extends FormRequest
             'usr_id' => ['required'],
         ];
     }
-
+    public function messages()
+    {
+        return [
+            'bku_judul.required' => 'Judul wajib diisi.',
+            'bku_penulis.required' => 'Penulis wajib diisi.',
+            'bku_editor.required' => 'Editor wajib diisi.',
+            'bku_isbn.required' => 'ISBN wajib diisi dengan format XXXX-XXXX.',
+            'bku_penerbit.required' => 'Penerbit wajib diisi.',
+            'bku_tahun.digits' => 'Tahun harus terdiri dari 4 digit.',
+           
+        ];
+    }
 }

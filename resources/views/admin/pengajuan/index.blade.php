@@ -65,6 +65,7 @@
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th class="text-center">Nama Pengaju</th>
+                                    <th class="text-center">Nama Pengguna Terlibat</th>
                                     <th class="text-center">Nama Surat Tugas</th>
                                     <th class="text-center">Masa Pelaksanaan</th>
                                     <th class="text-center">Aksi</th>
@@ -80,6 +81,15 @@
                                                 $user = App\Models\User::find($pst->usr_id);
                                                 echo $user ? $user->usr_nama : 'User Tidak Ditemukan';
                                             @endphp
+                                        </td>
+                                        <td class="text-center">
+                                            @foreach ($involvedUsers as $pstId => $users)
+                                                @if ($pstId == $pst->pst_id)
+                                                    @foreach ($users as $userId => $userName)
+                                                        {{ $userName }},
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
                                         </td>
                                         <td class="text-center">{{$pst->pst_namasurattugas}}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>

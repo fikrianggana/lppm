@@ -33,4 +33,17 @@ class StoreSeminarRequest extends FormRequest
             'usr_id'  => ['required'],
         ];
     }
+    public function messages()
+    {
+        return [
+            'smn_namapenulis.required' => 'Nama Penulis wajib diisi.',
+            'smn_kategori.required' => 'Kategori wajib diisi.',
+            'smn_penyelenggara.required' => 'Penyelenggara wajib diisi.',
+            'smn_waktu.required' => 'Waktu wajib diisi.',
+            'smn_tempatpelaksaan.required' => 'Tempat Pelaksanaan wajib diisi.',
+            'smn_keterangan.required' => 'Keterangan wajib diisi.',
+
+           
+        ];
+    }
 }

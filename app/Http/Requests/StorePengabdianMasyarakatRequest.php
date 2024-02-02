@@ -36,4 +36,16 @@ class StorePengabdianMasyarakatRequest extends FormRequest
 
         ];
     }
+    public function messages()
+    {
+        return [
+            'pkm_namakegiatan.required' => 'Nama Kegiatan wajib diisi.',
+            'pkm_jenis.required' => 'Jenis wajib diisi.',
+            'pkm_waktupelaksanaan.required' => 'Waktu Pelaksanaan wajib diisi.',
+            'pkm_personilterlibat.required' => 'Personil Terlibat wajib diisi.',
+            'pkm_jumlahpenerimamanfaat.min' => 'Jumlah Penerima Manfaat wajib diisi minimal 1.',
+            'pkm_buktipendukung.mimes' => 'Bukti Pendukung dengan format doc,docx,pdf,xls,xlsx,pdf,ppt,pptx.',
+           
+        ];
+    }
 }

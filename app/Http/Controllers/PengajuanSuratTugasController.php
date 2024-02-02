@@ -26,6 +26,11 @@ class PengajuanSuratTugasController extends Controller
         $title = 'Pengajuan Surat Tugas';
         $pengajuanSuratTugas = PengajuanSuratTugas::all();
 
+        $involvedUsers = [];
+        foreach ($pengajuanSuratTugas as $pengajuan) {
+            $involvedUsers[$pengajuan->pst_id] = $pengajuan->involvedUsers();
+        }        
+
         $query = $request->get('search');
 
         $search = PengajuanSuratTugas::where(function ($query) use ($request) {
@@ -50,11 +55,11 @@ class PengajuanSuratTugasController extends Controller
         if ($usr_role === 'karyawan') {
             // Filter out records with status 3 for karyawan view
 
-            return view('karyawan.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
+            return view('karyawan.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas, 'involvedUsers' => $involvedUsers]);
         } elseif ($usr_role === 'admin') {
             // Filter out records with status 3 for admin view
 
-            return view('admin.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas]);
+            return view('admin.pengajuan.index', compact('title'), ['pengajuan' => $pengajuanSuratTugas, 'involvedUsers' => $involvedUsers]);
         } else {
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
@@ -296,27 +301,46 @@ class PengajuanSuratTugasController extends Controller
     public function kirimSuratTugas($pst_id)
     {
         try {
+            // Get the currently logged-in user
+            $currentUser = Auth::user();
+
+            // Find the pengajuan record by pst_id
             $pengajuan = PengajuanSuratTugas::findOrFail($pst_id);
 
-            // Assuming 'surattugas' is the name of the file input in your form
-            if (request()->hasFile('surattugas')) {
-                $suratTugasFile = request()->file('surattugas');
-                $suratTugasFileName = 'surat_tugas_' . time() . '.' . $suratTugasFile->getClientOriginalExtension();
+            // Check if the current user is authorized to perform the action
+            if ($currentUser->usr_role === 'admin') {
+                // Assuming 'surattugas' is the name of the file input in your form
+                if (request()->hasFile('surattugas')) {
+                    $suratTugasFile = request()->file('surattugas');
+                    $suratTugasFileName = 'surat_tugas_' . time() . '.' . $suratTugasFile->getClientOriginalExtension();
 
-                // Move the file to the desired location
-                $suratTugasFile->move('files/', $suratTugasFileName);
+                    // Move the file to the desired location
+                    $suratTugasFile->move('files/', $suratTugasFileName);
 
-                // Update the pengajuan record with the surat tugas file path
-                $pengajuan->update(['status' => 4, 'surattugas' => 'files/' . $suratTugasFileName]);
+                    // Update the pengajuan record with the surat tugas file path
+                    $pengajuan->update(['status' => 4, 'surattugas' => 'files/' . $suratTugasFileName]);
 
-                return response()->json(['success' => 'Surat Tugas berhasil dikirim.']);
+                    // Retrieve the involved users data
+                    $involvedUsers = $pengajuan->involvedUsers();
+
+                    // Check if the current user is involved in the pengajuan
+                    if (in_array($currentUser->usr_id, array_keys($involvedUsers))) {
+                        return response()->json(['success' => 'Surat Tugas berhasil dikirim.']);
+                    } else {
+                        return response()->json(['error' => 'Unauthorized action.'], 403);
+                    }
+                } else {
+                    return response()->json(['error' => 'File Surat Tugas tidak ditemukan.'], 400);
+                }
             } else {
-                return response()->json(['error' => 'File Surat Tugas tidak ditemukan.'], 400);
+                return response()->json(['error' => 'Unauthorized action.'], 403);
             }
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error mengirim Surat Tugas: ' . $e->getMessage()], 500);
         }
     }
+
+
 
     public function surattugasexport(Request $request)
     {
@@ -367,5 +391,29 @@ class PengajuanSuratTugasController extends Controller
             // Handle jika peran tidak teridentifikasi
             return abort(403, 'Unauthorized action.');
         }
+    }    
+    public function indexDetail(Request $request)
+    {
+        $title = 'Detail Pengajuan Surat Tugas';
+
+        // Get the currently logged-in user
+        $user = Auth::user();
+
+        // Retrieve the detail surat tugas for the logged-in user
+        $detailPengajuanSuratTugas = DetailPengajuanSuratTugas::where('usr_id', $user->usr_id)->get();
+
+        // Extract the unique pengaju_id values from the detail records
+        $pengajuIds = $detailPengajuanSuratTugas->pluck('pengaju_id')->unique();
+
+        // Retrieve the pengajuan surat tugas based on the extracted ids
+        $pengajuanSuratTugas = PengajuanSuratTugas::whereIn('pst_id', $pengajuIds)->get();
+
+        // Retrieve the involved users data based on the $involvedUsers array
+        $involvedUsers = [];
+        foreach ($pengajuanSuratTugas as $pengajuan) {
+            $involvedUsers[$pengajuan->pst_id] = $pengajuan->involvedUsers();
+        }
+
+        return view('karyawan.pengajuan.detail', compact('title', 'pengajuanSuratTugas', 'involvedUsers', 'detailPengajuanSuratTugas'));
     }
 }
