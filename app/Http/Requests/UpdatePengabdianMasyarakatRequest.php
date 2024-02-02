@@ -23,7 +23,7 @@ class UpdatePengabdianMasyarakatRequest extends FormRequest
      */
     public function rules()
     {
-        $pkm_id = $this->route('pengabdian'); 
+        
         return [
             'pkm_namakegiatan' => ['required'],
             'pkm_jenis' => ['required'],

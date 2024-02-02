@@ -38,7 +38,7 @@
 
                                 <div class="col-12">
                                     <!-- MENGAMBL NAMA USER BERDASARKAN YANG LOGIN -->
-                                    <input type="hidden" name="usr_id" value="{{ Auth::user()->usr_id }}">
+                                    <input type="hidden" id="id" name="usr_id" value="{{ Auth::user()->usr_id }}">
                                 </div>
 
                                 <div class="col-12">
@@ -116,6 +116,8 @@
 </body>
 
 <script>
+    var d = document.getElementById('id');
+    console.log(d.value);
     function addSelectedUser() {
         var selectedUserId = $('#listPengguna').val();
         var selectedUserName = $('#listPengguna option:selected').text();

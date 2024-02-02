@@ -81,14 +81,18 @@
                                         </td>
                                         <td class="text-center">{{$pst->pst_namasurattugas}}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($pst->pst_masapelaksanaan)->format('d-F-Y') }}</td>
-                                        <td class="text-center">
+                                        <td class="text-left">
+                                            <ul>
                                             @foreach ($involvedUsers as $pstId => $users)
                                                 @if ($pstId == $pst->pst_id)
                                                     @foreach ($users as $userId => $userName)
-                                                        {{ $userName }},
+                                                    <li>
+                                                        {{ $userName }}
+                                                    </li>
                                                     @endforeach
                                                 @endif
                                             @endforeach
+                                            </ul>
                                         </td>
 
                                         <td class="text-center">

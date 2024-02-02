@@ -23,7 +23,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        $usr_id = $this->route('user'); 
+
         return [
             'usr_nama' => ['required'],
             'prodi_id' => ['required'],

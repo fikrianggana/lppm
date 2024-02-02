@@ -23,7 +23,7 @@ class UpdatePengajuanSuratTugasRequest extends FormRequest
      */
     public function rules()
     {
-        $pst_id = $this->route('pengajuan'); 
+       
         return [
             'usr_id' => ['required'],
             'pst_namasurattugas' => ['required'],

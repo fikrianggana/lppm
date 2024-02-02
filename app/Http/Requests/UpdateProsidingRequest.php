@@ -23,7 +23,7 @@ class UpdateProsidingRequest extends FormRequest
      */
     public function rules()
     {
-        $pro_id = $this->route('prosiding'); 
+        
         return [
             'pro_namapenulis' => ['required'],
             'pro_judulprogram' => ['required'],

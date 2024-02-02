@@ -23,7 +23,7 @@ class UpdateHakPatenRequest extends FormRequest
      */
     public function rules()
     {
-        $hpt_id = $this->route('hakpaten'); 
+        
         return [
             'hpt_namalengkap' => ['required'],
             'hpt_judul' => ['required'],

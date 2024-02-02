@@ -104,6 +104,7 @@ class PengajuanSuratTugasController extends Controller
         // Set status 0 saat pertama kali data disimpan
         $validatedData['status'] = 0;
         $validatedData['inputby'] = Auth::user()->usr_id;
+        $validatedData['usr_id'] = Auth::user()->usr_id;
         $detailTemp = $request->input('detailTemp');
 
         $selectedUserIds = explode(',', $detailTemp);
@@ -118,7 +119,7 @@ class PengajuanSuratTugasController extends Controller
         }
 
         if ($pengajuan = PengajuanSuratTugas::create($validatedData)) {
-
+            //dd($pengajuan);
             $pengajuan->save();
 
             $usr_role = Auth::user()->usr_role; // Ambil peran pengguna yang sedang login

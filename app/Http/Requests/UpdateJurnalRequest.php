@@ -23,7 +23,7 @@ class UpdateJurnalRequest extends FormRequest
      */
     public function rules()
     {
-        $jrn_id = $this->route('jurnal'); 
+        
         return [
             'jrn_judulmakalah'  => ['required'],
             'jrn_namajurnal'  => ['required'],

@@ -23,7 +23,7 @@ class UpdateHakCiptaRequest extends FormRequest
      */
     public function rules()
     {
-        $hcp_id = $this->route('hakcipta'); 
+        
         return [
             'hcp_namalengkap' => ['required'],
             'hcp_judul' => ['required'],

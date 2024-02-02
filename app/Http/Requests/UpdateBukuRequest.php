@@ -24,8 +24,7 @@ class UpdateBukuRequest extends FormRequest
      */
     public function rules()
     {
-        $bku_id = $this->route('buku'); // Assuming the route parameter is named 'buku'
-
+        
         return [
             'bku_judul' => ['required'],
             'bku_penulis' => ['required'],

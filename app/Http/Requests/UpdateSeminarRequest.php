@@ -23,7 +23,7 @@ class UpdateSeminarRequest extends FormRequest
      */
     public function rules()
     {
-        $smn_id = $this->route('seminar'); 
+       
         return [
             'smn_namapenulis' => ['required'],
             'smn_kategori'  => ['required'],
