@@ -23,8 +23,28 @@ class UpdateHakPatenRequest extends FormRequest
      */
     public function rules()
     {
+        $hpt_id = $this->route('hakpaten'); 
         return [
-            //
+            'hpt_namalengkap' => ['required'],
+            'hpt_judul' => ['required'],
+            'hpt_nopemohonan' => ['required'],
+            'hpt_tglpelaksanaan' => ['required'],
+            'hpt_tglpenerimaan' => ['required'],
+            'hpt_status' => ['required'],
+            'usr_id' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'hpt_namalengkap.required' => 'Nama Lengkap wajib diisi.',
+            'hpt_judul.required' => 'Judul wajib diisi.',
+            'hpt_nopemohonan.required' => 'No Permohonan wajib diisi.',
+            'hpt_tglpelaksanaan.required' => 'Tanggal Pelaksanaan wajib diisi.',
+            'hpt_tglpenerimaan.required' => 'Tanggal Penerimaan wajib diisi.',
+            'hpt_status.required' => 'Status wajib diisi.',
         ];
     }
 }
+

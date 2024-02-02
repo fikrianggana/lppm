@@ -23,8 +23,28 @@ class UpdateSeminarRequest extends FormRequest
      */
     public function rules()
     {
+        $smn_id = $this->route('seminar'); 
         return [
-            //
+            'smn_namapenulis' => ['required'],
+            'smn_kategori'  => ['required'],
+            'smn_penyelenggara'  => ['required'],
+            'smn_waktu'  => ['required'],
+            'smn_tempatpelaksaan'  => ['required'],
+            'smn_keterangan'  => ['required'],
+            'usr_id'  => ['required'],
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'smn_namapenulis.required' => 'Nama Penulis wajib diisi.',
+            'smn_kategori.required' => 'Kategori wajib diisi.',
+            'smn_penyelenggara.required' => 'Penyelenggara wajib diisi.',
+            'smn_waktu.required' => 'Waktu wajib diisi.',
+            'smn_tempatpelaksaan.required' => 'Tempat Pelaksanaan wajib diisi.',
+            'smn_keterangan.required' => 'Keterangan wajib diisi.',
+
+           
         ];
     }
 }

@@ -23,6 +23,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
+        $usr_id = $this->route('user'); 
         return [
             'usr_nama' => ['required'],
             'prodi_id' => ['required'],
@@ -31,6 +32,20 @@ class UpdateUserRequest extends FormRequest
             'usr_role' => ['required'],
             'usr_email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
             'usr_notelpon' => ['required', 'numeric'],
+        ];
+        
+    }
+    public function messages()
+    {
+        return [
+            'usr_nama.required' => 'Nama wajib diisi.',
+            'prodi_id.required' => 'Prodi wajib diisi.',
+            'username.required' => 'Username wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
+            'usr_role.required' => 'Role wajib diisi.',
+            'usr_email.required' => 'Email wajib diisi dengan format @gmail.com.',
+            'usr_notelpon.required' => 'No Telepon hanya bisa angka.',
+           
         ];
     }
 }
